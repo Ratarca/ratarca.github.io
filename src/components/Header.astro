@@ -12,6 +12,7 @@ const { current = 'home' } = Astro.props;
     <a class:list={[{ active: current === 'experience' }]} href="/experience">Experience</a>
     <a class:list={[{ active: current === 'skills' }]} href="/skills">Skills</a>
     <a class:list={[{ active: current === 'labs' }]} href="/labs">Labs</a>
+    <a class:list={[{ active: current === 'contact' }]} href="/contact">Contact</a>
   </nav>
   <div class="header-actions">
     <a class="resume-link" href={profile.resume} target="_blank" rel="noreferrer">Résumé <Icon name="arrow" size={16} /></a>
@@ -24,6 +25,7 @@ const { current = 'home' } = Astro.props;
     <a href="/experience">Experience</a>
     <a href="/skills">Skills</a>
     <a href="/labs">Labs</a>
+    <a href="/contact">Contact</a>
     <a href={profile.resume} target="_blank" rel="noreferrer">Download résumé</a>
   </nav>
 </header>

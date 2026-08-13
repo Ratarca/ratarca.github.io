@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { profile } from '../data/site';
+---
+
+<BaseLayout title="Contact — Rafael Targino" description="Get in touch with Rafael Targino for full-time roles, consulting, or mentorship." current="contact">
+  <section class="contact-page-hero" aria-labelledby="contact-title">
+    <p class="eyebrow">05 — Contact</p>
+    <h1 id="contact-title">Let’s make something <em>useful</em> happen.</h1>
+    <p>Whether it’s a challenging role, a system that needs untangling, or a team looking for a practical sounding board, I’d be glad to hear about it.</p>
+  </section>
+
+  <section class="contact-page-section public-channels" aria-labelledby="public-channels-title">
+    <div class="contact-section-heading">
+      <p class="eyebrow">01 — Public channels</p>
+      <h2 id="public-channels-title">Find me in the <em>open.</em></h2>
+    </div>
+
+    <div class="channel-grid">
+      <a class="channel-card channel-card-featured" href={profile.linkedin} target="_blank" rel="noreferrer" data-reveal>
+        <span class="channel-icon"><Icon name="linkedin" size={25} /></span>
+        <span class="channel-card-copy">
+          <small>Primary channel</small>
+          <strong>LinkedIn</strong>
+          <span>Professional updates, work history, and the best place to start a conversation.</span>
+        </span>
+        <Icon name="external" size={19} />
+      </a>
+      <a class="channel-card" href={profile.github} target="_blank" rel="noreferrer" data-reveal style="--delay: 90ms">
+        <span class="channel-icon"><Icon name="github" size={24} /></span>
+        <span class="channel-card-copy">
+          <small>Public work</small>
+          <strong>GitHub</strong>
+          <span>Experiments, code, and works in progress.</span>
+        </span>
+        <Icon name="external" size={19} />
+      </a>
+      <a class="channel-card" href={profile.youtube} target="_blank" rel="noreferrer" data-reveal style="--delay: 180ms">
+        <span class="channel-icon"><Icon name="youtube" size={25} /></span>
+        <span class="channel-card-copy">
+          <small>Ideas in motion</small>
+          <strong>YouTube</strong>
+          <span>Videos and practical notes about building systems.</span>
+        </span>
+        <Icon name="external" size={19} />
+      </a>
+    </div>
+  </section>
+
+  <section class="contact-form-section" aria-labelledby="talk-title">
+    <div class="contact-form-layout">
+      <div class="contact-form-intro">
+        <p class="eyebrow">02 — Let’s talk</p>
+        <h2 id="talk-title">Tell me what you’re <em>working on.</em></h2>
+        <p>Share the essentials below and I’ll get back to you as soon as I can.</p>
+        <a class="email-link" href={`mailto:${profile.email}`}><Icon name="mail" size={18} /> {profile.email}</a>
+      </div>
+
+      <form class="contact-form" action={`mailto:${profile.email}`} method="post" enctype="text/plain" data-contact-form>
+        <div class="form-grid">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" autocomplete="name" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span>Phone number</span>
+            <input type="tel" name="phone" autocomplete="tel" required />
+          </label>
+          <label>
+            <span>Company <small>Optional</small></span>
+            <input type="text" name="company" autocomplete="organization" />
+          </label>
+        </div>
+
+        <label class="form-field">
+          <span>Budget</span>
+          <select name="budget" required>
+            <option value="" selected disabled>Select a range</option>
+            <option value="Under R$7k">&lt; R$7k</option>
+            <option value="R$7k–15k">R$7k–15k</option>
+            <option value="Over R$15k">&gt; R$15k</option>
+          </select>
+        </label>
+
+        <fieldset class="interest-field">
+          <legend>How can I help?</legend>
+          <div class="interest-options">
+            <label><input type="radio" name="interest" value="Full-time" required /><span>Full-time</span></label>
+            <label><input type="radio" name="interest" value="Consulting" /><span>Consulting</span></label>
+            <label><input type="radio" name="interest" value="Mentorship" /><span>Mentorship</span></label>
+          </div>
+        </fieldset>
+
+        <label class="form-field">
+          <span>Message</span>
+          <textarea name="message" rows="6" required></textarea>
+        </label>
+
+        <button class="button button-primary form-submit" type="submit">Send inquiry <Icon name="arrow" size={18} /></button>
+        <p class="form-note">Submitting opens your email app with the details included.</p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
