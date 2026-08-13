@@ -1,0 +1,14 @@
+---
+import { profile } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<footer class="site-footer">
+  <p>Building useful systems, one thoughtful constraint at a time.</p>
+  <div class="footer-links">
+    <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" size={19} /></a>
+    <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" size={19} /></a>
+    <a href={`mailto:${profile.email}`} aria-label="Email"><Icon name="mail" size={19} /></a>
+  </div>
+  <small>© {new Date().getFullYear()} Rafael Targino</small>
+</footer>

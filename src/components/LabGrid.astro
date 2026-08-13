@@ -1,0 +1,27 @@
+---
+import { labs } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<div class="lab-filters" data-lab-filters aria-label="Filter labs">
+  <button class="active" data-filter="All" type="button">All work</button>
+  {[...new Set(labs.map((lab) => lab.type))].map((type) => <button data-filter={type} type="button">{type}</button>)}
+</div>
+
+<div class="labs-grid" data-lab-grid>
+  {labs.map((lab, index) => (
+    <article class="lab-card" data-lab-card data-type={lab.type} data-reveal style={`--delay: ${index * 70}ms`}>
+      <a class="lab-image" href={lab.href} target={lab.href.startsWith('http') ? '_blank' : undefined} rel={lab.href.startsWith('http') ? 'noreferrer' : undefined}>
+        <img src={lab.image} alt="" loading="lazy" />
+        <span class="lab-launch"><Icon name="external" size={17} /></span>
+      </a>
+      <div class="lab-content">
+        <p class="lab-type">{lab.type}</p>
+        <h3><a href={lab.href} target={lab.href.startsWith('http') ? '_blank' : undefined} rel={lab.href.startsWith('http') ? 'noreferrer' : undefined}>{lab.title}</a></h3>
+        <p>{lab.description}</p>
+        <ul class="tag-list">{lab.tags.map((tag) => <li>{tag}</li>)}</ul>
+      </div>
+    </article>
+  ))}
+</div>
+<p class="empty-state" data-empty-state hidden>No labs in this category yet.</p>

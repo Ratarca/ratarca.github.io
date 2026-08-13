@@ -1,0 +1,29 @@
+---
+import { profile } from '../data/site';
+import Icon from './Icon.astro';
+
+const { current = 'home' } = Astro.props;
+---
+
+<header class="site-header" data-site-header>
+  <a class="wordmark" href="/" aria-label="Rafael Targino, home">RT<span>.</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation">
+    <a class:list={[{ active: current === 'home' }]} href="/#about">About</a>
+    <a class:list={[{ active: current === 'experience' }]} href="/experience">Experience</a>
+    <a class:list={[{ active: current === 'skills' }]} href="/skills">Skills</a>
+    <a class:list={[{ active: current === 'labs' }]} href="/labs">Labs</a>
+  </nav>
+  <div class="header-actions">
+    <a class="resume-link" href={profile.resume} target="_blank" rel="noreferrer">Résumé <Icon name="arrow" size={16} /></a>
+    <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-button>
+      <Icon name="menu" size={22} />
+    </button>
+  </div>
+  <nav class="mobile-nav" aria-label="Mobile navigation" data-mobile-nav>
+    <a href="/#about">About</a>
+    <a href="/experience">Experience</a>
+    <a href="/skills">Skills</a>
+    <a href="/labs">Labs</a>
+    <a href={profile.resume} target="_blank" rel="noreferrer">Download résumé</a>
+  </nav>
+</header>

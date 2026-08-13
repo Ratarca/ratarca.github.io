@@ -1,0 +1,71 @@
+---
+import Icon from './Icon.astro';
+import { testimonials } from '../data/site';
+---
+
+<section class="testimonials-section" id="about-proof" aria-labelledby="testimonials-title" data-testimonial-carousel>
+  <div class="testimonials-heading" data-reveal>
+    <div>
+      <p class="eyebrow">In their words</p>
+      <h2 id="testimonials-title">Proof is better when it comes from the people beside you.</h2>
+    </div>
+    <p>Placeholder recommendations for now—ready for your real client, manager, and teammate testimonials.</p>
+  </div>
+
+  <div class="testimonial-carousel" data-reveal style="--delay: 100ms">
+    <div class="testimonial-slides" aria-live="polite">
+      {testimonials.map((testimonial, index) => (
+        <article class="testimonial-slide" data-testimonial-slide aria-label={`Testimonial ${index + 1} of ${testimonials.length}`} hidden={index !== 0}>
+          <Icon name="quote" size={42} />
+          <blockquote>“{testimonial.quote}”</blockquote>
+          <footer>
+            <div class="testimonial-avatar" aria-hidden="true">{testimonial.name.slice(0, 1)}</div>
+            <div><strong>{testimonial.name}</strong><span>{testimonial.role}</span></div>
+            <em>{testimonial.context}</em>
+          </footer>
+        </article>
+      ))}
+    </div>
+    <div class="testimonial-controls">
+      <div class="testimonial-progress" aria-hidden="true">
+        {testimonials.map((_, index) => <i data-testimonial-dot class:list={[{ active: index === 0 }]}></i>)}
+      </div>
+      <div>
+        <button type="button" data-testimonial-prev aria-label="Show previous testimonial"><Icon name="chevron-left" size={18} /></button>
+        <button type="button" data-testimonial-next aria-label="Show next testimonial"><Icon name="chevron-right" size={18} /></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-testimonial-carousel]').forEach((carousel) => {
+    const slides = [...carousel.querySelectorAll<HTMLElement>('[data-testimonial-slide]')];
+    const dots = [...carousel.querySelectorAll<HTMLElement>('[data-testimonial-dot]')];
+    const previous = carousel.querySelector<HTMLButtonElement>('[data-testimonial-prev]');
+    const next = carousel.querySelector<HTMLButtonElement>('[data-testimonial-next]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let rotation: number | undefined;
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => slide.toggleAttribute('hidden', slideIndex !== current));
+      dots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === current));
+    };
+    const stop = () => { if (rotation) window.clearInterval(rotation); };
+    const start = () => {
+      stop();
+      if (!reducedMotion) rotation = window.setInterval(() => show(current + 1), 7000);
+    };
+
+    previous?.addEventListener('click', () => { show(current - 1); start(); });
+    next?.addEventListener('click', () => { show(current + 1); start(); });
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', start);
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    start();
+  });
+</script>

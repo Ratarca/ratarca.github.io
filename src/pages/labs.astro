@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import LabGrid from '../components/LabGrid.astro';
+---
+
+<BaseLayout title="Labs — Rafael Targino" description="Selected experiments, data platforms, backend systems, and AI explorations by Rafael Targino." current="labs">
+  <section class="labs-hero" aria-labelledby="labs-title">
+    <p class="eyebrow"><Icon name="sparkle" size={15} /> Rafael’s labs</p>
+    <h1 id="labs-title">Ideas become more interesting when they <em>ship.</em></h1>
+    <p>A working collection of systems, explorations, and small bets across data, infrastructure, AI, and finance.</p>
+  </section>
+  <section class="labs-section" aria-label="Lab projects">
+    <LabGrid />
+  </section>
+  <section class="labs-cta">
+    <p class="eyebrow">Open to collaboration</p>
+    <h2>Want to build something useful together?</h2>
+    <a class="text-link" href="mailto:ratarca.rtc@gmail.com">Start a conversation <Icon name="arrow" size={17} /></a>
+  </section>
+</BaseLayout>

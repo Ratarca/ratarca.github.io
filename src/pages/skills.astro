@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EducationCarousel from '../components/EducationCarousel.astro';
+import SkillNetwork from '../components/SkillNetwork.astro';
+---
+
+<BaseLayout title="Skills & Education — Rafael Targino" description="Education, data engineering, backend, agentic AI, quantitative methods, architecture, and problem-solving skills.", current="skills">
+  <section class="inner-hero skills-hero" aria-labelledby="skills-title">
+    <p class="eyebrow">03 — Skills &amp; education</p>
+    <h1 id="skills-title">A toolkit for useful, <em>durable</em> system and value products.</h1>
+    <p>I choose tools for the job—not for the logo. My work lives where tech and business operations meet.</p>
+  </section>
+
+  <main class="skills-learning-page">
+    <EducationCarousel />
+    <SkillNetwork />
+  </main>
+</BaseLayout>

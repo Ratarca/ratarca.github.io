@@ -1,0 +1,20 @@
+---
+import { experience } from '../data/site';
+---
+
+<ol class="career-timeline">
+  {experience.map((job, index) => (
+    <li class="career-entry" data-reveal style={`--delay: ${index * 90}ms`}>
+      <div class="career-period"><span>{job.period}</span><i aria-hidden="true"></i></div>
+      <article class="career-card">
+        <header>
+          <p>0{index + 1} · <a href={job.url} target="_blank" rel="noreferrer">{job.company} <span aria-hidden="true">↗</span></a></p>
+          <h2>{job.role}</h2>
+        </header>
+        <ul>
+          {job.highlights.map((highlight) => <li>{highlight}</li>)}
+        </ul>
+      </article>
+    </li>
+  ))}
+</ol>

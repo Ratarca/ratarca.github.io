@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+
+const stack = ['Terraform', 'Azure Data Lake Storage', 'Azure Data Factory', 'Databricks', 'GitHub Actions'];
+const systemStages = [
+  { title: 'Provision', text: 'Define the platform infrastructure as reusable Terraform code.' },
+  { title: 'Ingest', text: 'Land source data in Azure Data Lake Storage with a reliable, scalable foundation.' },
+  { title: 'Transform', text: 'Use Databricks to prepare data for analysis and downstream use cases.' },
+  { title: 'Deliver', text: 'Use GitHub Actions to make changes repeatable with CI/CD.' }
+];
+---
+
+<BaseLayout title="Azure Data Lake — Rafael Targino" description="A Terraform-powered Azure data platform project using Data Lake Storage, Data Factory, Databricks, and GitHub Actions." current="labs">
+  <section class="project-hero" aria-labelledby="project-title">
+    <a class="project-back" href="/labs"><Icon name="arrow" size={16} /> Back to labs</a>
+    <div class="project-hero-grid">
+      <div>
+        <p class="eyebrow">Lab 01 · Data platform</p>
+        <h1 id="project-title">Azure <em>Data Lake.</em></h1>
+        <p>A reproducible Azure data platform that brings infrastructure, ingestion, transformation, and delivery into one practical system.</p>
+        <div class="project-actions">
+          <a class="button button-primary" href="https://github.com/ratarca/azure-dlake" target="_blank" rel="noreferrer">View on GitHub <Icon name="external" size={16} /></a>
+          <span>Terraform · Azure · CI/CD</span>
+        </div>
+      </div>
+      <div class="project-cover" data-reveal>
+        <img src="/assets/img/project/azure_dlake/azure_dlake.jpg" alt="Azure Data Lake project preview" />
+      </div>
+    </div>
+  </section>
+
+  <section class="project-summary">
+    <p class="eyebrow">The brief</p>
+    <p class="project-statement">Build a data platform that can handle large-scale ingestion, transformation, and analysis—without treating cloud infrastructure as a manual, one-time setup.</p>
+  </section>
+
+  <section class="project-section project-system-section">
+    <div class="project-section-heading">
+      <p class="eyebrow">System design</p>
+      <h2>From infrastructure to insight, with a path you can repeat.</h2>
+    </div>
+    <ol class="project-flow">
+      {systemStages.map((stage, index) => (
+        <li data-reveal style={`--delay: ${index * 90}ms`}>
+          <span>0{index + 1}</span>
+          <div><h3>{stage.title}</h3><p>{stage.text}</p></div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="project-section project-architecture-section">
+    <div class="project-section-heading">
+      <p class="eyebrow">Architecture</p>
+      <h2>The platform at a glance.</h2>
+    </div>
+    <figure class="architecture-figure" data-reveal>
+      <img src="/assets/img/project/azure_dlake/0-bigpicture.png" alt="Architecture diagram for the Azure Data Lake platform" loading="lazy" />
+      <figcaption>Azure services work together to ingest, organize, transform, and deliver useful data.</figcaption>
+    </figure>
+  </section>
+
+  <section class="project-stack-section">
+    <p class="eyebrow">Technology stack</p>
+    <ul>{stack.map((item) => <li>{item}<Icon name="arrow" size={16} /></li>)}</ul>
+  </section>
+</BaseLayout>

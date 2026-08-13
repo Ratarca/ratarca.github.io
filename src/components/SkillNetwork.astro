@@ -1,0 +1,250 @@
+<section class="capability-section" id="capabilities" aria-labelledby="capability-title">
+  <header class="capability-heading" data-reveal>
+    <div>
+      <p class="eyebrow">02 — Connected capability</p>
+      <h2 id="capability-title">Skills become valuable when they work as a <em>system.</em></h2>
+    </div>
+    <p>Start with the skills matrix. Select it to see how problem solving connects each discipline into one useful capability.</p>
+  </header>
+
+  <button
+    class="skill-network"
+    type="button"
+    data-skill-network
+    aria-pressed="false"
+    aria-label="Skills matrix. Select to show the connected skills graph."
+  >
+    <span class="skill-network-toolbar">
+      <span><i aria-hidden="true"></i><strong data-network-mode>skills_matrix</strong></span>
+      <span data-network-hint>click to expand graph</span>
+    </span>
+
+    <span class="skill-matrix-stage" data-matrix-stage>
+      <span class="skill-equation" aria-hidden="true">
+        <strong>ProblemSolving</strong>
+        <b>=</b>
+        <span class="skill-matrix-bracket">
+          <span>Data</span>
+          <span>Backend</span>
+          <span>Agentic AI</span>
+          <span>Quantitative</span>
+          <span>Architecture</span>
+        </span>
+      </span>
+      <span class="matrix-caption">Five disciplines. One connected way of working.</span>
+    </span>
+
+    <canvas aria-hidden="true"></canvas>
+    <span class="skill-graph-fallback" aria-hidden="true">
+      <strong>Problem Solving</strong>
+      <span>Data</span><span>Backend</span><span>Agentic AI</span><span>Quantitative</span><span>Architecture</span>
+    </span>
+
+    <span class="skill-network-footer">
+      <span><i></i><span data-network-state>Matrix view</span></span>
+      <span>Select anywhere to switch views</span>
+    </span>
+  </button>
+</section>
+
+<script>
+  import * as THREE from 'three';
+
+  const nodeData = [
+    { label: 'DATA' },
+    { label: 'BACKEND' },
+    { label: 'AGENTIC AI' },
+    { label: 'QUANTITATIVE' },
+    { label: 'ARCHITECTURE' },
+    { label: 'PROBLEM SOLVING', center: true }
+  ];
+  const edges: [number, number][] = [[5, 0], [5, 1], [5, 2], [5, 3], [5, 4]];
+  const desktopPositions = [
+    [-3.4, 1.55], [-3.4, -1.55], [3.4, -1.55], [3.4, 1.55], [0, 2.35], [0, 0]
+  ];
+  const mobilePositions = [
+    [-1.45, 1.5], [1.45, 1.5], [-1.45, -1.55], [1.45, -1.55], [0, 2.65], [0, 0]
+  ];
+  const colors = { navy: 0x14213d, gold: 0xfca311, sand: 0xbea57d, red: 0xa52422, paper: 0xfffdfa };
+
+  const roundedRect = (context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) => {
+    context.beginPath();
+    context.roundRect(x, y, width, height, radius);
+  };
+
+  document.querySelectorAll<HTMLButtonElement>('[data-skill-network]').forEach((container) => {
+    const canvas = container.querySelector('canvas');
+    const modeLabel = container.querySelector<HTMLElement>('[data-network-mode]');
+    const hintLabel = container.querySelector<HTMLElement>('[data-network-hint]');
+    const stateLabel = container.querySelector<HTMLElement>('[data-network-state]');
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+
+    let graphMode = false;
+    let startGraph: (() => void) | undefined;
+    let stopGraph: (() => void) | undefined;
+
+    const setMode = (showGraph: boolean) => {
+      graphMode = showGraph;
+      container.classList.toggle('is-graph', graphMode);
+      container.setAttribute('aria-pressed', String(graphMode));
+      container.setAttribute('aria-label', graphMode
+        ? 'Connected skills graph. Select to return to the skills matrix.'
+        : 'Skills matrix. Select to show the connected skills graph.');
+      if (modeLabel) modeLabel.textContent = graphMode ? 'capability_graph' : 'skills_matrix';
+      if (hintLabel) hintLabel.textContent = graphMode ? 'click to return to matrix' : 'click to expand graph';
+      if (stateLabel) stateLabel.textContent = graphMode ? 'Graph view' : 'Matrix view';
+      graphMode ? startGraph?.() : stopGraph?.();
+    };
+    container.addEventListener('click', () => setMode(!graphMode));
+
+    try {
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-5, 5, 3.2, -3.2, .1, 30);
+      camera.position.set(0, 0, 10);
+      const root = new THREE.Group();
+      scene.add(root);
+
+      const createNode = (index: number) => {
+        const item = nodeData[index];
+        const textureCanvas = document.createElement('canvas');
+        textureCanvas.width = 640;
+        textureCanvas.height = 180;
+        const context = textureCanvas.getContext('2d');
+        if (!context) throw new Error('Canvas 2D context unavailable');
+        const texture = new THREE.CanvasTexture(textureCanvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.minFilter = THREE.LinearFilter;
+
+        context.clearRect(0, 0, textureCanvas.width, textureCanvas.height);
+        context.shadowColor = 'rgba(0,0,0,.22)';
+        context.shadowBlur = 18;
+        context.shadowOffsetY = 8;
+        roundedRect(context, 20, 18, 600, 142, 14);
+        context.fillStyle = item.center ? '#A52422' : '#fffdfa';
+        context.fill();
+        context.shadowColor = 'transparent';
+        context.lineWidth = item.center ? 5 : 3;
+        context.strokeStyle = item.center ? '#FCA311' : '#BEA57D';
+        context.stroke();
+        context.fillStyle = item.center ? '#FCA311' : '#A52422';
+        context.beginPath();
+        context.arc(58, 89, 10, 0, Math.PI * 2);
+        context.fill();
+        context.fillStyle = item.center ? '#fffdfa' : '#14213D';
+        context.font = `700 ${item.center ? 45 : 48}px Arial, sans-serif`;
+        context.textBaseline = 'middle';
+        context.fillText(item.label, 88, 89);
+
+        const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
+        const sprite = new THREE.Sprite(material);
+        sprite.scale.set(item.center ? 3.0 : 2.35, item.center ? .84 : .66, 1);
+        sprite.renderOrder = item.center ? 4 : 3;
+        root.add(sprite);
+        return { sprite, material, texture, base: new THREE.Vector3(), index };
+      };
+      const nodes = nodeData.map((_, index) => createNode(index));
+
+      const links = edges.map(([from, to], index) => {
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+        const material = new THREE.LineBasicMaterial({ color: colors.gold, transparent: true, opacity: .62 });
+        const line = new THREE.Line(geometry, material);
+        line.position.z = -.2;
+        root.add(line);
+        const packet = new THREE.Mesh(
+          new THREE.CircleGeometry(.065, 16),
+          new THREE.MeshBasicMaterial({ color: index % 2 ? colors.red : colors.gold })
+        );
+        packet.renderOrder = 2;
+        root.add(packet);
+        return { from, to, line, material, packet, offset: index / edges.length };
+      });
+
+      const clock = new THREE.Clock();
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let inViewport = false;
+      let mobile = false;
+      let frame = 0;
+
+      const updateLinks = (elapsed = 0) => {
+        links.forEach((link) => {
+          const start = nodes[link.from].sprite.position;
+          const end = nodes[link.to].sprite.position;
+          const positions = link.line.geometry.getAttribute('position') as THREE.BufferAttribute;
+          positions.setXYZ(0, start.x, start.y, 0);
+          positions.setXYZ(1, end.x, end.y, 0);
+          positions.needsUpdate = true;
+          const progress = (elapsed * .025 + link.offset) % 1;
+          link.packet.position.lerpVectors(start, end, progress);
+          link.packet.position.z = .1;
+        });
+      };
+
+      const positionScene = () => {
+        const bounds = container.getBoundingClientRect();
+        mobile = bounds.width < 620;
+        const positions = mobile ? mobilePositions : desktopPositions;
+        nodes.forEach((node, index) => {
+          node.base.set(positions[index][0], positions[index][1], 0);
+          node.sprite.position.copy(node.base);
+          if (mobile) node.sprite.scale.set(nodeData[index].center ? 2.7 : 2.25, nodeData[index].center ? .76 : .63, 1);
+          else node.sprite.scale.set(nodeData[index].center ? 3.0 : 2.35, nodeData[index].center ? .84 : .66, 1);
+        });
+        if (mobile) {
+          camera.left = -3.15; camera.right = 3.15; camera.top = 3.35; camera.bottom = -3.15;
+        } else {
+          camera.left = -5; camera.right = 5; camera.top = 3.1; camera.bottom = -3.1;
+        }
+        camera.updateProjectionMatrix();
+        renderer.setSize(bounds.width, bounds.height, false);
+        updateLinks();
+        renderer.render(scene, camera);
+      };
+
+      const renderFrame = () => {
+        const elapsed = clock.getElapsedTime();
+        nodes.forEach((node, index) => {
+          node.sprite.position.y = node.base.y + Math.sin(elapsed * .22 + index * 1.1) * .045;
+        });
+        root.rotation.z = Math.sin(elapsed * .05) * .008;
+        updateLinks(elapsed);
+        renderer.render(scene, camera);
+        if (graphMode && inViewport && !document.hidden && !reducedMotion) frame = requestAnimationFrame(renderFrame);
+      };
+
+      startGraph = () => {
+        cancelAnimationFrame(frame);
+        renderer.render(scene, camera);
+        if (inViewport && !reducedMotion) frame = requestAnimationFrame(renderFrame);
+      };
+      stopGraph = () => cancelAnimationFrame(frame);
+
+      const resizeObserver = new ResizeObserver(positionScene);
+      resizeObserver.observe(container);
+      positionScene();
+      container.classList.add('is-webgl-ready');
+
+      const visibilityObserver = new IntersectionObserver(([entry]) => {
+        inViewport = entry.isIntersecting;
+        cancelAnimationFrame(frame);
+        if (inViewport && graphMode && !reducedMotion) frame = requestAnimationFrame(renderFrame);
+      }, { threshold: .08 });
+      visibilityObserver.observe(container);
+
+      window.addEventListener('pagehide', () => {
+        cancelAnimationFrame(frame);
+        resizeObserver.disconnect();
+        visibilityObserver.disconnect();
+        links.forEach(({ line, material, packet }) => { line.geometry.dispose(); material.dispose(); packet.geometry.dispose(); (packet.material as THREE.Material).dispose(); });
+        nodes.forEach(({ material, texture }) => { material.dispose(); texture.dispose(); });
+        renderer.dispose();
+      }, { once: true });
+    } catch (error) {
+      container.classList.add('is-fallback');
+      console.warn('The capability graph is using its static fallback.', error);
+    }
+  });
+</script>

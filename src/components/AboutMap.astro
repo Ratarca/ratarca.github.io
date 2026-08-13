@@ -1,0 +1,52 @@
+---
+const sections = [
+  { id: 'about-story', label: 'Story' },
+  { id: 'about-impact', label: 'Impact' },
+  { id: 'about-proof', label: 'Proof' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+
+<nav class="about-map" aria-label="About page map" data-about-map>
+  <p class="about-map-title">On this page</p>
+  <ol>
+    {sections.map((section, index) => (
+      <li>
+        <a href={`#${section.id}`} data-about-map-link={section.id}>
+          <span>{String(index + 1).padStart(2, '0')}</span>{section.label}
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-about-map]').forEach((map) => {
+    const links = [...map.querySelectorAll<HTMLAnchorElement>('[data-about-map-link]')];
+    const targets = links
+      .map((link) => document.getElementById(link.dataset.aboutMapLink ?? ''))
+      .filter((target): target is HTMLElement => Boolean(target));
+
+    const setActive = (id: string) => {
+      links.forEach((link) => {
+        const active = link.dataset.aboutMapLink === id;
+        link.classList.toggle('is-active', active);
+        active ? link.setAttribute('aria-current', 'location') : link.removeAttribute('aria-current');
+      });
+    };
+
+    links.forEach((link) => link.addEventListener('click', () => {
+      if (link.dataset.aboutMapLink) setActive(link.dataset.aboutMapLink);
+    }));
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => Math.abs(a.boundingClientRect.top - 140) - Math.abs(b.boundingClientRect.top - 140));
+      if (visible[0]) setActive(visible[0].target.id);
+    }, { rootMargin: '-18% 0px -62%', threshold: 0 });
+
+    targets.forEach((target) => observer.observe(target));
+    if (targets[0]) setActive(targets[0].id);
+  });
+</script>

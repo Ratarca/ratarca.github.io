@@ -1,0 +1,306 @@
+<div class="dag-scene" data-dag-scene aria-label="Animated problem-to-value workflow. Every task completes successfully." role="img">
+  <div class="dag-toolbar">
+    <div>
+      <span class="dag-dot" aria-hidden="true"></span>
+      <strong>problem_to_value</strong>
+      <span class="dag-schedule">continuous</span>
+    </div>
+    <span class="dag-run-state" data-run-state>RUNNING</span>
+  </div>
+  <canvas aria-hidden="true"></canvas>
+  <div class="dag-fallback" data-dag-fallback>
+    <span>Problem</span><i>→</i><span>Understand</span><i>→</i><span>Build</span><i>→</i><span>Solution</span><i>→</i><span>Value</span>
+  </div>
+  <div class="dag-footer">
+    <span data-task-count>0 / 7 tasks</span>
+    <span><i class="dag-success-dot"></i> success only</span>
+    <span>0 failures</span>
+  </div>
+</div>
+
+<script>
+  import * as THREE from 'three';
+
+  type TaskState = 'queued' | 'running' | 'success';
+
+  const taskData = [
+    { title: 'PROBLEM', detail: 'messy operations' },
+    { title: 'UNDERSTAND', detail: 'find the signal' },
+    { title: 'DESIGN', detail: 'shape the system' },
+    { title: 'BUILD', detail: 'ship the workflow' },
+    { title: 'VALIDATE', detail: 'prove the outcome' },
+    { title: 'SOLUTION', detail: 'reliable capability' },
+    { title: 'VALUE', detail: '$ measurable impact' }
+  ];
+  const dependencies: [number, number][] = [[0, 1], [0, 2], [1, 3], [2, 3], [1, 4], [2, 4], [3, 5], [4, 5], [5, 6]];
+  const stages = [[0], [1, 2], [3, 4], [5], [6]];
+  const colors = { navy: 0x14213d, gold: 0xfca311, sand: 0xbea57d, red: 0xa52422, brown: 0x3d2a11, paper: 0xfffdfa };
+
+  const desktopPositions = [
+    [-4.15, 0], [-2.35, 1.12], [-2.35, -1.12], [-.25, 1.12], [-.25, -1.12], [2.0, 0], [4.15, 0]
+  ];
+  const mobilePositions = [
+    [0, 2.65], [-1.35, 1.45], [1.35, 1.45], [-1.35, .05], [1.35, .05], [0, -1.3], [0, -2.55]
+  ];
+
+  const drawRoundedRect = (context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) => {
+    context.beginPath();
+    context.moveTo(x + radius, y);
+    context.lineTo(x + width - radius, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + radius);
+    context.lineTo(x + width, y + height - radius);
+    context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    context.lineTo(x + radius, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - radius);
+    context.lineTo(x, y + radius);
+    context.quadraticCurveTo(x, y, x + radius, y);
+    context.closePath();
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-dag-scene]').forEach((container) => {
+    const canvas = container.querySelector('canvas');
+    const fallback = container.querySelector<HTMLElement>('[data-dag-fallback]');
+    const stateLabel = container.querySelector<HTMLElement>('[data-run-state]');
+    const countLabel = container.querySelector<HTMLElement>('[data-task-count]');
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+
+    try {
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-5.2, 5.2, 3, -3, .1, 50);
+      camera.position.set(0, 0, 10);
+      const clock = new THREE.Clock();
+      const root = new THREE.Group();
+      scene.add(root);
+
+      scene.add(new THREE.HemisphereLight(0xfff3d5, colors.navy, 3.1));
+      const keyLight = new THREE.DirectionalLight(0xffd377, 2.7);
+      keyLight.position.set(3, 5, 7);
+      scene.add(keyLight);
+
+      const createTask = (index: number) => {
+        const textureCanvas = document.createElement('canvas');
+        textureCanvas.width = 512;
+        textureCanvas.height = 224;
+        const context = textureCanvas.getContext('2d');
+        if (!context) throw new Error('Canvas 2D context is unavailable');
+        const texture = new THREE.CanvasTexture(textureCanvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.minFilter = THREE.LinearFilter;
+        const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
+        const sprite = new THREE.Sprite(material);
+        sprite.scale.set(1.58, .69, 1);
+        sprite.renderOrder = 3;
+        root.add(sprite);
+        return { sprite, textureCanvas, context, texture, state: '' as TaskState | '', index };
+      };
+
+      const tasks = taskData.map((_, index) => createTask(index));
+
+      const paintTask = (task: typeof tasks[number], state: TaskState) => {
+        if (task.state === state) return;
+        task.state = state;
+        const { context: ctx, textureCanvas: card, texture, index } = task;
+        ctx.clearRect(0, 0, card.width, card.height);
+        ctx.shadowColor = 'rgba(20,33,61,.18)';
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 8;
+        drawRoundedRect(ctx, 22, 18, 468, 184, 18);
+        ctx.fillStyle = state === 'success' ? '#14213D' : '#fffdfa';
+        ctx.fill();
+        ctx.shadowColor = 'transparent';
+        ctx.lineWidth = state === 'running' ? 7 : 3;
+        ctx.strokeStyle = state === 'running' ? '#FCA311' : state === 'success' ? '#14213D' : '#BEA57D';
+        ctx.stroke();
+
+        ctx.fillStyle = state === 'success' ? '#FCA311' : '#A52422';
+        ctx.beginPath();
+        ctx.arc(64, 67, 17, 0, Math.PI * 2);
+        ctx.fill();
+        if (state === 'success') {
+          ctx.strokeStyle = '#14213D';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.moveTo(54, 67);
+          ctx.lineTo(62, 75);
+          ctx.lineTo(75, 58);
+          ctx.stroke();
+        } else if (state === 'running') {
+          ctx.fillStyle = '#fffdfa';
+          ctx.beginPath();
+          ctx.arc(64, 67, 7, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = state === 'success' ? '#fffdfa' : '#14213D';
+        ctx.font = '700 31px Arial, sans-serif';
+        ctx.fillText(taskData[index].title, 100, 64);
+        ctx.fillStyle = state === 'success' ? '#BEA57D' : '#3d2a11';
+        ctx.font = '500 22px Arial, sans-serif';
+        ctx.fillText(taskData[index].detail, 64, 126);
+        ctx.fillStyle = state === 'success' ? '#FCA311' : state === 'running' ? '#A52422' : '#3d2a11';
+        ctx.font = '700 17px monospace';
+        ctx.fillText(state.toUpperCase(), 365, 166);
+        texture.needsUpdate = true;
+      };
+
+      const connections = dependencies.map(([from, to], index) => {
+        const material = new THREE.LineDashedMaterial({ color: colors.sand, dashSize: .12, gapSize: .07, transparent: true, opacity: .55 });
+        const geometry = new THREE.BufferGeometry();
+        const line = new THREE.Line(geometry, material);
+        line.position.z = -.25;
+        root.add(line);
+        const packet = new THREE.Mesh(
+          new THREE.SphereGeometry(.075, 14, 14),
+          new THREE.MeshBasicMaterial({ color: index % 3 === 0 ? colors.red : colors.gold })
+        );
+        packet.position.z = .2;
+        packet.visible = false;
+        root.add(packet);
+        return { from, to, line, material, packet, offset: index * .13 };
+      });
+
+      const coinGeometry = new THREE.CylinderGeometry(.1, .1, .035, 18);
+      const coinMaterial = new THREE.MeshStandardMaterial({ color: colors.gold, metalness: .45, roughness: .3 });
+      const coins = Array.from({ length: 12 }, (_, index) => {
+        const coin = new THREE.Mesh(coinGeometry, coinMaterial);
+        coin.rotation.x = Math.PI / 2;
+        coin.visible = false;
+        coin.userData.delay = index * .09;
+        root.add(coin);
+        return coin;
+      });
+
+      let activeStage = -1;
+      let cycleStart = 0;
+      let isVisible = false;
+      let frame = 0;
+      let mobile = false;
+
+      const positionScene = () => {
+        const bounds = container.getBoundingClientRect();
+        mobile = bounds.width < 560;
+        const positions = mobile ? mobilePositions : desktopPositions;
+        tasks.forEach((task, index) => task.sprite.position.set(positions[index][0], positions[index][1], 0));
+        connections.forEach((connection) => {
+          const start = tasks[connection.from].sprite.position;
+          const end = tasks[connection.to].sprite.position;
+          connection.line.geometry.dispose();
+          connection.line.geometry = new THREE.BufferGeometry().setFromPoints([start, end]);
+          connection.line.computeLineDistances();
+        });
+        if (mobile) {
+          camera.left = -3.2; camera.right = 3.2; camera.top = 3.55; camera.bottom = -3.3;
+          tasks.forEach((task) => task.sprite.scale.set(1.78, .78, 1));
+        } else {
+          camera.left = -5.25; camera.right = 5.25; camera.top = 2.15; camera.bottom = -2.15;
+          tasks.forEach((task) => task.sprite.scale.set(1.58, .69, 1));
+        }
+        camera.updateProjectionMatrix();
+        renderer.setSize(bounds.width, bounds.height, false);
+      };
+
+      const setStage = (stage: number) => {
+        if (stage === activeStage) return;
+        activeStage = stage;
+        let completeCount = 0;
+        tasks.forEach((task, index) => {
+          const taskStage = stages.findIndex((items) => items.includes(index));
+          const state: TaskState = stage > taskStage ? 'success' : stage === taskStage ? 'running' : 'queued';
+          if (state === 'success') completeCount += 1;
+          paintTask(task, state);
+        });
+        const allComplete = stage >= stages.length;
+        if (allComplete) completeCount = taskData.length;
+        if (stateLabel) {
+          stateLabel.textContent = allComplete ? 'SUCCESS' : 'RUNNING';
+          stateLabel.classList.toggle('is-success', allComplete);
+        }
+        if (countLabel) countLabel.textContent = `${completeCount} / ${taskData.length} tasks`;
+      };
+
+      const renderFrame = () => {
+        const elapsed = clock.getElapsedTime() - cycleStart;
+        const stageLength = 1.45;
+        const runLength = stageLength * stages.length;
+        const holdLength = 2.2;
+        const cycleLength = runLength + holdLength;
+        if (elapsed >= cycleLength) {
+          cycleStart += cycleLength;
+          activeStage = -1;
+        }
+        const cycleTime = (clock.getElapsedTime() - cycleStart) % cycleLength;
+        const stage = cycleTime >= runLength ? stages.length : Math.floor(cycleTime / stageLength);
+        setStage(stage);
+
+        connections.forEach((connection) => {
+          const fromStage = stages.findIndex((items) => items.includes(connection.from));
+          const toStage = stages.findIndex((items) => items.includes(connection.to));
+          const completed = stage > toStage;
+          const active = stage === toStage;
+          connection.material.color.setHex(completed ? colors.navy : active ? colors.gold : colors.sand);
+          connection.material.opacity = completed ? .82 : active ? 1 : .42;
+          connection.packet.visible = active;
+          if (active) {
+            const localProgress = (cycleTime / stageLength + connection.offset) % 1;
+            connection.packet.position.lerpVectors(tasks[connection.from].sprite.position, tasks[connection.to].sprite.position, localProgress);
+            connection.packet.position.z = .22 + Math.sin(localProgress * Math.PI) * .15;
+          }
+          if (stage <= fromStage) connection.packet.visible = false;
+        });
+
+        const valuePosition = tasks[6].sprite.position;
+        coins.forEach((coin, index) => {
+          const successTime = cycleTime - runLength - coin.userData.delay;
+          coin.visible = stage >= stages.length && successTime > 0;
+          if (coin.visible) {
+            const rise = successTime % 1.65;
+            coin.position.set(valuePosition.x + ((index % 4) - 1.5) * .18, valuePosition.y + .3 + rise * .75, .25);
+            coin.rotation.y = rise * 7 + index;
+            coin.scale.setScalar(Math.max(0, Math.sin((rise / 1.65) * Math.PI)));
+          }
+        });
+
+        root.rotation.x += (0 - root.rotation.x) * .06;
+        renderer.render(scene, camera);
+        if (isVisible && !document.hidden) frame = requestAnimationFrame(renderFrame);
+      };
+
+      const resizeObserver = new ResizeObserver(positionScene);
+      resizeObserver.observe(container);
+      positionScene();
+      setStage(window.matchMedia('(prefers-reduced-motion: reduce)').matches ? stages.length : 0);
+      renderer.render(scene, camera);
+      container.classList.add('is-webgl-ready');
+      fallback?.setAttribute('hidden', '');
+
+      const visibilityObserver = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          cancelAnimationFrame(frame);
+          frame = requestAnimationFrame(renderFrame);
+        } else {
+          cancelAnimationFrame(frame);
+        }
+      }, { threshold: .08 });
+      visibilityObserver.observe(container);
+
+      window.addEventListener('pagehide', () => {
+        cancelAnimationFrame(frame);
+        resizeObserver.disconnect();
+        visibilityObserver.disconnect();
+        connections.forEach(({ line, packet }) => { line.geometry.dispose(); (line.material as THREE.Material).dispose(); packet.geometry.dispose(); (packet.material as THREE.Material).dispose(); });
+        tasks.forEach(({ texture, sprite }) => { texture.dispose(); (sprite.material as THREE.Material).dispose(); });
+        renderer.dispose();
+      }, { once: true });
+    } catch (error) {
+      container.classList.add('is-fallback');
+      if (stateLabel) { stateLabel.textContent = 'SUCCESS'; stateLabel.classList.add('is-success'); }
+      if (countLabel) countLabel.textContent = '7 / 7 tasks';
+      console.warn('The workflow is using its static fallback.', error);
+    }
+  });
+</script>

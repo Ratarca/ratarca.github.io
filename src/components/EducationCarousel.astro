@@ -1,0 +1,80 @@
+---
+import Icon from './Icon.astro';
+import { education } from '../data/site';
+---
+
+<section class="learning-section" id="education" aria-labelledby="education-title" data-education-carousel>
+  <header class="learning-heading" data-reveal>
+    <div>
+      <p class="eyebrow">01 — Education</p>
+      <h2 id="education-title">The foundations behind how I <em>think.</em></h2>
+    </div>
+    <p>Economics taught me to look past the technology and ask what changes for the people, operation, and business around it.</p>
+  </header>
+
+  <div class="education-carousel" data-reveal style="--delay: 100ms">
+    <div class="education-slides" aria-live="polite">
+      {education.map((item, index) => (
+        <article class="education-slide" data-education-slide aria-label={`Education item ${index + 1} of ${education.length}`} hidden={index !== 0}>
+          <div class:list={['education-visual', { 'has-image': item.image }]}>
+            {item.image && <img src={item.image} alt="University of São Paulo campus" />}
+            <span>{item.mark}</span>
+            <small>{item.type}</small>
+          </div>
+          <div class="education-slide-copy">
+            <p class="eyebrow">{item.period}</p>
+            <p class="education-institution">{item.institution}</p>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            {item.href && <a class="text-link" href={item.href} target="_blank" rel="noreferrer">Visit USP <Icon name="external" size={17} /></a>}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="education-controls">
+      <p><span data-education-current>01</span> / {String(education.length).padStart(2, '0')}</p>
+      <div class="education-progress" aria-hidden="true">
+        {education.map((_, index) => <i data-education-dot class:list={[{ active: index === 0 }]}></i>)}
+      </div>
+      <div>
+        <button type="button" data-education-prev aria-label="Show previous education item"><Icon name="chevron-left" size={18} /></button>
+        <button type="button" data-education-next aria-label="Show next education item"><Icon name="chevron-right" size={18} /></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-education-carousel]').forEach((carousel) => {
+    const slides = [...carousel.querySelectorAll<HTMLElement>('[data-education-slide]')];
+    const dots = [...carousel.querySelectorAll<HTMLElement>('[data-education-dot]')];
+    const currentLabel = carousel.querySelector<HTMLElement>('[data-education-current]');
+    const previous = carousel.querySelector<HTMLButtonElement>('[data-education-prev]');
+    const next = carousel.querySelector<HTMLButtonElement>('[data-education-next]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let rotation: number | undefined;
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => slide.toggleAttribute('hidden', slideIndex !== current));
+      dots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === current));
+      if (currentLabel) currentLabel.textContent = String(current + 1).padStart(2, '0');
+    };
+    const stop = () => { if (rotation) window.clearInterval(rotation); };
+    const start = () => {
+      stop();
+      if (!reducedMotion) rotation = window.setInterval(() => show(current + 1), 8000);
+    };
+
+    previous?.addEventListener('click', () => { show(current - 1); start(); });
+    next?.addEventListener('click', () => { show(current + 1); start(); });
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', start);
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    start();
+  });
+</script>
