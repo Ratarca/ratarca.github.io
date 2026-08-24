@@ -2,12 +2,51 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 
-const stack = ['Terraform', 'Azure Data Lake Storage', 'Azure Data Factory', 'Databricks', 'GitHub Actions'];
 const systemStages = [
   { title: 'Provision', text: 'Define the platform infrastructure as reusable Terraform code.' },
   { title: 'Ingest', text: 'Land source data in Azure Data Lake Storage with a reliable, scalable foundation.' },
   { title: 'Transform', text: 'Use Databricks to prepare data for analysis and downstream use cases.' },
   { title: 'Deliver', text: 'Use GitHub Actions to make changes repeatable with CI/CD.' }
+];
+
+const requirements = [
+  { req: 'Ingest raw data from heterogeneous sources into a centralized lake.', type: 'Functional', moscow: 'Must', gain: 'Single source of truth for every dataset', complexity: 'Medium', result: 'Reliable, unified landing zone' },
+  { req: 'Organize storage into logical zones (raw → curated → serving) with clear ownership.', type: 'Functional', moscow: 'Must', gain: 'Governance, lineage, and quality gates', complexity: 'Low', result: 'Trustworthy curated datasets' },
+  { req: 'Transform raw data into analysis-ready datasets with Databricks jobs.', type: 'Functional', moscow: 'Must', gain: 'Data usable by analysts and downstream tools', complexity: 'High', result: 'Analysis-ready curated layer' },
+  { req: 'Provision every resource declaratively through Terraform modules.', type: 'Non-functional', moscow: 'Should', gain: 'Reproducible, reviewable infrastructure', complexity: 'Medium', result: 'Any environment rebuilt from code' },
+  { req: 'Deploy platform changes automatically via GitHub Actions CI/CD.', type: 'Non-functional', moscow: 'Should', gain: 'Faster, safer delivery with no manual deploys', complexity: 'Medium', result: 'Repeatable release pipeline' },
+  { req: 'Absorb data growth without redesigning the platform.', type: 'Non-functional', moscow: 'Should', gain: 'Scales with new sources and volume', complexity: 'Low', result: 'Future-proof storage design' },
+  { req: 'Keep pipelines idempotent and safe to re-run after failures.', type: 'Non-functional', moscow: 'Could', gain: 'Self-healing runs, less on-call effort', complexity: 'Medium', result: 'Resilient batch processing' },
+  { req: 'Tier storage (hot → cool → archive) to cut idle spend.', type: 'Non-functional', moscow: 'Could', gain: 'Lower long-term storage bill', complexity: 'Low', result: 'Cost-efficient lifecycle' }
+];
+
+const constraints = [
+  {
+    title: 'Scale',
+    points: ['Storage grows continuously as new sources are onboarded.', 'Processing runs in batch windows rather than continuous streams.', 'Concurrency stays modest — a small team, not thousands of users.']
+  },
+  {
+    title: 'Storage costs',
+    points: ['ADLS Gen2 is billed per GB stored and per transaction.', 'Hot → cool → archive tiering keeps rarely-accessed data cheap.', 'Lifecycle policies prune stale copies before they accumulate.']
+  },
+  {
+    title: 'Traffic & compute costs',
+    points: ['Data Factory charges per activity run and data movement.', 'Databricks bills per DBU-hour — clusters exist only while jobs run.', 'Keeping everything in a single region avoids cross-region egress fees.']
+  }
+];
+
+const bottlenecks = [
+  { title: 'Ingestion throughput', text: 'Source APIs rate-limit pulls, so heavy ingest days become the ceiling for freshness.' },
+  { title: 'Small-file problem', text: 'Many tiny files in the lake degrade read performance and inflate transaction costs.' },
+  { title: 'Cluster startup latency', text: 'Spinning up Databricks clusters adds minutes to short, interactive workloads.' },
+  { title: 'Shared storage limits', text: 'A single storage account has throughput caps under heavy concurrent reads.' }
+];
+
+const tradeoffs = [
+  { decision: 'Batch over streaming', chose: 'Simpler pipelines, lower cost, easier debugging', gaveUp: 'Higher data latency — near-real-time is out of scope' },
+  { decision: 'Layered lake zones', chose: 'Clear quality gates, lineage, and governance', gaveUp: 'More storage and orchestration than a single landing zone' },
+  { decision: 'Everything as Terraform', chose: 'Fully reproducible environments and reviewable changes', gaveUp: 'Slower initial setup compared to clicking in the portal' },
+  { decision: 'Ephemeral job clusters', chose: 'Pay only while compute actually runs', gaveUp: 'Startup delay on every scheduled run' }
 ];
 ---
 
@@ -30,39 +69,128 @@ const systemStages = [
     </div>
   </section>
 
-  <section class="project-summary">
-    <p class="eyebrow">The brief</p>
-    <p class="project-statement">Build a data platform that can handle large-scale ingestion, transformation, and analysis—without treating cloud infrastructure as a manual, one-time setup.</p>
-  </section>
-
-  <section class="project-section project-system-section">
-    <div class="project-section-heading">
-      <p class="eyebrow">System design</p>
-      <h2>From infrastructure to insight, with a path you can repeat.</h2>
+  <section class="project-summary project-brief">
+    <div class="brief-copy">
+      <p class="eyebrow">The brief</p>
+      <p class="project-statement">Build a data platform that can handle large-scale ingestion, transformation, and analysis—without treating cloud infrastructure as a manual, one-time setup.</p>
     </div>
-    <ol class="project-flow">
-      {systemStages.map((stage, index) => (
-        <li data-reveal style={`--delay: ${index * 90}ms`}>
-          <span>0{index + 1}</span>
-          <div><h3>{stage.title}</h3><p>{stage.text}</p></div>
-        </li>
-      ))}
-    </ol>
-  </section>
-
-  <section class="project-section project-architecture-section">
-    <div class="project-section-heading">
-      <p class="eyebrow">Architecture</p>
-      <h2>The platform at a glance.</h2>
-    </div>
-    <figure class="architecture-figure" data-reveal>
-      <img src="/assets/img/project/azure_dlake/0-bigpicture.png" alt="Architecture diagram for the Azure Data Lake platform" loading="lazy" />
-      <figcaption>Azure services work together to ingest, organize, transform, and deliver useful data.</figcaption>
+    <figure class="architecture-figure brief-figure" data-reveal>
+      <img src="/assets/img/project/azure_dlake/0-bigpicture.png" alt="High-level architecture of the Azure Data Lake platform" loading="lazy" />
+      <figcaption>The platform at a glance — Azure services ingest, organize, transform, and deliver useful data.</figcaption>
     </figure>
   </section>
 
-  <section class="project-stack-section">
-    <p class="eyebrow">Technology stack</p>
-    <ul>{stack.map((item) => <li>{item}<Icon name="arrow" size={16} /></li>)}</ul>
+  <section class="project-design-section">
+    <div class="design-inner">
+      <div class="project-section-heading">
+        <p class="eyebrow">System design</p>
+        <h2>Designing the platform like an engineer, not a consumer.</h2>
+        <p class="design-lede">A structured walkthrough of the decisions behind the lake: what it must do, what constrains it, where it strains under load, and why each trade-off was worth making.</p>
+      </div>
+
+      <article class="design-block" id="problem">
+        <header><span>01</span><h3>Clarify the problem</h3></header>
+        <div class="design-body">
+          <p>Data work in this context kept hitting the same wall: every new source meant manual portal clicks, undocumented pipelines, and environments nobody could rebuild. The real problem wasn't moving data—it was that the platform itself had no source of truth.</p>
+          <ul>
+            <li><strong>Fragmented ingestion</strong> — each dataset arrived through its own ad-hoc process.</li>
+            <li><strong>No reproducibility</strong> — recreating or migrating the environment was effectively impossible.</li>
+            <li><strong>Unclear governance</strong> — raw and processed data lived side by side with no zones or ownership.</li>
+            <li><strong>Manual operations</strong> — deploys depended on one person knowing the setup.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="design-block" id="requirements">
+        <header><span>02</span><h3>Requirements</h3></header>
+        <div class="design-body">
+          <p>All functional and non-functional requirements, prioritized with the MoSCoW framework and scored by expected gain, implementation complexity, and final result.</p>
+          <table class="tradeoff-table requirements-table">
+            <thead>
+              <tr>
+                <th>Requirement</th>
+                <th>Type</th>
+                <th>Gain</th>
+                <th>Final result</th>
+                <th>MoSCoW</th>
+                <th>Complexity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {requirements.map((row) => (
+                <tr>
+                  <td>{row.req}</td>
+                  <td><span class={`req-type req-${row.type === 'Functional' ? 'func' : 'nonfunc'}`}>{row.type}</span></td>
+                  <td>{row.gain}</td>
+                  <td>{row.result}</td>
+                  <td><span class={`moscow-badge moscow-${row.moscow.toLowerCase()}`}>{row.moscow}</span></td>
+                  <td>{row.complexity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="design-block" id="constraints">
+        <header><span>03</span><h3>Constraints</h3></header>
+        <div class="design-body design-cards">
+          {constraints.map((group) => (
+            <div class="constraint-card">
+              <h4>{group.title}</h4>
+              <ul>{group.points.map((point) => <li>{point}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      <article class="design-block" id="high-level">
+        <header><span>04</span><h3>High-level design</h3></header>
+        <div class="design-body">
+          <p>The architecture follows a classic medallion flow: land everything raw, refine it in layers, and serve only curated datasets downstream. Terraform defines every layer; GitHub Actions promotes changes between them.</p>
+          <ol class="design-pipeline">
+            {systemStages.map((stage) => (
+              <li key={stage.title}>
+                <strong>{stage.title}</strong>
+                <span>{stage.text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </article>
+
+      <article class="design-block" id="bottlenecks">
+        <header><span>05</span><h3>Bottlenecks</h3></header>
+        <div class="design-body design-cards">
+          {bottlenecks.map((item) => (
+            <div class="constraint-card bottleneck-card">
+              <h4>{item.title}</h4>
+              <p>{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </article>
+
+      <article class="design-block" id="tradeoffs">
+        <header><span>06</span><h3>Evaluate &amp; trade-offs</h3></header>
+        <div class="design-body">
+          <p>Every architectural choice trades something for something else. These were the deliberate calls:</p>
+          <table class="tradeoff-table">
+            <thead>
+              <tr><th>Decision</th><th>What we gained</th><th>What we gave up</th></tr>
+            </thead>
+            <tbody>
+              {tradeoffs.map((row) => (
+                <tr>
+                  <td><strong>{row.decision}</strong></td>
+                  <td>{row.chose}</td>
+                  <td>{row.gaveUp}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
   </section>
 </BaseLayout>
