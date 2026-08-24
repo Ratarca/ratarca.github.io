@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
 import EducationCarousel from '../components/EducationCarousel.astro';
 import SkillNetwork from '../components/SkillNetwork.astro';
 ---
@@ -9,6 +10,14 @@ import SkillNetwork from '../components/SkillNetwork.astro';
     <p class="eyebrow">03 — Skills &amp; education</p>
     <h1 id="skills-title">A toolkit for useful, <em>durable</em> system and value products.</h1>
     <p>I choose tools for the job—not for the logo. My work lives where tech and business operations meet.</p>
+    <a class="lab-cta-pill" href="/labs">
+      <span class="lab-cta-pulse" aria-hidden="true"></span>
+      <span class="lab-cta-copy">
+        <strong>Tools only matter when they ship real outcomes.</strong>
+        <span>See this stack in action across the labs — pipelines, agents, and platforms.</span>
+      </span>
+      <span class="lab-cta-arrow" aria-hidden="true"><Icon name="arrow" size={18} /></span>
+    </a>
   </section>
 
   <main class="skills-learning-page">

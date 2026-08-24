@@ -4,7 +4,7 @@
       <p class="eyebrow">02 — Connected capability</p>
       <h2 id="capability-title">Skills become valuable when they work as a <em>system.</em></h2>
     </div>
-    <p>Start with the skills matrix. Select it to see how problem solving connects each discipline into one useful capability.</p>
+    <p>The matrix below maps what I use every day. Select it to see how problem solving connects each discipline into one capability.</p>
   </header>
 
   <button
@@ -20,18 +20,33 @@
     </span>
 
     <span class="skill-matrix-stage" data-matrix-stage>
-      <span class="skill-equation" aria-hidden="true">
-        <strong>ProblemSolving</strong>
-        <b>=</b>
-        <span class="skill-matrix-bracket">
-          <span>Data</span>
-          <span>Backend</span>
-          <span>Agentic AI</span>
-          <span>Quantitative</span>
-          <span>Architecture</span>
+      <span class="skill-matrix" role="img" aria-label="Skills matrix: data, backend, agentic AI, quantitative methods, and architecture, all applied through problem solving.">
+        <span class="skill-matrix-row skill-matrix-head">
+          <strong>Problem solving</strong>
+          <span>the thread through every discipline</span>
+        </span>
+        <span class="skill-matrix-row">
+          <strong>Data</strong>
+          <span>Spark · Databricks · Airflow · SQL · Unity Catalog</span>
+        </span>
+        <span class="skill-matrix-row">
+          <strong>Backend</strong>
+          <span>Python · FastAPI · Go · PostgreSQL · Redis</span>
+        </span>
+        <span class="skill-matrix-row">
+          <strong>Agentic AI</strong>
+          <span>LLM agents · RAG · workflow automation</span>
+        </span>
+        <span class="skill-matrix-row">
+          <strong>Quantitative</strong>
+          <span>econometrics · pricing &amp; risk models · optimization</span>
+        </span>
+        <span class="skill-matrix-row">
+          <strong>Architecture</strong>
+          <span>Azure · AWS · Terraform · event-driven systems</span>
         </span>
       </span>
-      <span class="matrix-caption">Five disciplines. One connected way of working.</span>
+      <span class="matrix-caption">Five disciplines, one way of working — select to see them connect.</span>
     </span>
 
     <canvas aria-hidden="true"></canvas>
@@ -91,7 +106,7 @@
         ? 'Connected skills graph. Select to return to the skills matrix.'
         : 'Skills matrix. Select to show the connected skills graph.');
       if (modeLabel) modeLabel.textContent = graphMode ? 'capability_graph' : 'skills_matrix';
-      if (hintLabel) hintLabel.textContent = graphMode ? 'click to return to matrix' : 'click to expand graph';
+      if (hintLabel) hintLabel.textContent = graphMode ? 'hover to break into graph' : 'click to expand graph';
       if (stateLabel) stateLabel.textContent = graphMode ? 'Graph view' : 'Matrix view';
       graphMode ? startGraph?.() : stopGraph?.();
     };
@@ -102,11 +117,12 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       const scene = new THREE.Scene();
-      const camera = new THREE.OrthographicCamera(-5, 5, 3.2, -3.2, .1, 30);
-      camera.position.set(0, 0, 10);
+      const camera = new THREE.PerspectiveCamera(42, 1, .1, 60);
+      camera.position.set(0, 0, 11);
       const root = new THREE.Group();
       scene.add(root);
 
+      /* ---------- skill card sprites (unchanged look) ---------- */
       const createNode = (index: number) => {
         const item = nodeData[index];
         const textureCanvas = document.createElement('canvas');
@@ -146,41 +162,145 @@
         return { sprite, material, texture, base: new THREE.Vector3(), index };
       };
       const nodes = nodeData.map((_, index) => createNode(index));
+      const layoutTargets = nodes.map(() => new THREE.Vector3());
 
+      /* ---------- curved bezier edges ---------- */
+      const SEGMENTS = 28;
       const links = edges.map(([from, to], index) => {
         const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
-        const material = new THREE.LineBasicMaterial({ color: colors.gold, transparent: true, opacity: .62 });
+        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array((SEGMENTS + 1) * 3), 3));
+        const material = new THREE.LineBasicMaterial({ color: colors.gold, transparent: true, opacity: .5 });
         const line = new THREE.Line(geometry, material);
-        line.position.z = -.2;
         root.add(line);
         const packet = new THREE.Mesh(
-          new THREE.CircleGeometry(.065, 16),
-          new THREE.MeshBasicMaterial({ color: index % 2 ? colors.red : colors.gold })
+          new THREE.CircleGeometry(.075, 20),
+          new THREE.MeshBasicMaterial({ color: index % 2 ? colors.red : colors.gold, transparent: true })
         );
         packet.renderOrder = 2;
         root.add(packet);
-        return { from, to, line, material, packet, offset: index / edges.length };
+        return { from, to, line, material, packet, offset: index / edges.length, curve: new THREE.QuadraticBezierCurve3(new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()) };
       });
 
+      /* ---------- ambient topology: drifting particle mesh ---------- */
+      const PARTICLES = 70;
+      const MAX_LINKS = 260;
+      const particleGeo = new THREE.BufferGeometry();
+      const particlePos = new Float32Array(PARTICLES * 3);
+      const particleVel: THREE.Vector2[] = [];
+      const homePos: THREE.Vector2[] = [];
+      for (let i = 0; i < PARTICLES; i++) {
+        const x = (Math.random() - .5) * 10.5;
+        const y = (Math.random() - .5) * 6.4;
+        particlePos[i * 3] = x; particlePos[i * 3 + 1] = y; particlePos[i * 3 + 2] = -1.4 - Math.random() * 1.6;
+        homePos.push(new THREE.Vector2(x, y));
+        particleVel.push(new THREE.Vector2((Math.random() - .5) * .12, (Math.random() - .5) * .12));
+      }
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+      const points = new THREE.Points(particleGeo, new THREE.PointsMaterial({
+        color: colors.sand, size: .055, transparent: true, opacity: .75, depthWrite: false
+      }));
+      root.add(points);
+
+      const linkGeo = new THREE.BufferGeometry();
+      const linkPositions = new Float32Array(MAX_LINKS * 6);
+      linkGeo.setAttribute('position', new THREE.BufferAttribute(linkPositions, 3));
+      const webLines = new THREE.LineSegments(linkGeo, new THREE.LineBasicMaterial({
+        color: colors.sand, transparent: true, opacity: .16, depthWrite: false
+      }));
+      root.add(webLines);
+
+      /* ---------- interaction state ---------- */
       const clock = new THREE.Clock();
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let inViewport = false;
       let mobile = false;
       let frame = 0;
+      const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+      container.addEventListener('pointermove', (event) => {
+        const bounds = container.getBoundingClientRect();
+        pointer.tx = ((event.clientX - bounds.left) / bounds.width - .5) * 2;
+        pointer.ty = ((event.clientY - bounds.top) / bounds.height - .5) * 2;
+      });
+      container.addEventListener('pointerleave', () => { pointer.tx = 0; pointer.ty = 0; });
 
+      /* ---------- homeomorphic morph state ---------- */
+      // In graph view the nodes rest on a circle. Hovering the graph applies a
+      // continuous deformation that maps the circle onto the skill layout
+      // (circle -> graph is a homeomorphism); leaving reverses it smoothly.
+      const MORPH_DURATION = 1.6;
+      let morphT = 0;          // 0 = circle, 1 = full graph
+      let morphTarget = 0;     // where we're heading
+      const circlePositions = nodeData.map((_, index) => {
+        const angle = (index / nodeData.length) * Math.PI * 2 - Math.PI / 2;
+        return new THREE.Vector3(Math.cos(angle) * 2.55, Math.sin(angle) * 2.05, 0);
+      });
+      const smootherstep = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
+
+      // hover drives the breakdown: enter -> deform to graph, leave -> reform circle
+      container.addEventListener('pointerenter', () => { morphTarget = 1; });
+      container.addEventListener('pointerleave', () => { morphTarget = 0; pointer.tx = 0; pointer.ty = 0; });
+
+      const tmpA = new THREE.Vector3();
       const updateLinks = (elapsed = 0) => {
         links.forEach((link) => {
           const start = nodes[link.from].sprite.position;
           const end = nodes[link.to].sprite.position;
+          // gentle fixed bow — no time-based breathing, keeps edges calm
+          tmpA.lerpVectors(start, end, .5);
+          const dx = end.x - start.x, dy = end.y - start.y;
+          const len = Math.hypot(dx, dy) || 1;
+          tmpA.x += (-dy / len) * len * .08;
+          tmpA.y += (dx / len) * len * .08;
+          link.curve.v0.copy(start);
+          link.curve.v1.copy(tmpA);
+          link.curve.v2.copy(end);
           const positions = link.line.geometry.getAttribute('position') as THREE.BufferAttribute;
-          positions.setXYZ(0, start.x, start.y, 0);
-          positions.setXYZ(1, end.x, end.y, 0);
+          for (let s = 0; s <= SEGMENTS; s++) {
+            link.curve.getPoint(s / SEGMENTS, tmpA);
+            positions.setXYZ(s, tmpA.x, tmpA.y, -.15);
+          }
           positions.needsUpdate = true;
-          const progress = (elapsed * .025 + link.offset) % 1;
-          link.packet.position.lerpVectors(start, end, progress);
+          // slow steady packet travel
+          const raw = (elapsed * .05 + link.offset) % 1;
+          link.packet.position.copy(link.curve.getPoint(raw));
           link.packet.position.z = .1;
         });
+      };
+
+      const updateTopology = (dt: number, elapsed: number) => {
+        const positions = particleGeo.getAttribute('position') as THREE.BufferAttribute;
+        for (let i = 0; i < PARTICLES; i++) {
+          const vel = particleVel[i];
+          vel.x += Math.sin(elapsed * .2 + i * 1.7) * .002;
+          vel.y += Math.cos(elapsed * .17 + i * 2.3) * .002;
+          vel.clampLength(0, .1);
+          const home = homePos[i];
+          home.x += vel.x * dt * 8;
+          home.y += vel.y * dt * 8;
+          if (home.x > 5.4 || home.x < -5.4) vel.x *= -1;
+          if (home.y > 3.3 || home.y < -3.3) vel.y *= -1;
+          home.x = Math.max(-5.4, Math.min(5.4, home.x));
+          home.y = Math.max(-3.3, Math.min(3.3, home.y));
+          positions.setXYZ(i, home.x, home.y, positions.getZ(i));
+        }
+        positions.needsUpdate = true;
+        // proximity web
+        let count = 0;
+        for (let i = 0; i < PARTICLES && count < MAX_LINKS; i++) {
+          for (let j = i + 1; j < PARTICLES && count < MAX_LINKS; j++) {
+            const dx = homePos[i].x - homePos[j].x;
+            const dy = homePos[i].y - homePos[j].y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 1.9) {
+              const o = count * 6;
+              linkPositions[o] = homePos[i].x; linkPositions[o + 1] = homePos[i].y; linkPositions[o + 2] = -1.6;
+              linkPositions[o + 3] = homePos[j].x; linkPositions[o + 4] = homePos[j].y; linkPositions[o + 5] = -1.6;
+              count++;
+            }
+          }
+        }
+        linkGeo.setDrawRange(0, count * 2);
+        (linkGeo.getAttribute('position') as THREE.BufferAttribute).needsUpdate = true;
       };
 
       const positionScene = () => {
@@ -189,34 +309,54 @@
         const positions = mobile ? mobilePositions : desktopPositions;
         nodes.forEach((node, index) => {
           node.base.set(positions[index][0], positions[index][1], 0);
+          layoutTargets[index].copy(node.base);
           node.sprite.position.copy(node.base);
           if (mobile) node.sprite.scale.set(nodeData[index].center ? 2.7 : 2.25, nodeData[index].center ? .76 : .63, 1);
           else node.sprite.scale.set(nodeData[index].center ? 3.0 : 2.35, nodeData[index].center ? .84 : .66, 1);
         });
-        if (mobile) {
-          camera.left = -3.15; camera.right = 3.15; camera.top = 3.35; camera.bottom = -3.15;
-        } else {
-          camera.left = -5; camera.right = 5; camera.top = 3.1; camera.bottom = -3.1;
-        }
+        camera.aspect = bounds.width / bounds.height;
+        const viewHeight = mobile ? 7.2 : 6.6;
+        camera.fov = 42;
+        camera.position.z = viewHeight / (2 * Math.tan((camera.fov * Math.PI) / 360)) * (camera.aspect > 1 ? 1 : 1 / Math.max(camera.aspect, .55));
         camera.updateProjectionMatrix();
         renderer.setSize(bounds.width, bounds.height, false);
         updateLinks();
         renderer.render(scene, camera);
       };
 
+      let lastElapsed = 0;
       const renderFrame = () => {
         const elapsed = clock.getElapsedTime();
+        const dt = Math.min(elapsed - lastElapsed, .05);
+        lastElapsed = elapsed;
+        // homeomorphic deformation driven by hover: circle <-> graph
+        morphT += (morphTarget - morphT) * Math.min(dt * 2.4, 1);
+        const ease = smootherstep(Math.max(0, Math.min(1, morphT)));
         nodes.forEach((node, index) => {
-          node.sprite.position.y = node.base.y + Math.sin(elapsed * .22 + index * 1.1) * .045;
+          // stretch/shrink between the circle position and the layout position
+          node.base.lerpVectors(circlePositions[index], layoutTargets[index], ease);
+          // single subtle drift — no layered wobble
+          node.sprite.position.x = node.base.x + Math.sin(elapsed * .15 + index * 1.7) * .03;
+          node.sprite.position.y = node.base.y + Math.sin(elapsed * .19 + index * 1.1) * .04;
         });
-        root.rotation.z = Math.sin(elapsed * .05) * .008;
+        // gentle parallax only, no scene tilt wobble
+        pointer.x += (pointer.tx - pointer.x) * .05;
+        pointer.y += (pointer.ty - pointer.y) * .05;
+        root.rotation.y = pointer.x * .05;
+        root.rotation.x = -pointer.y * .035;
         updateLinks(elapsed);
+        updateTopology(dt, elapsed);
         renderer.render(scene, camera);
         if (graphMode && inViewport && !document.hidden && !reducedMotion) frame = requestAnimationFrame(renderFrame);
       };
 
       startGraph = () => {
         cancelAnimationFrame(frame);
+        // enter graph view resting on the circle; hovering breaks it into the graph
+        morphT = 0;
+        morphTarget = 0;
+        nodes.forEach((node, index) => node.base.copy(circlePositions[index]));
+        lastElapsed = clock.getElapsedTime();
         renderer.render(scene, camera);
         if (inViewport && !reducedMotion) frame = requestAnimationFrame(renderFrame);
       };
@@ -240,6 +380,10 @@
         visibilityObserver.disconnect();
         links.forEach(({ line, material, packet }) => { line.geometry.dispose(); material.dispose(); packet.geometry.dispose(); (packet.material as THREE.Material).dispose(); });
         nodes.forEach(({ material, texture }) => { material.dispose(); texture.dispose(); });
+        particleGeo.dispose();
+        linkGeo.dispose();
+        (points.material as THREE.Material).dispose();
+        (webLines.material as THREE.Material).dispose();
         renderer.dispose();
       }, { once: true });
     } catch (error) {

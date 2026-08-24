@@ -30,14 +30,14 @@
     { title: 'BUILD', detail: 'ship the workflow' },
     { title: 'VALIDATE', detail: 'prove the outcome' },
     { title: 'SOLUTION', detail: 'reliable capability' },
-    { title: 'VALUE', detail: '$ measurable impact' }
+    { title: 'VALUE', detail: 'measurable impact' }
   ];
   const dependencies: [number, number][] = [[0, 1], [0, 2], [1, 3], [2, 3], [1, 4], [2, 4], [3, 5], [4, 5], [5, 6]];
   const stages = [[0], [1, 2], [3, 4], [5], [6]];
   const colors = { navy: 0x14213d, gold: 0xfca311, sand: 0xbea57d, red: 0xa52422, brown: 0x3d2a11, paper: 0xfffdfa };
 
   const desktopPositions = [
-    [-4.15, 0], [-2.35, 1.12], [-2.35, -1.12], [-.25, 1.12], [-.25, -1.12], [2.0, 0], [4.15, 0]
+    [-5.0, 0], [-2.5, 1.12], [-2.5, -1.12], [0, 1.12], [0, -1.12], [2.5, 0], [5.0, 0]
   ];
   const mobilePositions = [
     [0, 2.65], [-1.35, 1.45], [1.35, 1.45], [-1.35, .05], [1.35, .05], [0, -1.3], [0, -2.55]
@@ -66,7 +66,7 @@
 
     try {
       const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       const scene = new THREE.Scene();
       const camera = new THREE.OrthographicCamera(-5.2, 5.2, 3, -3, .1, 50);
@@ -82,16 +82,19 @@
 
       const createTask = (index: number) => {
         const textureCanvas = document.createElement('canvas');
-        textureCanvas.width = 512;
-        textureCanvas.height = 224;
+        // Draw at 2x so the labels remain sharp on high-density displays.
+        textureCanvas.width = 1024;
+        textureCanvas.height = 448;
         const context = textureCanvas.getContext('2d');
         if (!context) throw new Error('Canvas 2D context is unavailable');
         const texture = new THREE.CanvasTexture(textureCanvas);
         texture.colorSpace = THREE.SRGBColorSpace;
         texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.generateMipmaps = false;
         const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
         const sprite = new THREE.Sprite(material);
-        sprite.scale.set(1.58, .69, 1);
+        sprite.scale.set(1.78, .78, 1);
         sprite.renderOrder = 3;
         root.add(sprite);
         return { sprite, textureCanvas, context, texture, state: '' as TaskState | '', index };
@@ -104,46 +107,46 @@
         task.state = state;
         const { context: ctx, textureCanvas: card, texture, index } = task;
         ctx.clearRect(0, 0, card.width, card.height);
-        ctx.shadowColor = 'rgba(20,33,61,.18)';
-        ctx.shadowBlur = 18;
-        ctx.shadowOffsetY = 8;
-        drawRoundedRect(ctx, 22, 18, 468, 184, 18);
+        ctx.save();
+        ctx.scale(2, 2);
+        drawRoundedRect(ctx, 18, 16, 476, 192, 14);
         ctx.fillStyle = state === 'success' ? '#14213D' : '#fffdfa';
         ctx.fill();
-        ctx.shadowColor = 'transparent';
         ctx.lineWidth = state === 'running' ? 7 : 3;
         ctx.strokeStyle = state === 'running' ? '#FCA311' : state === 'success' ? '#14213D' : '#BEA57D';
         ctx.stroke();
 
         ctx.fillStyle = state === 'success' ? '#FCA311' : '#A52422';
         ctx.beginPath();
-        ctx.arc(64, 67, 17, 0, Math.PI * 2);
+        ctx.arc(60, 78, 18, 0, Math.PI * 2);
         ctx.fill();
         if (state === 'success') {
           ctx.strokeStyle = '#14213D';
           ctx.lineWidth = 5;
           ctx.beginPath();
-          ctx.moveTo(54, 67);
-          ctx.lineTo(62, 75);
-          ctx.lineTo(75, 58);
+          ctx.moveTo(50, 78);
+          ctx.lineTo(58, 86);
+          ctx.lineTo(72, 68);
           ctx.stroke();
         } else if (state === 'running') {
           ctx.fillStyle = '#fffdfa';
           ctx.beginPath();
-          ctx.arc(64, 67, 7, 0, Math.PI * 2);
+          ctx.arc(60, 78, 7, 0, Math.PI * 2);
           ctx.fill();
         }
 
         ctx.textBaseline = 'middle';
         ctx.fillStyle = state === 'success' ? '#fffdfa' : '#14213D';
-        ctx.font = '700 31px Arial, sans-serif';
-        ctx.fillText(taskData[index].title, 100, 64);
-        ctx.fillStyle = state === 'success' ? '#BEA57D' : '#3d2a11';
-        ctx.font = '500 22px Arial, sans-serif';
-        ctx.fillText(taskData[index].detail, 64, 126);
+        ctx.font = '700 42px Arial, sans-serif';
+        ctx.fillText(taskData[index].title, 98, 68);
+        ctx.fillStyle = state === 'success' ? '#EADFC8' : '#3d2a11';
+        ctx.font = '500 25px Arial, sans-serif';
+        ctx.fillText(taskData[index].detail, 98, 112);
         ctx.fillStyle = state === 'success' ? '#FCA311' : state === 'running' ? '#A52422' : '#3d2a11';
-        ctx.font = '700 17px monospace';
-        ctx.fillText(state.toUpperCase(), 365, 166);
+        ctx.font = '700 22px monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText(state.toUpperCase(), 462, 170);
+        ctx.restore();
         texture.needsUpdate = true;
       };
 
@@ -193,11 +196,15 @@
           connection.line.computeLineDistances();
         });
         if (mobile) {
-          camera.left = -3.2; camera.right = 3.2; camera.top = 3.55; camera.bottom = -3.3;
-          tasks.forEach((task) => task.sprite.scale.set(1.78, .78, 1));
+          const sceneWidth = 6.8;
+          const sceneHeight = sceneWidth / (bounds.width / bounds.height);
+          camera.left = -sceneWidth / 2; camera.right = sceneWidth / 2; camera.top = sceneHeight / 2; camera.bottom = -sceneHeight / 2;
+          tasks.forEach((task) => task.sprite.scale.set(2.62, 1.12, 1));
         } else {
-          camera.left = -5.25; camera.right = 5.25; camera.top = 2.15; camera.bottom = -2.15;
-          tasks.forEach((task) => task.sprite.scale.set(1.58, .69, 1));
+          const sceneWidth = 12.8;
+          const sceneHeight = sceneWidth / (bounds.width / bounds.height);
+          camera.left = -sceneWidth / 2; camera.right = sceneWidth / 2; camera.top = sceneHeight / 2; camera.bottom = -sceneHeight / 2;
+          tasks.forEach((task) => task.sprite.scale.set(2.35, .95, 1));
         }
         camera.updateProjectionMatrix();
         renderer.setSize(bounds.width, bounds.height, false);
