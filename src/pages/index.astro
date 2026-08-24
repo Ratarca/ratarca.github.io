@@ -42,8 +42,8 @@ import { profile } from '../data/site';
         <div class="about-grid">
           <div class="about-copy" id="about-story" data-reveal>
             <p class="large-copy">For the past <strong>8+ years</strong>, I’ve helped teams turn complex data, financial, and technology challenges into products people can depend on.</p>
-            <p>I work comfortably between strategy and implementation: designing a data platform, shaping the developer experience, or getting a system across the finish line with the people who use it.</p>
-            <a class="text-link" href={`mailto:${profile.email}`}>Let’s talk <Icon name="arrow" size={17} /></a>
+            <p>I work comfortably between strategy and implementation: designing a data platform, shaping the developer experience, or getting a system across the finish line with the people who use it. I also use AI agents to accelerate delivery — automating repetitive work, exploring solutions faster, and keeping human judgment at the center.</p>
+            <a class="text-link" href="/labs">See use cases! <Icon name="arrow" size={17} /></a>
           </div>
           <div class="impact-grid" id="about-impact" data-reveal style="--delay: 120ms">
             <div class="impact-card"><strong>83M</strong><span>people reached through data products</span></div>
@@ -62,7 +62,7 @@ import { profile } from '../data/site';
         <p class="eyebrow">A good next conversation</p>
         <h2>Have a complex problem worth solving?</h2>
         <DagScene />
-        <a class="button button-light" href="/contact">Let’s talk? <Icon name="arrow" size={18} /></a>
+        <a class="button button-light" href={`mailto:${profile.email}`}>Get in touch <Icon name="arrow" size={18} /></a>
       </div>
     </div>
   </section>
