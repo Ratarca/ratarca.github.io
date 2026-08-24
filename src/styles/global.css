@@ -144,6 +144,8 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .education-mark { align-self: start; padding: 9px; color: var(--lime); }
 
 .experience-page-section { padding: 0 max(24px, calc((100% - 1160px) / 2)) 140px; }
+.experience-page-cta { width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding-bottom: 100px; }
+.experience-page-cta .lab-cta-pill { margin-top: 0; }
 .experience-layout { display: grid; grid-template-columns: minmax(0, 1.46fr) minmax(210px, .54fr); gap: clamp(38px, 8vw, 125px); align-items: start; }
 .experience-aside { position: sticky; top: 35px; padding: 28px 0; }
 .experience-aside > p:not(.eyebrow) { max-width: 230px; margin-bottom: 32px; font-family: var(--serif); font-size: 24px; line-height: 1.15; letter-spacing: -.035em; }
@@ -526,6 +528,7 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   .contact-form { padding: 25px 21px; box-shadow: 8px 8px 0 var(--navy); }
   .form-grid { grid-template-columns: 1fr; gap: 22px; }
   .experience-page-section, .skills-page-section { padding-top: 80px; padding-bottom: 80px; }
+  .experience-page-cta { padding-bottom: 80px; }
   .toolsets { grid-template-columns: 1fr; margin-top: 70px; }
   .learning-section { width: min(100% - 40px, 620px); padding: 78px 0 94px; }
   .learning-heading, .capability-heading { grid-template-columns: 1fr; gap: 17px; margin-bottom: 33px; }
