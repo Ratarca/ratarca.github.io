@@ -9,15 +9,18 @@ const systemStages = [
   { title: 'Deliver', text: 'Use GitHub Actions to make changes repeatable with CI/CD.' }
 ];
 
+const LEVELS = ['Low', 'Medium', 'High'];
+const stars = (level: string) => LEVELS.indexOf(level) + 1;
+
 const requirements = [
-  { req: 'Ingest raw data from heterogeneous sources into a centralized lake.', type: 'Functional', moscow: 'Must', gain: 'Single source of truth for every dataset', complexity: 'Medium', result: 'Reliable, unified landing zone' },
-  { req: 'Organize storage into logical zones (raw → curated → serving) with clear ownership.', type: 'Functional', moscow: 'Must', gain: 'Governance, lineage, and quality gates', complexity: 'Low', result: 'Trustworthy curated datasets' },
-  { req: 'Transform raw data into analysis-ready datasets with Databricks jobs.', type: 'Functional', moscow: 'Must', gain: 'Data usable by analysts and downstream tools', complexity: 'High', result: 'Analysis-ready curated layer' },
-  { req: 'Provision every resource declaratively through Terraform modules.', type: 'Non-functional', moscow: 'Should', gain: 'Reproducible, reviewable infrastructure', complexity: 'Medium', result: 'Any environment rebuilt from code' },
-  { req: 'Deploy platform changes automatically via GitHub Actions CI/CD.', type: 'Non-functional', moscow: 'Should', gain: 'Faster, safer delivery with no manual deploys', complexity: 'Medium', result: 'Repeatable release pipeline' },
-  { req: 'Absorb data growth without redesigning the platform.', type: 'Non-functional', moscow: 'Should', gain: 'Scales with new sources and volume', complexity: 'Low', result: 'Future-proof storage design' },
-  { req: 'Keep pipelines idempotent and safe to re-run after failures.', type: 'Non-functional', moscow: 'Could', gain: 'Self-healing runs, less on-call effort', complexity: 'Medium', result: 'Resilient batch processing' },
-  { req: 'Tier storage (hot → cool → archive) to cut idle spend.', type: 'Non-functional', moscow: 'Could', gain: 'Lower long-term storage bill', complexity: 'Low', result: 'Cost-efficient lifecycle' }
+  { req: 'Ingest raw data from heterogeneous sources into a centralized lake.', type: 'Functional', moscow: 'Must', gains: 'Reliable, unified landing zone', complexity: 'Medium', cost: 'Medium' },
+  { req: 'Organize storage into logical zones (raw → curated → serving) with clear ownership.', type: 'Functional', moscow: 'Must', gains: 'Trustworthy curated datasets', complexity: 'Low', cost: 'Low' },
+  { req: 'Transform raw data into analysis-ready datasets with Databricks jobs.', type: 'Functional', moscow: 'Must', gains: 'Analysis-ready curated layer', complexity: 'High', cost: 'High' },
+  { req: 'Provision every resource declaratively through Terraform modules.', type: 'Non-functional', moscow: 'Should', gains: 'Any environment rebuilt from code', complexity: 'Medium', cost: 'Low' },
+  { req: 'Deploy platform changes automatically via GitHub Actions CI/CD.', type: 'Non-functional', moscow: 'Should', gains: 'Repeatable release pipeline', complexity: 'Medium', cost: 'Low' },
+  { req: 'Absorb data growth without redesigning the platform.', type: 'Non-functional', moscow: 'Should', gains: 'Future-proof storage design', complexity: 'Low', cost: 'Medium' },
+  { req: 'Keep pipelines idempotent and safe to re-run after failures.', type: 'Non-functional', moscow: 'Could', gains: 'Resilient batch processing', complexity: 'Medium', cost: 'Medium' },
+  { req: 'Tier storage (hot → cool → archive) to cut idle spend.', type: 'Non-functional', moscow: 'Could', gains: 'Cost-efficient lifecycle', complexity: 'Low', cost: 'Low' }
 ];
 
 const constraints = [
@@ -104,16 +107,16 @@ const tradeoffs = [
       <article class="design-block" id="requirements">
         <header><span>02</span><h3>Requirements</h3></header>
         <div class="design-body">
-          <p>All functional and non-functional requirements, prioritized with the MoSCoW framework and scored by expected gain, implementation complexity, and final result.</p>
+          <p>All functional and non-functional requirements, prioritized with the MoSCoW framework and scored by complexity and cost.</p>
           <table class="tradeoff-table requirements-table">
             <thead>
               <tr>
                 <th>Requirement</th>
                 <th>Type</th>
-                <th>Gain</th>
-                <th>Final result</th>
                 <th>MoSCoW</th>
+                <th>Gains</th>
                 <th>Complexity</th>
+                <th>Cost</th>
               </tr>
             </thead>
             <tbody>
@@ -121,10 +124,10 @@ const tradeoffs = [
                 <tr>
                   <td>{row.req}</td>
                   <td><span class={`req-type req-${row.type === 'Functional' ? 'func' : 'nonfunc'}`}>{row.type}</span></td>
-                  <td>{row.gain}</td>
-                  <td>{row.result}</td>
                   <td><span class={`moscow-badge moscow-${row.moscow.toLowerCase()}`}>{row.moscow}</span></td>
-                  <td>{row.complexity}</td>
+                  <td>{row.gains}</td>
+                  <td><span class="star-rating" role="img" aria-label={`Complexity: ${row.complexity}`} title={row.complexity} data-tip={`Complexity: ${row.complexity}`}>{'★'.repeat(stars(row.complexity))}<em>{'★'.repeat(3 - stars(row.complexity))}</em></span></td>
+                  <td><span class="star-rating" role="img" aria-label={`Cost: ${row.cost}`} title={row.cost} data-tip={`Cost: ${row.cost}`}>{'★'.repeat(stars(row.cost))}<em>{'★'.repeat(3 - stars(row.cost))}</em></span></td>
                 </tr>
               ))}
             </tbody>
