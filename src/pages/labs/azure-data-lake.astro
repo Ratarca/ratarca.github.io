@@ -122,12 +122,12 @@ const tradeoffs = [
             <tbody>
               {requirements.map((row) => (
                 <tr>
-                  <td>{row.req}</td>
-                  <td><span class={`req-type req-${row.type === 'Functional' ? 'func' : 'nonfunc'}`}>{row.type}</span></td>
-                  <td><span class={`moscow-badge moscow-${row.moscow.toLowerCase()}`}>{row.moscow}</span></td>
-                  <td>{row.gains}</td>
-                  <td><span class="star-rating" role="img" aria-label={`Complexity: ${row.complexity}`} title={row.complexity} data-tip={`Complexity: ${row.complexity}`}>{'★'.repeat(stars(row.complexity))}<em>{'★'.repeat(3 - stars(row.complexity))}</em></span></td>
-                  <td><span class="star-rating" role="img" aria-label={`Cost: ${row.cost}`} title={row.cost} data-tip={`Cost: ${row.cost}`}>{'★'.repeat(stars(row.cost))}<em>{'★'.repeat(3 - stars(row.cost))}</em></span></td>
+                  <td data-label="Requirement">{row.req}</td>
+                  <td data-label="Type"><span class={`req-type req-${row.type === 'Functional' ? 'func' : 'nonfunc'}`}>{row.type}</span></td>
+                  <td data-label="MoSCoW"><span class={`moscow-badge moscow-${row.moscow.toLowerCase()}`}>{row.moscow}</span></td>
+                  <td data-label="Gains">{row.gains}</td>
+                  <td data-label="Complexity"><span class="star-rating" role="img" aria-label={`Complexity: ${row.complexity}`} title={row.complexity} data-tip={`Complexity: ${row.complexity}`}>{'★'.repeat(stars(row.complexity))}<em>{'★'.repeat(3 - stars(row.complexity))}</em></span></td>
+                  <td data-label="Cost"><span class="star-rating" role="img" aria-label={`Cost: ${row.cost}`} title={row.cost} data-tip={`Cost: ${row.cost}`}>{'★'.repeat(stars(row.cost))}<em>{'★'.repeat(3 - stars(row.cost))}</em></span></td>
                 </tr>
               ))}
             </tbody>
@@ -153,7 +153,7 @@ const tradeoffs = [
           <p>The architecture follows a classic medallion flow: land everything raw, refine it in layers, and serve only curated datasets downstream. Terraform defines every layer; GitHub Actions promotes changes between them.</p>
           <ol class="design-pipeline">
             {systemStages.map((stage) => (
-              <li key={stage.title}>
+              <li>
                 <strong>{stage.title}</strong>
                 <span>{stage.text}</span>
               </li>
