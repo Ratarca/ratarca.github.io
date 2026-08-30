@@ -138,7 +138,7 @@ export const labs = [
     title: 'Card Data Lab',
     description: 'A credit-card data platform that turns operational events into trusted analytics products.',
     image: '/assets/img/project/card_data_lab/card-data-lab.png',
-    tags: ['Python', 'dbt', 'DuckDB'],
+    tags: ['API', 'Data Model', 'DuckDB'],
     href: '/labs/card-data-lab',
     type: 'Data'
   },
