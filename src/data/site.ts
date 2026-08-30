@@ -5,7 +5,7 @@ export const profile = {
   email: 'ratarca.rtc@gmail.com',
   linkedin: 'https://www.linkedin.com/in/targino-rafael',
   github: 'https://github.com/ratarca',
-  youtube: 'https://www.youtube.com/',
+  youtube: 'https://www.youtube.com/@rafael-emergente',
   resume: 'https://drive.google.com/uc?export=download&id=1o-tZESttaidA7Dl1eNf-9pGrZwHpQ4Av'
 };
 
@@ -135,11 +135,11 @@ export const labs = [
     type: 'Platform'
   },
   {
-    title: 'Data Pipelines',
-    description: 'A compact analytics pipeline combining DuckDB, Airflow, and Power BI.',
-    image: '/assets/img/project/data_pipeline/page_data-pipeline.jpg',
-    tags: ['Data', 'Python', 'Airflow'],
-    href: '/projects/data_pipeline.html',
+    title: 'Card Data Lab',
+    description: 'A credit-card data platform that turns operational events into trusted analytics products.',
+    image: '/assets/img/project/card_data_lab/card-data-lab.png',
+    tags: ['Python', 'dbt', 'DuckDB'],
+    href: '/labs/card-data-lab',
     type: 'Data'
   },
   {

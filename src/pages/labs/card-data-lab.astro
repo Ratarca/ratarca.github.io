@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+
+const architectureImage = '/assets/img/project/card_data_lab/card-data-lab.png';
+
+const systemStages = [
+  { title: 'Decide', text: 'FastAPI applies authorization rules and records operational decisions in PostgreSQL.' },
+  { title: 'Record', text: 'Business rows and an outbox event are committed in the same transaction.' },
+  { title: 'Publish', text: 'A worker exports durable events idempotently into DuckDB bronze storage.' },
+  { title: 'Serve', text: 'dbt builds silver and gold models for a Streamlit dashboard and ML experiments.' }
+];
+
+const LEVELS = ['Low', 'Medium', 'High'];
+const stars = (level: string) => LEVELS.indexOf(level) + 1;
+
+const requirements = [
+  { req: 'Authorize card purchases through a documented HTTP API.', type: 'Functional', moscow: 'Must', gains: 'A real operational decision path', complexity: 'Medium', cost: 'Low' },
+  { req: 'Persist the authorization result and event atomically.', type: 'Functional', moscow: 'Must', gains: 'No lost analytics events after a valid decision', complexity: 'High', cost: 'Medium' },
+  { req: 'Build bronze, silver, and gold analytical layers from operational events.', type: 'Functional', moscow: 'Must', gains: 'Traceable KPIs and reusable data products', complexity: 'High', cost: 'Low' },
+  { req: 'Generate deterministic synthetic customer journeys for safe, repeatable testing.', type: 'Functional', moscow: 'Should', gains: 'Realistic data without customer PII', complexity: 'High', cost: 'Low' },
+  { req: 'Make exports idempotent and reconciled before marking events published.', type: 'Non-functional', moscow: 'Should', gains: 'Safe replay and reliable lake ingestion', complexity: 'High', cost: 'Medium' },
+  { req: 'Validate warehouse models and dimensional history with automated tests.', type: 'Non-functional', moscow: 'Should', gains: 'Data quality stays part of delivery', complexity: 'Medium', cost: 'Low' }
+];
+
+const constraints = [
+  {
+    title: 'Local-first operation',
+    points: ['The lab is designed to be reproducible on a developer machine with Docker, uv, PostgreSQL, and DuckDB.', 'The dashboard reads the analytical file in read-only mode.', 'One executable setup flow makes the full path easy to inspect.']
+  },
+  {
+    title: 'Data safety',
+    points: ['Customer journeys are synthetic and seeded rather than sourced from real cardholders.', 'Profiles use category bands and behavioral cohorts instead of personal identifiers.', 'The project can demonstrate operational and analytical design without exposing PII.']
+  },
+  {
+    title: 'Analytical consistency',
+    points: ['DuckDB permits one writer, so ingestion and dbt materialization run sequentially.', 'The outbox is the boundary between transaction processing and analytics.', 'Event contracts must stay aligned across the API, simulator, worker, and warehouse.']
+  }
+];
+
+const bottlenecks = [
+  { title: 'Single-writer lake', text: 'DuckDB is ideal for a compact analytical lab, but its writer lock makes worker and dbt scheduling a deliberate operational concern.' },
+  { title: 'Event-contract drift', text: 'A small mismatch between aggregate IDs and payload fields can break fact-to-dimension relationships downstream.' },
+  { title: 'Scale simulation', text: 'Generating a six-month historical dataset requires bounded batches, checkpoints, and deterministic event identities.' },
+  { title: 'Outbox delivery', text: 'At-least-once delivery needs deduplication and reconciliation so a retry never produces duplicate bronze events.' }
+];
+
+const tradeoffs = [
+  { decision: 'Transactional outbox over direct dual writes', chose: 'Operational data and the event handoff succeed or fail together', gaveUp: 'An additional worker and publication lifecycle' },
+  { decision: 'DuckDB + dbt over a managed warehouse', chose: 'Portable, inexpensive, inspectable local analytics', gaveUp: 'Concurrent writes and warehouse-scale elasticity' },
+  { decision: 'Modular monolith over microservices', chose: 'Simple deployment with explicit boundaries that can later be extracted', gaveUp: 'Independent deployment per business domain' },
+  { decision: 'Synthetic data over production samples', chose: 'Safe demonstrations and deterministic replays', gaveUp: 'The irregularity of real customer behavior' }
+];
+---
+
+<BaseLayout title="Card Data Lab — Rafael Targino" description="A local credit-card data platform using FastAPI, PostgreSQL, a transactional outbox, DuckDB, dbt, Streamlit, and ML experiments." current="labs">
+  <section class="project-hero" aria-labelledby="project-title">
+    <a class="project-back" href="/labs"><Icon name="arrow" size={16} /> Back to labs</a>
+    <div class="project-hero-grid">
+      <div>
+        <p class="eyebrow">Lab 02 · Data platform</p>
+        <h1 id="project-title">Card Data <em>Lab.</em></h1>
+        <p>A local credit-card data platform that carries a purchase decision from an operational API to reliable analytical products.</p>
+        <div class="project-actions">
+          <a class="button button-primary" href="https://github.com/Ratarca/card-data-lab" target="_blank" rel="noreferrer">View on GitHub <Icon name="external" size={16} /></a>
+          <span>FastAPI · PostgreSQL · dbt</span>
+        </div>
+      </div>
+      <div class="project-cover card-data-lab-cover" data-reveal>
+        <img src={architectureImage} alt="Card Data Lab architecture showing FastAPI, PostgreSQL, DuckDB, dbt, dashboard, and ML" />
+      </div>
+    </div>
+  </section>
+
+  <section class="project-summary project-brief">
+    <div class="brief-copy">
+      <p class="eyebrow">The brief</p>
+      <p class="project-statement">Build a compact but credible data platform where operational correctness does not get lost on the way to dashboards, KPIs, and machine-learning experiments.</p>
+    </div>
+    <figure class="architecture-figure brief-figure" data-reveal>
+      <img src={architectureImage} alt="End-to-end event flow in Card Data Lab" loading="lazy" />
+      <figcaption>Operational decisions become durable events, then bronze, silver, and gold analytical products.</figcaption>
+    </figure>
+  </section>
+
+  <section class="project-design-section">
+    <div class="design-inner">
+      <div class="project-section-heading">
+        <p class="eyebrow">System design</p>
+        <h2>Connecting operational truth to analytical trust.</h2>
+        <p class="design-lede">The lab treats the pipeline as a product: a defined transaction boundary, a reliable event handoff, layered models, and checks that keep the output useful.</p>
+      </div>
+
+      <article class="design-block" id="problem">
+        <header><span>01</span><h3>Clarify the problem</h3></header>
+        <div class="design-body">
+          <p>Dashboards and models are only as trustworthy as the path that produces them. Directly copying mutable transactional tables into analytics makes retries, late changes, and failures hard to reason about. This lab makes the handoff explicit.</p>
+          <ul>
+            <li><strong>Operational and analytical concerns diverge</strong> — APIs need correct, fast decisions while analytics needs history and reproducibility.</li>
+            <li><strong>Dual writes are fragile</strong> — a successful purchase should not lose its analytical event because another system was unavailable.</li>
+            <li><strong>Raw events are not products</strong> — analysts need tested facts, dimensions, KPIs, and a client-level view.</li>
+            <li><strong>Safe demonstrations matter</strong> — synthetic data makes realistic scenarios possible without using customer information.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="design-block" id="requirements">
+        <header><span>02</span><h3>Requirements</h3></header>
+        <div class="design-body">
+          <p>Functional and non-functional requirements are prioritized with MoSCoW and assessed for complexity and operating cost.</p>
+          <div class="table-scroll">
+            <table class="tradeoff-table requirements-table">
+              <thead><tr><th>Requirement</th><th>Type</th><th>MoSCoW</th><th>Gains</th><th>Complexity</th><th>Cost</th></tr></thead>
+              <tbody>
+                {requirements.map((row) => (
+                  <tr>
+                    <td data-label="Requirement">{row.req}</td>
+                    <td data-label="Type"><span class={`req-type req-${row.type === 'Functional' ? 'func' : 'nonfunc'}`}>{row.type}</span></td>
+                    <td data-label="MoSCoW"><span class={`moscow-badge moscow-${row.moscow.toLowerCase()}`}>{row.moscow}</span></td>
+                    <td data-label="Gains">{row.gains}</td>
+                    <td data-label="Complexity"><span class="star-rating" role="img" aria-label={`Complexity: ${row.complexity}`} title={row.complexity}>{'★'.repeat(stars(row.complexity))}<em>{'★'.repeat(3 - stars(row.complexity))}</em></span></td>
+                    <td data-label="Cost"><span class="star-rating" role="img" aria-label={`Cost: ${row.cost}`} title={row.cost}>{'★'.repeat(stars(row.cost))}<em>{'★'.repeat(3 - stars(row.cost))}</em></span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="design-block" id="constraints">
+        <header><span>03</span><h3>Constraints</h3></header>
+        <div class="design-body design-cards">
+          {constraints.map((group) => <div class="constraint-card"><h4>{group.title}</h4><ul>{group.points.map((point) => <li>{point}</li>)}</ul></div>)}
+        </div>
+      </article>
+
+      <article class="design-block" id="high-level">
+        <header><span>04</span><h3>High-level design</h3></header>
+        <div class="design-body">
+          <p>Purchase authorization is the first end-to-end slice. The service writes its business outcome and a versioned outbox event together. A worker moves unpublished events to bronze; dbt then creates silver facts and dimensions before materializing gold KPIs and the client 360 view.</p>
+          <ol class="design-pipeline">
+            {systemStages.map((stage) => <li><strong>{stage.title}</strong><span>{stage.text}</span></li>)}
+          </ol>
+        </div>
+      </article>
+
+      <article class="design-block" id="bottlenecks">
+        <header><span>05</span><h3>Bottlenecks</h3></header>
+        <div class="design-body design-cards">
+          {bottlenecks.map((item) => <div class="constraint-card bottleneck-card"><h4>{item.title}</h4><p>{item.text}</p></div>)}
+        </div>
+      </article>
+
+      <article class="design-block" id="tradeoffs">
+        <header><span>06</span><h3>Evaluate &amp; trade-offs</h3></header>
+        <div class="design-body">
+          <p>Each choice is deliberate: the aim is a system that remains understandable while demonstrating production-minded boundaries.</p>
+          <table class="tradeoff-table"><thead><tr><th>Decision</th><th>What we gained</th><th>What we gave up</th></tr></thead><tbody>{tradeoffs.map((row) => <tr><td><strong>{row.decision}</strong></td><td>{row.chose}</td><td>{row.gaveUp}</td></tr>)}</tbody></table>
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
