@@ -2,16 +2,46 @@
   <input class="motion-check" type="checkbox" id="hive-motion" />
   <label class="motion-control" for="hive-motion"><span aria-hidden="true"></span>Pause animation</label>
   <div class="flow-panels">
+    <figure class="flow-panel solution-design" aria-labelledby="design-heading">
+      <figcaption class="panel-heading">
+        <div class="heading-title"><span class="loop-number">01</span><div><p class="overline">Design the solution</p><h3 id="design-heading">Give the project a map.</h3></div></div>
+        <p>Turn the solution into a plan,<br class="desktop-break" /> then connect every gateway.</p>
+      </figcaption>
+      <ol class="coordination-lane design-lane" aria-label="Solution design before coordination">
+        <li class="flow-step gateway">
+          <div class="node-card">
+            <span class="node-mark gateway-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="node-meta">Architecture</span><h4>Build the system design</h4><p>Define the problem, system boundaries, interfaces, and constraints.</p>
+          </div>
+          <span class="connector" aria-hidden="true"><i></i></span>
+        </li>
+        <li class="flow-step context">
+          <div class="node-card">
+            <span class="node-mark packet-mark" aria-hidden="true"><i></i></span>
+            <span class="node-meta">Delivery plan</span><h4>Design the plan</h4><p>Break the solution into milestones, tasks, owners, and acceptance criteria.</p>
+          </div>
+          <span class="connector" aria-hidden="true"><i></i></span>
+        </li>
+        <li class="flow-step">
+          <div class="node-card">
+            <span class="node-mark graph-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="node-meta">Scope + guardrails</span><h4>Connect all gateways</h4><p>Build the dependency graph across the project. Each gateway defines what is ready and what is allowed.</p>
+          </div>
+        </li>
+      </ol>
+      <div class="return-path"><span aria-hidden="true">→</span><p><strong>The graph guides the work</strong> — scope, dependencies, and acceptance travel into every assignment.</p></div>
+    </figure>
+    <div class="between-loops" aria-hidden="true"><span></span><p>Gateway graph + design plan</p><span>↓</span></div>
     <figure class="flow-panel" aria-labelledby="coordination-heading">
       <figcaption class="panel-heading">
-        <div class="heading-title"><span class="loop-number">01</span><div><p class="overline">The coordination loop</p><h3 id="coordination-heading">One goal. Shared direction.</h3></div></div>
+        <div class="heading-title"><span class="loop-number">02</span><div><p class="overline">The coordination loop</p><h3 id="coordination-heading">One goal. Shared direction.</h3></div></div>
         <p>Define the work, give it an owner,<br class="desktop-break" /> and send the right context.</p>
       </figcaption>
       <ol class="coordination-lane" aria-label="Coordination stages in dependency order">
         <li class="flow-step gateway">
           <div class="node-card">
             <span class="node-mark gateway-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="node-meta">Coordinator</span><h4>Design the gateway</h4><p>Goal, scope, dependencies, and a definition of done.</p>
+            <span class="node-meta">Coordinator</span><h4>Select the ready work</h4><p>Use the gateway graph to choose the sprint and assign tasks within scope.</p>
           </div>
           <span class="connector" aria-hidden="true"><i></i></span>
         </li>
@@ -24,8 +54,8 @@
         </li>
         <li class="flow-step specialists">
           <div class="worker-pair">
-            <div class="worker"><span class="worker-dot" aria-hidden="true"></span><div><h4>Specialist A</h4><p>One bounded task</p></div></div>
-            <div class="worker"><span class="worker-dot secondary" aria-hidden="true"></span><div><h4>Specialist B</h4><p>Independent write scope</p></div></div>
+            <div class="worker"><span class="worker-dot" aria-hidden="true"></span><div><h4>Specialist A</h4><p>Task / worktree A</p><span class="worker-loop"><span aria-hidden="true">↻</span> Ralph executor</span></div></div>
+            <div class="worker"><span class="worker-dot secondary" aria-hidden="true"></span><div><h4>Specialist B</h4><p>Task / worktree B</p><span class="worker-loop"><span aria-hidden="true">↻</span> Ralph executor</span></div></div>
           </div>
           <span class="worker-note">Up to two parallel writers</span>
           <span class="connector" aria-hidden="true"><i></i></span>
@@ -39,31 +69,35 @@
       </ol>
       <div class="return-path"><span aria-hidden="true">↶</span><p><strong>Back to the gateway</strong> — the coordinator records progress and selects the next ready task.</p></div>
     </figure>
-    <div class="between-loops" aria-hidden="true"><span></span><p>Candidate + evidence</p><span>↓</span></div>
+    <div class="between-loops" aria-hidden="true"><span></span><p>Inside each specialist’s task</p><span>↓</span></div>
     <figure class="flow-panel quality" aria-labelledby="quality-heading">
       <figcaption class="panel-heading">
-        <div class="heading-title"><span class="loop-number">02</span><div><p class="overline">The evidence loop</p><h3 id="quality-heading">Build. Check. Earn the next step.</h3></div></div>
-        <p>Independent review connects<br class="desktop-break" /> the work to a verified result.</p>
+        <div class="heading-title"><span class="loop-number">03</span><div><p class="overline">Execution &amp; review</p><h3 id="quality-heading">Ralph executes. QA reviews.</h3></div></div>
+        <p>Separate responsibilities.<br class="desktop-break" /> The same task worktree.</p>
       </figcaption>
+      <div class="worktree-boundary">
+      <p class="worktree-label"><span aria-hidden="true"></span>Same worktree / executor + independent QA</p>
       <div class="quality-layout">
         <div class="iteration">
-          <p class="lane-label">Inside the specialist’s task</p>
+          <p class="lane-label">Ralph loop / task executor</p>
           <ol class="iteration-lane">
             <li><span class="step-index">01</span><h4>Implement</h4><p>A focused change</p></li>
             <li><span class="step-index">02</span><h4>Test</h4><p>Check the boundary</p></li>
             <li><span class="step-index">03</span><h4>Record</h4><p>Keep the evidence</p></li>
           </ol>
-          <div class="small-return"><span aria-hidden="true">↶</span> Test fails? Repair and test again.</div>
+          <div class="small-return"><span aria-hidden="true">↶</span> Implement → test → record → repair as needed. Send the candidate and evidence to QA when ready.</div>
         </div>
         <span class="review-connector" aria-hidden="true"><i></i></span>
-        <div class="qa-card"><span class="qa-seal" aria-hidden="true">✓</span><span class="node-meta">A separate reviewer</span><h4>Independent QA</h4><p>Run acceptance. Inspect the consumer. Verify the evidence.</p></div>
+        <div class="qa-card"><span class="qa-seal" aria-hidden="true">✓</span><span class="node-meta">Review loop</span><h4>Independent QA</h4><p>Review the candidate in this same worktree. Run acceptance, inspect the consumer, and verify the evidence.</p></div>
+      </div>
+      <p class="worktree-caption">The executor owns changes. QA reviews independently in the same worktree; a failed review returns to the executor before QA checks again.</p>
       </div>
       <div class="decision-paths">
-        <div class="decision repair"><span class="decision-symbol" aria-hidden="true">↶</span><div><span class="decision-label">FAIL / return to the task</span><h4>Repair → retest → review</h4><p>A linked fix in the same worktree, with new evidence.</p></div></div>
+        <div class="decision repair"><span class="decision-symbol" aria-hidden="true">↶</span><div><span class="decision-label">FAIL / return to Ralph</span><h4>Repair → retest → QA again</h4><p>A linked fix in the same task worktree, within the graph’s scope.</p></div></div>
         <div class="decision deliver"><span class="decision-symbol" aria-hidden="true">↗</span><div><span class="decision-label">PASS / move forward</span><h4>Integrate → final acceptance</h4><p>Verify the target, archive the receipt, open the next gateway.</p></div></div>
       </div>
     </figure>
-    <div class="memory-note"><span class="memory-icon" aria-hidden="true"><i></i><i></i><i></i></span><p><strong>The thread that holds it together.</strong> Contracts, checkpoints, and evidence stay with the work through every handoff.</p></div>
+    <div class="memory-note"><span class="memory-icon" aria-hidden="true"><i></i><i></i><i></i></span><p><strong>Graph for guardrails. Ralph for execution. QA for verification.</strong> Contracts, checkpoints, and evidence connect all three.</p></div>
   </div>
 </div>
 
@@ -82,6 +116,8 @@
   .panel-heading h3 { margin: 0; font: 600 clamp(21px, 2.5vw, 28px)/1.15 var(--serif); letter-spacing: -.04em; }
   .panel-heading > p { margin: 0; color: var(--flow-muted); font-size: 12px; line-height: 1.65; }
   .coordination-lane { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px; padding: 0; margin: 38px 0 26px; list-style: none; align-items: center; }
+  .design-lane { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+  .design-lane .node-card { height: 100%; }
   .flow-step { position: relative; min-width: 0; }
   .node-card { min-height: 211px; padding: 22px 15px 20px; border: 1px solid var(--flow-line); border-radius: 13px; background: #fffdfa; }
   .gateway .node-card { background: #fff5de; border-color: #e6c991; }
@@ -96,6 +132,9 @@
   .packet-mark { position: relative; border: 1px solid #8d9bb0; border-radius: 3px; width: 22px; height: 26px; margin: 2px 0; box-shadow: 4px -3px 0 #e8edf4; }
   .packet-mark i { position: absolute; top: 8px; left: 4px; right: 4px; height: 1px; background: #8d9bb0; box-shadow: 0 5px 0 #8d9bb0, 0 10px 0 #8d9bb0; }
   .evidence-mark { align-items: center; border-radius: 50%; border: 1px solid #9cb8a5; color: #477454; font-size: 18px; }
+  .graph-mark { align-items: center; justify-content: space-between; position: relative; color: #718ba9; }
+  .graph-mark::before { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: currentColor; }
+  .graph-mark i { position: relative; width: 7px; height: 7px; border: 1px solid currentColor; border-radius: 2px; background: #f5f8fc; }
   .connector { position: absolute; left: 100%; top: 50%; width: 30px; height: 1px; background: #cdbc9e; }
   .connector::after, .review-connector::after { content: ''; position: absolute; right: 1px; top: -3px; width: 6px; height: 6px; border-right: 1px solid #b19972; border-top: 1px solid #b19972; transform: rotate(45deg); }
   .connector i, .review-connector i { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--flow-gold); top: -2px; left: 0; animation: handoff 5s ease-in-out infinite; }
@@ -108,6 +147,8 @@
   .worker:nth-child(2) { border-color: #ded8e8; background: #f8f5fb; }
   .worker h4 { margin-bottom: 3px; }
   .worker p { font-size: 11px; }
+  .worker-loop { display: block; margin-top: 8px; color: #526782; font: 10px/1.5 var(--mono); }
+  .worker:nth-child(2) .worker-loop { color: #78608f; }
   .worker-dot { flex-shrink: 0; width: 8px; height: 8px; background: #718ba9; border-radius: 3px; box-shadow: 0 0 0 4px #e6edf5; }
   .worker-dot.secondary { background: #a08ab4; box-shadow: 0 0 0 4px #eee7f4; }
   .worker-note { display: block; text-align: center; font: 9px var(--mono); color: var(--flow-muted); margin-top: 13px; }
@@ -120,7 +161,11 @@
   .between-loops p { margin: 0; font: 9px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
   .between-loops > span:last-child { line-height: 1; }
   .quality .loop-number { background: #f1f4f8; border-color: #cfd8e5; color: var(--flow-ink); }
-  .quality-layout { display: grid; grid-template-columns: minmax(0, 1fr) 55px 240px; align-items: center; margin: 32px 0 26px; }
+  .worktree-boundary { margin: 30px 0 24px; padding: 20px; border: 1px dashed #c8beae; border-radius: 16px; background: #faf9f6; }
+  .worktree-label { display: flex; align-items: center; gap: 8px; margin: 0; font: 10px/1.6 var(--mono); color: var(--flow-muted); }
+  .worktree-label > span { flex: 0 0 13px; height: 10px; border: 1px solid #9c8968; border-radius: 2px; }
+  .worktree-caption { margin: 0; font-size: 12px; color: var(--flow-muted); line-height: 1.7; }
+  .quality-layout { display: grid; grid-template-columns: minmax(0, 1fr) 40px 240px; align-items: center; margin: 20px 0; }
   .iteration { border: 1px solid var(--flow-line); border-radius: 13px; padding: 23px; background: #fffdfa; }
   .lane-label { margin: 0 0 22px; color: var(--flow-muted); font: 9px var(--mono); letter-spacing: .055em; text-transform: uppercase; }
   .iteration-lane { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; padding: 0; margin: 0; gap: 25px; }
@@ -171,7 +216,7 @@
     .heading-title { gap: 12px; align-items: flex-start; }
     .loop-number { width: 34px; height: 34px; }
     .overline { font-size: 9px; }
-    .coordination-lane { grid-template-columns: 1fr; gap: 29px; margin-top: 26px; }
+    .coordination-lane, .design-lane { grid-template-columns: 1fr; gap: 29px; margin-top: 26px; }
     .node-card { min-height: 0; padding: 18px; }
     .node-mark { float: right; }
     .node-meta { margin-top: 0; padding-right: 40px; }
@@ -184,6 +229,7 @@
     .worker-dot { display: block; margin: 2px 0 13px 3px; }
     .worker h4 { font-size: 13px; }
     .quality-layout { grid-template-columns: 1fr; margin-top: 26px; }
+    .worktree-boundary { padding: 16px 10px; margin-top: 26px; }
     .iteration { padding: 18px 14px; }
     .iteration-lane { gap: 15px; }
     .iteration-lane h4 { font-size: 12px; }
@@ -196,6 +242,14 @@
     .decision { padding: 18px; }
     .memory-note { align-items: flex-start; padding: 0 5px; }
     .memory-icon { margin-top: 6px; }
+  }
+  @media (max-width: 420px) {
+    .iteration-lane { grid-template-columns: 1fr; gap: 24px; }
+    .iteration-lane li { display: grid; grid-template-columns: 24px 1fr; column-gap: 8px; align-items: baseline; }
+    .iteration-lane .step-index { grid-row: span 2; margin: 0; }
+    .iteration-lane h4 { font-size: 14px; }
+    .iteration-lane p { grid-column: 2; font-size: 12px; }
+    .iteration-lane li:not(:last-child)::after { content: '↓'; right: auto; left: 32px; top: auto; bottom: -21px; }
   }
   @keyframes handoff-down { 0%, 15% { top: 0; opacity: 0; } 25%, 75% { opacity: 1; } 90%, 100% { top: calc(100% - 5px); opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {

@@ -6,21 +6,21 @@ import HiveWorkflow from '../../components/HiveWorkflow.astro';
 const agents = [
   { code: '01', name: 'Coordinator', text: 'Owns the outcome, designs the gateway, decomposes the sprint, and routes each task without giving away accountability.' },
   { code: '02', name: 'Context compiler', text: 'Selects the contracts, dependencies, history, and evidence a worker needs—enough context to act, without flooding the prompt.' },
-  { code: '03', name: 'Specialists', text: 'Backend, frontend, data, and infrastructure agents implement bounded work in parallel where their write scopes are truly independent.' },
-  { code: '04', name: 'Independent QA', text: 'Replays acceptance from the consumer boundary, verifies the evidence, and sends failures back as explicit repair work.' }
+  { code: '03', name: 'Specialists', text: 'Each specialist runs a Ralph loop: implement, test, record, and repair within the graph’s scope. Parallel writers use separate task worktrees.' },
+  { code: '04', name: 'Independent QA', text: 'Reviews the executor’s candidate in the same task worktree, runs acceptance, verifies evidence, and returns failures to the Ralph loop for repair.' }
 ];
 
 const loop = [
   { title: 'Design the gateway', text: 'Freeze the product intent, dependencies, acceptance commands, ownership, and delivery destination before implementation begins.' },
   { title: 'Compile context', text: 'Build a focused task packet from the knowledge graph: relevant contracts, past failures, boundaries, tools, and expected evidence.' },
-  { title: 'Run the sprint DAG', text: 'Dispatch ready tasks to specialists, allow safe parallelism, and keep blocked or dependent work visible in the same graph.' },
+  { title: 'Execute scoped tasks', text: 'Use the graph to dispatch ready tasks. Each specialist runs its Ralph executor loop within the assigned scope and worktree.' },
   { title: 'Validate independently', text: 'QA checks the actual consumer path and either approves the candidate or creates a bounded repair loop in the same workspace.' },
   { title: 'Integrate and learn', text: 'Merge the reviewed result, run final acceptance, archive the gateway, and carry evidence-based lessons into the next sprint.' }
 ];
 
 const foundations = [
   { title: 'Gateway as control plane', text: 'A single durable gateway connects the brief, Kanban state, dependencies, acceptance, handoffs, and final receipt. It gives every agent the same operational truth.' },
-  { title: 'DAG as execution model', text: 'The work graph decides what is ready, what can run in parallel, and what must wait. Coordination follows dependencies instead of relying on agents to improvise the order.' },
+  { title: 'Graph as guardrails', text: 'System design becomes a delivery plan and a graph connecting all gateways. The graph defines dependencies, scope, and acceptance; specialists execute tasks through the Ralph loop.' },
   { title: 'Evidence over narration', text: 'Tests, revision hashes, structured iteration records, and generated artifacts prove what happened. A confident summary never substitutes for a verified result.' }
 ];
 ---
@@ -90,8 +90,8 @@ const foundations = [
     <div class="agent-hive-inner">
       <div class="project-section-heading">
         <p class="eyebrow">How it moves</p>
-        <h2 id="drawings-title">Two loops keep the hive aligned.</h2>
-        <p class="design-lede">The delivery graph moves work forward. The evidence loop decides whether it is ready to move at all.</p>
+        <h2 id="drawings-title">Design the path. Execute. Verify.</h2>
+        <p class="design-lede">System design becomes a plan and a graph of gateways. The graph sets scope and guardrails, the Ralph loop executes each task, and independent QA verifies the result in the same worktree.</p>
       </div>
 
       <HiveWorkflow />
