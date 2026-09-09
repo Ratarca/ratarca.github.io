@@ -1,0 +1,319 @@
+---
+const stages = [
+  ['Gateway', 'A shared contract', 'The coordinator defines scope, dependencies, ownership, and the acceptance commands before dispatching work.'],
+  ['Context', 'A packet for each task', 'Relevant contracts, files, and previous evidence travel with the assignment. Workers receive a bounded scope.'],
+  ['Backend', 'Specialist · APIs', 'Implement the service boundary and run focused checks in the assigned worktree.'],
+  ['Frontend', 'Specialist · interfaces', 'Build the consumer experience against agreed contracts, with evidence that it works.'],
+  ['Independent QA', 'Evidence before approval', 'Review the candidate and test the actual consumer. A failed check opens a linked repair task.'],
+  ['Integration', 'Verify the target', 'Integrate the reviewed candidate and run final acceptance on the delivery target.'],
+  ['Next gateway', 'Carry learning forward', 'Archive the completed gateway and acceptance receipt. Use recorded evidence to plan the next gate.']
+];
+---
+
+<div class="hive-explorer" data-hive-explorer>
+  <header class="explorer-header">
+    <div><span class="explorer-kicker">AGENT HIVE / SYSTEM EXPLORER</span><p>Follow the work. Inspect the handoffs.</p></div>
+    <span class="explorer-demo">Illustrative workflow</span>
+  </header>
+  <div class="explorer-controls" role="group" aria-label="Choose workflow">
+    <button type="button" data-mode="delivery" aria-pressed="true">01 / Coordination</button>
+    <button type="button" data-mode="quality" aria-pressed="false">02 / Evidence &amp; repair</button>
+    <button type="button" class="motion-toggle" aria-pressed="false" disabled>Pause motion</button>
+  </div>
+  <div class="explorer-layout">
+    <div class="explorer-stage">
+      <canvas aria-hidden="true"></canvas>
+      <div class="explorer-nodes" role="group" aria-label="Workflow stages">
+        {stages.map(([title], index) => <button type="button" data-node={index} aria-pressed={index === 0}><span class="node-number">0{index + 1}</span><strong>{title}</strong></button>)}
+      </div>
+      <span class="explorer-canvas-note">Select a stage to inspect its handoff</span>
+    </div>
+    <aside class="explorer-detail" aria-live="polite" aria-atomic="true">
+      <span class="detail-index">01 / 07</span>
+      <h3>Gateway</h3>
+      <p class="detail-subtitle">A shared contract</p>
+      <p class="detail-copy">{stages[0][2]}</p>
+      <div class="detail-output"><span>Handoff</span><strong>Scope + acceptance contract</strong></div>
+    </aside>
+  </div>
+  <footer class="explorer-footer">
+    <p class="mode-caption">Gateway → context → up to two independent writers → QA → integration → next gateway.</p>
+    <span>Contracts · checkpoints · evidence</span>
+  </footer>
+  <noscript><p class="explorer-noscript">Coordination follows the stages above. The evidence loop is: implement → test → record → independent QA. PASS leads to integration and final acceptance; FAIL opens a repair task, then tests and review run again.</p></noscript>
+</div>
+
+<style>
+  .hive-explorer { margin-top: 48px; background: #101d32; color: #fffdfa; border: 1px solid #34445b; box-shadow: 10px 10px 0 #eadfc8; }
+  .explorer-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 27px 30px; border-bottom: 1px solid #34445b; }
+  .explorer-kicker, .explorer-demo, .detail-index, .detail-output > span { font: 10px var(--mono); letter-spacing: .08em; }
+  .explorer-kicker, .detail-index { color: #ffbd56; }
+  .explorer-header p { margin: 8px 0 0; font-size: 17px; }
+  .explorer-demo { color: #bcc9da; white-space: nowrap; }
+  .explorer-controls { display: flex; flex-wrap: wrap; gap: 8px; padding: 18px 30px; }
+  .explorer-controls button { border: 1px solid #52627a; background: transparent; color: #d7e0ec; padding: 10px 14px; font-size: 12px; cursor: pointer; }
+  .explorer-controls button[aria-pressed="true"] { background: #ffbd56; color: #101d32; border-color: #ffbd56; }
+  .explorer-controls .motion-toggle { margin-left: auto; }
+  .explorer-controls button:disabled { opacity: .45; cursor: default; }
+  button:focus-visible { outline: 3px solid #ffbd56; outline-offset: 4px; }
+  .explorer-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; }
+  .explorer-stage { position: relative; height: 530px; margin: 0 15px 15px; background: radial-gradient(ellipse at center, #24354c, #101d32 70%); }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .explorer-nodes { position: absolute; inset: 0; }
+  .explorer-nodes button { position: absolute; transform: translate(-50%, 13px); width: 130px; padding: 6px 5px; border: 1px solid transparent; border-radius: 3px; background: #15253ae8; color: #fffdfa; cursor: pointer; text-align: center; }
+  .explorer-nodes button:hover { border-color: #ffbd56; }
+  .explorer-nodes button[aria-pressed="true"] { border-color: #ffbd56; color: #ffbd56; }
+  .node-number { display: none; }
+  .explorer-nodes strong { font-size: 12px; font-weight: 600; }
+  .explorer-nodes button:nth-child(1) { left: 50%; top: 9%; }
+  .explorer-nodes button:nth-child(2) { left: 50%; top: 26%; }
+  .explorer-nodes button:nth-child(3) { left: 23%; top: 44%; }
+  .explorer-nodes button:nth-child(4) { left: 77%; top: 44%; }
+  .explorer-nodes button:nth-child(5) { left: 50%; top: 63%; }
+  .explorer-nodes button:nth-child(6) { left: 23%; top: 82%; }
+  .explorer-nodes button:nth-child(7) { left: 77%; top: 82%; }
+  .explorer-canvas-note { position: absolute; bottom: 8px; width: 100%; text-align: center; color: #b7c7db; font: 10px var(--mono); }
+  .explorer-detail { border-left: 1px solid #34445b; padding: 32px 24px; }
+  .explorer-detail h3 { font: 600 32px/1.1 var(--serif); letter-spacing: -.04em; margin: 24px 0 10px; }
+  .detail-subtitle { color: #ffbd56; font-size: 13px; }
+  .detail-copy { color: #c2cede; font-size: 14px; line-height: 1.7; }
+  .detail-output { margin-top: 35px; padding-top: 20px; border-top: 1px solid #34445b; }
+  .detail-output > span { display: block; color: #a7bacf; text-transform: uppercase; margin-bottom: 10px; }
+  .detail-output strong { font-size: 13px; font-weight: 500; }
+  .explorer-footer { border-top: 1px solid #34445b; padding: 20px 30px; }
+  .explorer-footer p { font-size: 13px; color: #d7e0ec; margin: 0 0 8px; }
+  .explorer-footer > span { font: 10px var(--mono); color: #ffbd56; }
+  .explorer-noscript { padding: 24px; }
+  @media (max-width: 780px) {
+    .explorer-header { padding: 22px; display: block; }
+    .explorer-demo { display: block; margin-top: 12px; }
+    .explorer-controls { padding: 16px; }
+    .explorer-controls .motion-toggle { margin-left: 0; }
+    .explorer-layout { grid-template-columns: 1fr; }
+    .explorer-stage { height: 520px; margin: 0 5px; }
+    .explorer-nodes button { width: 112px; }
+    .explorer-detail { border-left: 0; border-top: 1px solid #34445b; padding: 24px; }
+    .explorer-detail h3 { margin-top: 12px; }
+    .detail-output { margin-top: 20px; }
+    .explorer-footer { padding: 22px; }
+  }
+</style>
+
+<script>
+  import type * as Three from 'three';
+
+  type Stage = [string, string, string, string];
+  const delivery: Stage[] = [
+    ['Gateway', 'A shared contract', 'The coordinator defines scope, dependencies, ownership, and the acceptance commands before dispatching work.', 'Scope + acceptance contract'],
+    ['Context', 'A packet for each task', 'Relevant contracts, files, and previous evidence travel with the assignment. Workers receive a bounded scope.', 'Task packet + dependencies'],
+    ['Backend', 'Specialist · APIs', 'Implement the service boundary and run focused checks in the assigned worktree.', 'Candidate + focused checks'],
+    ['Frontend', 'Specialist · interfaces', 'Build the consumer experience against agreed contracts, with evidence that it works.', 'Candidate + consumer checks'],
+    ['Independent QA', 'Evidence before approval', 'Review the candidate and test the actual consumer. A failed check opens a linked repair task.', 'Independent PASS or linked FIX'],
+    ['Integration', 'Verify the target', 'Integrate the reviewed candidate and run final acceptance on the delivery target.', 'Tested target + acceptance receipt'],
+    ['Next gateway', 'Carry learning forward', 'Archive the completed gateway and acceptance receipt. Use recorded evidence to plan the next gate.', 'Archive + next assignment']
+  ];
+  const quality: Stage[] = [
+    ['Implement', 'One bounded change', 'A specialist implements the assigned slice within the agreed files and contracts.', 'A reviewable change'],
+    ['Test', 'Check the changed boundary', 'Run a focused test. A failure returns to implementation before the candidate enters review.', 'Test output + exit code'],
+    ['Record', 'Make the work resumable', 'Persist the hypothesis, changes, checks, artifact references, and next action in an iteration record.', 'Revision + durable evidence'],
+    ['Independent QA', 'A separate reviewer', 'QA runs acceptance against the actual consumer and checks scope and evidence. The author cannot approve their own work.', 'PASS or FAIL with logs'],
+    ['Repair', 'FAIL → linked fix', 'Use the same worktree for a bounded repair. Retest and record new evidence before independent review repeats.', 'Linked FIX + new evidence'],
+    ['Integrate', 'PASS → reviewed target', 'Integrate the reviewed candidate. QA approval alone does not prove that the target is delivered.', 'Integrated candidate'],
+    ['Acceptance', 'Verify the final artifact', 'Run the final acceptance command on the target and record the result before closing the gate.', 'Artifact + acceptance receipt']
+  ];
+  const desktop = [[.5,.09],[.5,.26],[.23,.44],[.77,.44],[.5,.63],[.23,.82],[.77,.82]];
+  const qaPositions = [[.23,.09],[.77,.09],[.77,.32],[.5,.51],[.23,.32],[.23,.76],[.77,.76]];
+  type Edge = [number, number, boolean?];
+  const deliveryEdges: Edge[] = [[0,1],[1,2],[1,3],[2,4],[3,4],[4,5],[5,6]];
+  const qualityEdges: Edge[] = [[0,1],[1,0,true],[1,2],[2,3],[3,4,true],[4,0,true],[3,5],[5,6]];
+
+  document.querySelectorAll<HTMLElement>('[data-hive-explorer]').forEach((host) => {
+    const stage = host.querySelector<HTMLElement>('.explorer-stage')!;
+    const canvas = host.querySelector<HTMLCanvasElement>('canvas')!;
+    const nodes = [...host.querySelectorAll<HTMLButtonElement>('[data-node]')];
+    const modes = [...host.querySelectorAll<HTMLButtonElement>('[data-mode]')];
+    const pause = host.querySelector<HTMLButtonElement>('.motion-toggle')!;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let paused = reduced.matches;
+    let qualityMode = false;
+    let selected = 0;
+    let visible = false;
+    let disposed = false;
+    let raf = 0;
+    let elapsed = 0;
+    let previous = 0;
+    let renderer: Three.WebGLRenderer | undefined;
+    let contextLost = false;
+    let rebuild = () => {};
+    let render = () => {};
+    let disposeScene = () => {};
+    const events = new AbortController();
+    const positions = () => qualityMode ? qaPositions : desktop;
+    const select = (index: number) => {
+      selected = index;
+      const data = (qualityMode ? quality : delivery)[index];
+      nodes.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
+      host.querySelector('.detail-index')!.textContent = '0' + (index + 1) + ' / 07';
+      host.querySelector('.explorer-detail h3')!.textContent = data[0];
+      host.querySelector('.detail-subtitle')!.textContent = data[1];
+      host.querySelector('.detail-copy')!.textContent = data[2];
+      host.querySelector('.detail-output strong')!.textContent = data[3];
+      render();
+    };
+    nodes.forEach((button, i) => button.addEventListener('click', () => select(i), { signal: events.signal }));
+    modes.forEach((button) => button.addEventListener('click', () => {
+      qualityMode = button.dataset.mode === 'quality';
+      modes.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      nodes.forEach((node, i) => {
+        node.querySelector('strong')!.textContent = (qualityMode ? quality : delivery)[i][0];
+        node.style.left = positions()[i][0] * 100 + '%';
+        node.style.top = positions()[i][1] * 100 + '%';
+      });
+      host.querySelector('.mode-caption')!.textContent = qualityMode
+        ? 'FAIL → repair → retest → review again. PASS → integrate → final acceptance. Coral paths mark repairs.'
+        : 'Gateway → context → up to two independent writers → QA → integration → next gateway.';
+      select(0);
+      rebuild();
+    }, { signal: events.signal }));
+    const tick = (now: number) => {
+      raf = 0;
+      if (!visible || paused || disposed || contextLost || document.hidden || !renderer) return;
+      elapsed += previous ? Math.min((now - previous) / 1000, .05) : 0;
+      previous = now;
+      render();
+      raf = requestAnimationFrame(tick);
+    };
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      previous = 0;
+      if (visible && !paused && !disposed && !contextLost && !document.hidden && renderer) raf = requestAnimationFrame(tick);
+    };
+    const updateMotion = () => {
+      pause.textContent = paused ? 'Resume motion' : 'Pause motion';
+      pause.setAttribute('aria-pressed', String(paused));
+      schedule();
+    };
+    pause.addEventListener('click', () => { paused = !paused; updateMotion(); }, { signal: events.signal });
+    reduced.addEventListener('change', () => { paused = reduced.matches; updateMotion(); }, { signal: events.signal });
+    document.addEventListener('visibilitychange', schedule, { signal: events.signal });
+    const resize = new ResizeObserver(() => rebuild());
+    resize.observe(stage);
+    const observer = new IntersectionObserver(async ([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !started) {
+        started = true;
+        try {
+          const { WebGLRenderer, Scene, OrthographicCamera, AmbientLight, DirectionalLight, Group, Mesh, Vector3, CylinderGeometry, MeshStandardMaterial, IcosahedronGeometry, CatmullRomCurve3, TubeGeometry, MeshBasicMaterial, ConeGeometry } = await import('three');
+          if (disposed) return;
+          renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+          renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+          const scene = new Scene();
+          const camera = new OrthographicCamera(0, 1, 0, 1, .1, 100);
+          camera.position.z = 20;
+          scene.add(new AmbientLight(0xffffff, 2));
+          const light = new DirectionalLight(0xffda98, 4);
+          light.position.set(-100, -200, 500);
+          scene.add(light);
+          let group = new Group();
+          scene.add(group);
+          let tokens: { mesh: Three.Mesh; curve: Three.CatmullRomCurve3; offset: number }[] = [];
+          let hubs: Three.Mesh<Three.CylinderGeometry, Three.MeshStandardMaterial>[] = [];
+          disposeScene = () => {
+            group.traverse((object) => {
+              if (object instanceof Mesh) {
+                object.geometry.dispose();
+                const materials = Array.isArray(object.material) ? object.material : [object.material];
+                materials.forEach((material) => material.dispose());
+              }
+            });
+            scene.remove(group);
+          };
+          render = () => {
+            hubs.forEach((hub, i) => {
+              hub.material.emissive.setHex(i === selected ? 0xffa72d : 0x142b43);
+              hub.material.emissiveIntensity = i === selected ? .55 : .15;
+            });
+            tokens.forEach(({mesh, curve, offset}) => mesh.position.copy(curve.getPoint((elapsed * .19 + offset) % 1)));
+            renderer?.render(scene, camera);
+          };
+          rebuild = () => {
+            if (!renderer || disposed) return;
+            disposeScene();
+            group = new Group();
+            scene.add(group);
+            tokens = [];
+            hubs = [];
+            const width = stage.clientWidth;
+            const height = stage.clientHeight;
+            renderer.setSize(width, height, false);
+            camera.right = width; camera.bottom = height; camera.updateProjectionMatrix();
+            const points = positions().map(([x,y]) => new Vector3(x * width, y * height, 0));
+            points.forEach((point) => {
+              const mesh = new Mesh(new CylinderGeometry(32, 40, 18, 6), new MeshStandardMaterial({color: 0x6b8099, metalness: .55, roughness: .35}));
+              mesh.rotation.set(.9, .25, .12);
+              mesh.position.copy(point);
+              mesh.position.y -= 9;
+              group.add(mesh);
+              hubs.push(mesh);
+              const core = new Mesh(new IcosahedronGeometry(9, 0), new MeshStandardMaterial({color: 0xffbd56, emissive: 0xfca311, emissiveIntensity: .5, metalness: .6, roughness: .3}));
+              core.position.copy(point);
+              core.position.y -= 24;
+              core.position.z = 15;
+              group.add(core);
+            });
+            (qualityMode ? qualityEdges : deliveryEdges).forEach(([from, to, repair], i) => {
+              const a = points[from].clone(); const b = points[to].clone();
+              a.z = b.z = -3;
+              const midpoint = a.clone().lerp(b, .5);
+              if (repair && from === 1 && to === 0) midpoint.y -= 37;
+              else if (repair) midpoint.x -= 30;
+              const curve = new CatmullRomCurve3([a, midpoint, b]);
+              const color = repair ? 0xff897e : 0xe9b85f;
+              const tube = new Mesh(new TubeGeometry(curve, 32, 1.3, 6, false), new MeshBasicMaterial({ color, transparent: true, opacity: .6 }));
+              group.add(tube);
+              const arrow = new Mesh(new ConeGeometry(4, 10, 3), new MeshBasicMaterial({ color }));
+              arrow.position.copy(curve.getPoint(.58));
+              arrow.quaternion.setFromUnitVectors(new Vector3(0,1,0), curve.getTangent(.58).normalize());
+              group.add(arrow);
+              const packet = new Mesh(new IcosahedronGeometry(3.8, 0), new MeshBasicMaterial({ color }));
+              group.add(packet);
+              tokens.push({mesh: packet, curve, offset: i * .13});
+            });
+            render();
+          };
+          canvas.addEventListener('webglcontextlost', (event) => {
+            event.preventDefault();
+            contextLost = true;
+            cancelAnimationFrame(raf);
+            canvas.style.display = 'none';
+            pause.disabled = true;
+            host.querySelector('.explorer-canvas-note')!.textContent = 'Select a stage · diagram rendering unavailable';
+          }, { signal: events.signal });
+          canvas.addEventListener('webglcontextrestored', () => {
+            contextLost = false;
+            canvas.style.display = '';
+            pause.disabled = false;
+            host.querySelector('.explorer-canvas-note')!.textContent = 'Select a stage to inspect its handoff';
+            rebuild(); schedule();
+          }, { signal: events.signal });
+          pause.disabled = false;
+          rebuild();
+          updateMotion();
+        } catch {
+          renderer?.dispose();
+          renderer = undefined;
+          host.querySelector('.explorer-canvas-note')!.textContent = 'Select a stage · text view';
+        }
+      }
+      schedule();
+    }, { threshold: .05 });
+    let started = false;
+    observer.observe(stage);
+    window.addEventListener('pagehide', (event) => {
+      if (event.persisted) return;
+      disposed = true; cancelAnimationFrame(raf);
+      observer.disconnect(); resize.disconnect(); events.abort();
+      disposeScene(); renderer?.dispose();
+    }, { once: true });
+  });
+</script>

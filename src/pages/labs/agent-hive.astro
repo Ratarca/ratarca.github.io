@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
+import HiveWorkflow from '../../components/HiveWorkflow.astro';
 
 const agents = [
   { code: '01', name: 'Coordinator', text: 'Owns the outcome, designs the gateway, decomposes the sprint, and routes each task without giving away accountability.' },
@@ -93,51 +94,7 @@ const foundations = [
         <p class="design-lede">The delivery graph moves work forward. The evidence loop decides whether it is ready to move at all.</p>
       </div>
 
-      <div class="agent-hive-drawing-grid">
-        <article class="agent-hive-drawing-panel">
-          <header><span>Drawing 01</span><h3>Coordination DAG</h3></header>
-          <div class="hive-dag" role="img" aria-label="A product goal enters the design gateway, the coordinator dispatches tasks to backend, frontend, and data specialists, and their candidates converge at independent QA before delivery">
-            <div class="hive-dag-main">
-              <div class="hive-node"><small>Input</small><strong>Product goal</strong></div>
-              <i aria-hidden="true"></i>
-              <div class="hive-node hive-node-gold"><small>Control plane</small><strong>Design gateway</strong></div>
-              <i aria-hidden="true"></i>
-              <div class="hive-node"><small>Owner</small><strong>Coordinator</strong></div>
-            </div>
-            <div class="hive-split" aria-hidden="true"><span></span><span></span><span></span></div>
-            <div class="hive-worker-row">
-              <div class="hive-node hive-worker hive-worker-blue"><small>Specialist</small><strong>Backend</strong></div>
-              <div class="hive-node hive-worker hive-worker-purple"><small>Specialist</small><strong>Frontend</strong></div>
-              <div class="hive-node hive-worker hive-worker-green"><small>Specialist</small><strong>Data</strong></div>
-            </div>
-            <div class="hive-merge" aria-hidden="true"><span></span><span></span><span></span></div>
-            <div class="hive-dag-main hive-dag-final">
-              <div class="hive-node hive-node-qa"><small>Independent gate</small><strong>QA + evidence</strong></div>
-              <i aria-hidden="true"></i>
-              <div class="hive-node hive-node-done"><small>Output</small><strong>Delivered impact</strong></div>
-            </div>
-          </div>
-          <p class="agent-hive-drawing-caption">Dependencies decide the order. Independent write scopes decide what may run in parallel.</p>
-        </article>
-
-        <article class="agent-hive-drawing-panel">
-          <header><span>Drawing 02</span><h3>Evidence &amp; repair loop</h3></header>
-          <div class="hive-evidence-loop" role="img" aria-label="A specialist implements a bounded change, runs a narrow test, records evidence, and sends it to review; a pass proceeds to integration while a failure returns to the same scoped repair loop">
-            <ol>
-              <li><span>01</span><strong>Implement</strong><small>one bounded change</small></li>
-              <li><span>02</span><strong>Test</strong><small>falsify the change</small></li>
-              <li><span>03</span><strong>Record</strong><small>revision + evidence</small></li>
-              <li><span>04</span><strong>Review</strong><small>consumer boundary</small></li>
-            </ol>
-            <div class="hive-review-outcomes">
-              <div class="hive-outcome-pass"><span>Pass</span><strong>Integrate →</strong><small>final acceptance</small></div>
-              <div class="hive-outcome-fail"><span>Fail</span><strong>↺ Repair</strong><small>same task · same scope</small></div>
-            </div>
-            <div class="hive-memory-strip"><span>Durable memory</span><strong>checkpoint · iteration record · test output · artifact hash</strong></div>
-          </div>
-          <p class="agent-hive-drawing-caption">Failure creates focused repair work; it never disappears inside a rewritten success story.</p>
-        </article>
-      </div>
+      <HiveWorkflow />
     </div>
   </section>
 
