@@ -3,21 +3,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import HiveWorkflow from '../../components/HiveWorkflow.astro';
 
-const agents = [
-  { code: '01', name: 'Coordinator', text: 'Owns the outcome, designs the gateway, decomposes the sprint, and routes each task without giving away accountability.' },
-  { code: '02', name: 'Context compiler', text: 'Selects the contracts, dependencies, history, and evidence a worker needs—enough context to act, without flooding the prompt.' },
-  { code: '03', name: 'Specialists', text: 'Each specialist runs a Ralph loop: implement, test, record, and repair within the graph’s scope. Parallel writers use separate task worktrees.' },
-  { code: '04', name: 'Independent QA', text: 'Reviews the executor’s candidate in the same task worktree, runs acceptance, verifies evidence, and returns failures to the Ralph loop for repair.' }
-];
-
-const loop = [
-  { title: 'Design the gateway', text: 'Freeze the product intent, dependencies, acceptance commands, ownership, and delivery destination before implementation begins.' },
-  { title: 'Compile context', text: 'Build a focused task packet from the knowledge graph: relevant contracts, past failures, boundaries, tools, and expected evidence.' },
-  { title: 'Execute scoped tasks', text: 'Use the graph to dispatch ready tasks. Each specialist runs its Ralph executor loop within the assigned scope and worktree.' },
-  { title: 'Validate independently', text: 'QA checks the actual consumer path and either approves the candidate or creates a bounded repair loop in the same workspace.' },
-  { title: 'Integrate and learn', text: 'Merge the reviewed result, run final acceptance, archive the gateway, and carry evidence-based lessons into the next sprint.' }
-];
-
 const foundations = [
   { title: 'Gateway as control plane', text: 'A single durable gateway connects the brief, Kanban state, dependencies, acceptance, handoffs, and final receipt. It gives every agent the same operational truth.' },
   { title: 'Graph as guardrails', text: 'System design becomes a delivery plan and a graph connecting all gateways. The graph defines dependencies, scope, and acceptance; specialists execute tasks through the Ralph loop.' },
@@ -95,32 +80,6 @@ const foundations = [
       </div>
 
       <HiveWorkflow />
-    </div>
-  </section>
-
-  <section class="agent-hive-system" aria-labelledby="system-title">
-    <div class="agent-hive-inner">
-      <div class="project-section-heading">
-        <p class="eyebrow">Roles, not personas</p>
-        <h2 id="system-title">Many specialists. One accountable system.</h2>
-        <p class="design-lede">Roles are defined by ownership and acceptance—not by personality. The coordinator keeps the outcome whole while every specialist works inside an explicit scope.</p>
-      </div>
-      <div class="agent-hive-agent-grid">
-        {agents.map((agent) => <article class="agent-hive-agent"><span>{agent.code}</span><h3>{agent.name}</h3><p>{agent.text}</p></article>)}
-      </div>
-    </div>
-  </section>
-
-  <section class="agent-hive-loop" aria-labelledby="loop-title">
-    <div class="agent-hive-inner">
-      <div class="project-section-heading">
-        <p class="eyebrow">Gateway sprint</p>
-        <h2 id="loop-title">From product intent to <em>verified impact.</em></h2>
-        <p class="design-lede">The loop is a stateful delivery process. Every transition has an entry condition, an owner, and evidence that the next agent can inspect.</p>
-      </div>
-      <ol class="agent-hive-loop-grid">
-        {loop.map((step, index) => <li><span>0{index + 1}</span><div><h3>{step.title}</h3><p>{step.text}</p></div></li>)}
-      </ol>
     </div>
   </section>
 
