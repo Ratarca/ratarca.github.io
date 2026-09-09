@@ -258,6 +258,54 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .lab-cta-pill-ghost { background: transparent; border-color: var(--line); }
 .lab-cta-pill-ghost .lab-cta-arrow { background: transparent; color: var(--ink); border: 1px solid var(--line); }
 .lab-cta-pill-ghost:hover { border-color: var(--navy); }
+
+/* Agent Hive case study */
+.agent-hive-hero { background: linear-gradient(135deg, #fffdfa 0%, #fffdfa 51%, #f5c24b 51%); }
+.agent-hive-cover { min-height: 390px; position: relative; display: grid; place-items: center; padding: 20px; border: 1px solid var(--navy); background: radial-gradient(circle at 50% 45%, #fca311 0, #fca311 20%, #14213d 20.5%, #14213d 100%); box-shadow: 13px 13px 0 var(--navy); }
+.agent-hive-cover img { width: 100%; max-height: 360px; object-fit: contain; image-rendering: pixelated; }
+.agent-hive-loop-cover { padding: 12px; background: #14213d; }
+.agent-hive-loop-cover img { max-height: none; image-rendering: auto; }
+.agent-hive-stamp { position: absolute; left: 17px; top: 16px; padding: 6px 8px; color: #fffdfa; border: 1px solid rgba(255,253,250,.4); font-family: var(--mono); font-size: 10px; letter-spacing: .1em; }
+.agent-hive-summary { align-items: center; }
+.agent-hive-note { display: grid; gap: 6px; padding: 25px 28px; border: 1px solid var(--line); background: #f5c24b; font-family: var(--mono); font-size: 12px; line-height: 1.25; }
+.agent-hive-note span:first-child { color: var(--lime-deep); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+.agent-hive-note strong { color: var(--navy); font-family: var(--serif); font-size: 29px; letter-spacing: -.05em; }
+.agent-hive-system { padding: 112px 0 130px; background: var(--navy); color: #fff; }
+.agent-hive-inner { width: min(1040px, calc(100% - 48px)); margin: 0 auto; }
+.agent-hive-system .eyebrow, .agent-hive-system .project-section-heading h2 em { color: var(--lime); }
+.agent-hive-system .design-lede { color: rgba(255,255,255,.7); }
+.agent-hive-agent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 58px; }
+.agent-hive-agent { min-height: 250px; padding: 23px; border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.06); }
+.agent-hive-agent > span, .agent-hive-loop li > span { color: var(--lime); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; }
+.agent-hive-agent h3 { margin: 60px 0 9px; color: #fff; font-family: var(--serif); font-size: 31px; letter-spacing: -.05em; }
+.agent-hive-agent p { max-width: 235px; margin: 0; color: rgba(255,255,255,.7); font-size: 13px; line-height: 1.5; }
+.agent-hive-loop { padding: 120px 0 130px; border-bottom: 1px solid var(--line); }
+.agent-hive-loop-grid { display: grid; grid-template-columns: repeat(4, 1fr); padding: 0; margin: 60px 0 0; list-style: none; }
+.agent-hive-loop li { min-height: 190px; padding: 20px; border-top: 2px solid var(--navy); border-right: 1px solid var(--line); }
+.agent-hive-loop li:last-child { border-right: 0; }
+.agent-hive-loop h3 { margin: 42px 0 8px; font-family: var(--serif); font-size: 27px; letter-spacing: -.05em; }
+.agent-hive-loop p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.agent-hive-principles { padding: 79px 0; background: #f5c24b; }
+.agent-hive-principles-grid { display: grid; grid-template-columns: 1fr 1.3fr auto; align-items: center; gap: 36px; }
+.agent-hive-principles .eyebrow { margin: 0; color: var(--navy); }
+.agent-hive-principles-grid > p:not(.eyebrow) { max-width: 420px; margin: 0; color: var(--navy); font-size: 15px; }
+.agent-hive-principles .lab-cta-pill { margin: 0; white-space: nowrap; }
+@media (max-width: 780px) {
+  .agent-hive-hero { background: linear-gradient(160deg, #fffdfa 0%, #fffdfa 64%, #f5c24b 64%); }
+  .agent-hive-cover { min-height: 300px; box-shadow: 9px 9px 0 var(--navy); }
+  .agent-hive-cover img { max-height: 275px; }
+  .agent-hive-loop-cover { padding: 8px; }
+  .agent-hive-loop-cover img { max-height: 275px; }
+  .agent-hive-summary { gap: 30px; }
+  .agent-hive-system, .agent-hive-loop { padding: 78px 0 88px; }
+  .agent-hive-agent-grid, .agent-hive-loop-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 37px; }
+  .agent-hive-agent { min-height: 0; }
+  .agent-hive-agent h3 { margin-top: 30px; }
+  .agent-hive-loop li { min-height: 0; display: grid; grid-template-columns: 40px 1fr; gap: 10px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .agent-hive-loop h3 { margin: 0 0 7px; }
+  .agent-hive-principles-grid { grid-template-columns: 1fr; gap: 20px; }
+  .agent-hive-principles .lab-cta-pill { width: fit-content; white-space: normal; }
+}
 @media (max-width: 900px) {
   .hero-cta-row { flex-direction: column; align-items: flex-start; }
 }

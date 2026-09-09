@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+
+const agents = [
+  { code: '01', name: 'Scout', text: 'Turns an ambiguous brief into a bounded problem, useful context, and a definition of done.' },
+  { code: '02', name: 'Builder', text: 'Produces the smallest working slice, keeping domain logic separate from tools and infrastructure.' },
+  { code: '03', name: 'Keeper', text: 'Checks provenance, tests, version history, and whether the result is safe to hand over.' }
+];
+
+const loop = [
+  { title: 'Observe', text: 'Read the brief, repository state, constraints, and the latest durable checkpoint.' },
+  { title: 'Plan', text: 'Break the outcome into one bounded assignment with explicit inputs and acceptance.' },
+  { title: 'Make', text: 'Let a specialist execute the smallest useful change in an isolated workspace.' },
+  { title: 'Verify', text: 'Run focused checks, capture evidence, and route the result back to the hive.' }
+];
+---
+
+<BaseLayout title="Agent Hive — Rafael Targino" description="A practical exploration of coordinated AI agents that plan, build, verify, and hand off software work." current="labs">
+  <section class="project-hero agent-hive-hero" aria-labelledby="project-title">
+    <a class="project-back" href="/labs"><Icon name="arrow" size={16} /> Back to labs</a>
+    <div class="project-hero-grid">
+      <div>
+        <p class="eyebrow">Lab 05 · Agentic systems</p>
+        <h1 id="project-title">Agents <em>Hive.</em></h1>
+        <p>A working model for building software with a small colony of focused agents—each with a role, a boundary, and a clear handoff.</p>
+        <div class="project-actions">
+          <a class="button button-primary" href="https://github.com/ratarca" target="_blank" rel="noreferrer">Follow the work <Icon name="external" size={16} /></a>
+          <span>Orchestration · Memory · Review</span>
+        </div>
+      </div>
+      <div class="agent-hive-cover agent-hive-loop-cover" data-reveal>
+        <img src="/assets/img/project/agent_hive/graph-loop.png" alt="Pixel-art Media Factory workflow showing a user request moving through a coordinator, specialized workers, QA, integration, and delivery" />
+        <span class="agent-hive-stamp">HIVE / 001 · WORKFLOW</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-summary agent-hive-summary">
+    <div class="brief-copy">
+      <p class="eyebrow">The thesis</p>
+      <p class="project-statement">Autonomy gets useful when every agent knows what it owns, what it can touch, and when to ask for another pair of eyes.</p>
+    </div>
+    <div class="agent-hive-note"><span>Signal</span><strong>clear roles</strong><span>+ durable memory</span><span>+ independent checks</span></div>
+  </section>
+
+  <section class="agent-hive-system" aria-labelledby="system-title">
+    <div class="agent-hive-inner">
+      <div class="project-section-heading">
+        <p class="eyebrow">The colony</p>
+        <h2 id="system-title">Many small minds. One accountable system.</h2>
+        <p class="design-lede">The hive is less about adding agents and more about making collaboration legible: bounded roles, shared artifacts, and a human-readable trail from intent to shipped result.</p>
+      </div>
+      <div class="agent-hive-agent-grid">
+        {agents.map((agent) => <article class="agent-hive-agent"><span>{agent.code}</span><h3>{agent.name}</h3><p>{agent.text}</p></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="agent-hive-loop" aria-labelledby="loop-title">
+    <div class="agent-hive-inner">
+      <div class="project-section-heading">
+        <p class="eyebrow">The operating loop</p>
+        <h2 id="loop-title">A rhythm built for <em>trust.</em></h2>
+      </div>
+      <ol class="agent-hive-loop-grid">
+        {loop.map((step, index) => <li><span>0{index + 1}</span><div><h3>{step.title}</h3><p>{step.text}</p></div></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="agent-hive-principles" aria-label="Agent Hive principles">
+    <div class="agent-hive-inner agent-hive-principles-grid">
+      <p class="eyebrow">What stays human</p>
+      <p>Direction, judgment, and the final call. Agents can move quickly through the work; the system should make it easy to see what happened and decide whether it is worth keeping.</p>
+      <a class="lab-cta-pill lab-cta-pill-dark" href="/contact"><span class="lab-cta-pulse" aria-hidden="true"></span><span class="lab-cta-copy"><strong>Bring a messy problem to the hive.</strong><span>Let’s turn it into a useful system.</span></span><span class="lab-cta-arrow" aria-hidden="true"><Icon name="arrow" size={18} /></span></a>
+    </div>
+  </section>
+</BaseLayout>

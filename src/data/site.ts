@@ -160,8 +160,8 @@ export const labs = [
   },
   {
     title: 'Agent Hive',
-    description: 'A practical exploration of autonomous agents that build and operate systems.',
-    image: '/assets/img/project/ai_agents/page.png',
+    description: 'A practical exploration of autonomous agents that build and operate systems as a coordinated hive.',
+    image: '/assets/img/project/agent_hive/graph-loop.png',
     tags: ['AI', 'Automation', 'Agents'],
     href: '/labs/agent-hive',
     type: 'AI'
