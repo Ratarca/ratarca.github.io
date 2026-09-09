@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import HiveWorkflow from '../../components/HiveWorkflow.astro';
+import AgentHiveProjects from '../../components/AgentHiveProjects.astro';
 
 const foundations = [
   { title: 'Gateway as control plane', text: 'A single durable gateway connects the brief, Kanban state, dependencies, acceptance, handoffs, and final receipt. It gives every agent the same operational truth.' },
@@ -82,6 +83,8 @@ const foundations = [
       <HiveWorkflow />
     </div>
   </section>
+
+  <AgentHiveProjects />
 
   <section class="agent-hive-principles" aria-label="Agent Hive principles">
     <div class="agent-hive-inner agent-hive-principles-grid">

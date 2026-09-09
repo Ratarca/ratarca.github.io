@@ -1,0 +1,163 @@
+---
+import Icon from './Icon.astro';
+
+const projects = [
+  {
+    title: 'Gringotts',
+    type: 'Banking backend simulation',
+    description: 'A reliability-focused banking system where Agent Hive helped coordinate service boundaries, implementation tasks, focused tests, and independent review.',
+    outcome: 'Gateway graph → backend specialists → evidence → QA',
+    image: '/assets/img/project/gringotts/gringotts.webp',
+    alt: 'Gringotts banking simulation project interface',
+    href: '/projects/gringotts.html',
+    action: 'View Gringotts'
+  },
+  {
+    title: 'Delivery Tracking',
+    type: 'Real-time product experience',
+    description: 'A delivery experience inspired by iFood and Zé Delivery. The approach kept product flow, backend work, interface delivery, and validation inside one visible delivery graph.',
+    outcome: 'System design → scoped tasks → Ralph loops → QA',
+    image: '/assets/img/project/delivery_tracking/page.jpeg',
+    alt: 'Delivery Tracking application project preview',
+    href: 'https://github.com/Ratarca',
+    action: 'Find on GitHub'
+  }
+];
+---
+
+<section class="agent-projects" aria-labelledby="agent-projects-title" data-agent-projects>
+  <div class="agent-projects-inner">
+    <header class="agent-projects-heading">
+      <div>
+        <p class="eyebrow">Used in practice</p>
+        <h2 id="agent-projects-title">Projects built through the hive.</h2>
+      </div>
+      <p>The method became useful when it left the diagram and started organizing real delivery work.</p>
+    </header>
+
+    <div class="agent-project-carousel" data-reveal>
+      <div class="agent-project-slides" aria-live="polite">
+        {projects.map((project, index) => (
+          <article class="agent-project-slide" data-agent-project-slide aria-label={`Project ${index + 1} of ${projects.length}`} hidden={index !== 0}>
+            <a class="agent-project-image" href={project.href} target={project.href.startsWith('http') ? '_blank' : undefined} rel={project.href.startsWith('http') ? 'noreferrer' : undefined}>
+              <img src={project.image} alt={project.alt} loading="lazy" />
+              <span>{String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}</span>
+            </a>
+            <div class="agent-project-copy">
+              <p class="agent-project-type">{project.type}</p>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <div class="agent-project-path"><span>Hive path</span><strong>{project.outcome}</strong></div>
+              <a class="agent-project-link" href={project.href} target={project.href.startsWith('http') ? '_blank' : undefined} rel={project.href.startsWith('http') ? 'noreferrer' : undefined}>
+                {project.action} <Icon name={project.href.startsWith('http') ? 'external' : 'arrow'} size={17} />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="agent-project-controls">
+        <p><span data-agent-project-current>01</span> / {String(projects.length).padStart(2, '0')}</p>
+        <div class="agent-project-progress" role="group" aria-label="Choose project">
+          {projects.map((project, index) => <button type="button" data-agent-project-dot class:list={[{ active: index === 0 }]} aria-label={`Show ${project.title}`} aria-pressed={index === 0}></button>)}
+        </div>
+        <div>
+          <button type="button" data-agent-project-prev aria-label="Show previous project"><Icon name="chevron-left" size={18} /></button>
+          <button type="button" data-agent-project-next aria-label="Show next project"><Icon name="chevron-right" size={18} /></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .agent-projects { padding: 115px 0 125px; color: #fffdfa; background: #14213d; }
+  .agent-projects-inner { width: min(1040px, calc(100% - 48px)); margin: 0 auto; }
+  .agent-projects-heading { display: grid; grid-template-columns: 1fr 330px; align-items: end; gap: 55px; margin-bottom: 48px; }
+  .agent-projects-heading .eyebrow { color: #fca311; }
+  .agent-projects-heading h2 { max-width: 620px; margin: 0; color: #fffdfa; font-size: clamp(2.5rem, 5vw, 4.25rem); line-height: 1; }
+  .agent-projects-heading > p { margin: 0 0 4px; color: #c9d2df; font-size: 14px; line-height: 1.65; }
+  .agent-project-carousel { border: 1px solid #52617a; background: #fffdfa; box-shadow: 11px 11px 0 #fca311; }
+  .agent-project-slide { min-height: 470px; display: grid; grid-template-columns: 1.15fr .85fr; }
+  .agent-project-slide[hidden] { display: none !important; }
+  .agent-project-image { min-width: 0; position: relative; overflow: hidden; background: #eadfc8; }
+  .agent-project-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 65%, rgba(20,33,61,.55)); pointer-events: none; }
+  .agent-project-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s ease; }
+  .agent-project-image:hover img { transform: scale(1.035); }
+  .agent-project-image > span { position: absolute; z-index: 1; left: 22px; bottom: 18px; color: #fff; font: 10px var(--mono); letter-spacing: .08em; }
+  .agent-project-copy { display: flex; flex-direction: column; align-items: flex-start; padding: 45px 38px 39px; color: #14213d; }
+  .agent-project-type { margin: 0 0 17px; color: #a52422; font: 10px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+  .agent-project-copy h3 { margin: 0 0 18px; font: 600 clamp(2.5rem, 4.7vw, 4.2rem)/.95 var(--serif); letter-spacing: -.06em; }
+  .agent-project-copy > p:not(.agent-project-type) { color: #3d2a11; font-size: 14px; line-height: 1.65; }
+  .agent-project-path { width: 100%; display: grid; gap: 7px; margin: auto 0 27px; padding-top: 20px; border-top: 1px solid #bea57d; }
+  .agent-project-path span { color: #a52422; font: 9px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+  .agent-project-path strong { font-size: 12px; font-weight: 600; }
+  .agent-project-link { display: inline-flex; align-items: center; gap: 9px; padding-bottom: 5px; border-bottom: 1px solid #14213d; font-size: 13px; font-weight: 700; }
+  .agent-project-link:hover { color: #a52422; border-color: #a52422; }
+  .agent-project-controls { min-height: 63px; display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 20px; padding: 0 20px 0 29px; color: #14213d; border-top: 1px solid #bea57d; }
+  .agent-project-controls > p { margin: 0; font: 10px var(--mono); }
+  .agent-project-progress { display: flex; justify-content: center; gap: 8px; }
+  .agent-project-progress button { width: 27px; height: 18px; position: relative; padding: 0; border: 0; background: transparent; cursor: pointer; }
+  .agent-project-progress button::after { content: ''; position: absolute; left: 0; right: 0; top: 8px; height: 2px; background: #bea57d; transition: background .2s, transform .2s; }
+  .agent-project-progress button.active::after { background: #a52422; transform: scaleX(1.35); }
+  .agent-project-controls > div:last-child { display: flex; gap: 7px; }
+  .agent-project-controls > div:last-child button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #bea57d; border-radius: 50%; color: #14213d; background: transparent; cursor: pointer; transition: color .2s, background .2s, transform .2s; }
+  .agent-project-controls > div:last-child button:hover { color: #fff; background: #14213d; transform: translateY(-2px); }
+  button:focus-visible, a:focus-visible { outline: 3px solid #fca311; outline-offset: 3px; }
+  @media (max-width: 780px) {
+    .agent-projects { padding: 80px 0 92px; }
+    .agent-projects-inner { width: min(100% - 40px, 620px); }
+    .agent-projects-heading { grid-template-columns: 1fr; gap: 16px; margin-bottom: 34px; }
+    .agent-projects-heading > p { max-width: 440px; }
+    .agent-project-carousel { box-shadow: 8px 8px 0 #fca311; }
+    .agent-project-slide { grid-template-columns: 1fr; min-height: 0; }
+    .agent-project-image { height: 280px; }
+    .agent-project-copy { min-height: 410px; padding: 32px 24px 30px; }
+    .agent-project-copy h3 { font-size: 45px; }
+    .agent-project-controls { grid-template-columns: 55px 1fr auto; gap: 10px; padding: 0 12px 0 18px; }
+    .agent-project-progress button { width: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .agent-project-image img { transition: none; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-agent-projects]').forEach((carousel) => {
+    const slides = [...carousel.querySelectorAll<HTMLElement>('[data-agent-project-slide]')];
+    const dots = [...carousel.querySelectorAll<HTMLButtonElement>('[data-agent-project-dot]')];
+    const currentLabel = carousel.querySelector<HTMLElement>('[data-agent-project-current]');
+    const previous = carousel.querySelector<HTMLButtonElement>('[data-agent-project-prev]');
+    const next = carousel.querySelector<HTMLButtonElement>('[data-agent-project-next]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let rotation: number | undefined;
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => slide.toggleAttribute('hidden', slideIndex !== current));
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('active', dotIndex === current);
+        dot.setAttribute('aria-pressed', String(dotIndex === current));
+      });
+      if (currentLabel) currentLabel.textContent = String(current + 1).padStart(2, '0');
+    };
+    const stop = () => { if (rotation) window.clearInterval(rotation); };
+    const start = () => {
+      stop();
+      if (!reducedMotion) rotation = window.setInterval(() => show(current + 1), 7500);
+    };
+
+    previous?.addEventListener('click', () => { show(current - 1); start(); });
+    next?.addEventListener('click', () => { show(current + 1); start(); });
+    dots.forEach((dot, index) => dot.addEventListener('click', () => { show(index); start(); }));
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', start);
+    carousel.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') { show(current - 1); start(); }
+      if (event.key === 'ArrowRight') { show(current + 1); start(); }
+    });
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    start();
+  });
+</script>
