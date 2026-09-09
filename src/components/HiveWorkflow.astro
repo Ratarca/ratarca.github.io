@@ -1,319 +1,206 @@
----
-const stages = [
-  ['Gateway', 'A shared contract', 'The coordinator defines scope, dependencies, ownership, and the acceptance commands before dispatching work.'],
-  ['Context', 'A packet for each task', 'Relevant contracts, files, and previous evidence travel with the assignment. Workers receive a bounded scope.'],
-  ['Backend', 'Specialist · APIs', 'Implement the service boundary and run focused checks in the assigned worktree.'],
-  ['Frontend', 'Specialist · interfaces', 'Build the consumer experience against agreed contracts, with evidence that it works.'],
-  ['Independent QA', 'Evidence before approval', 'Review the candidate and test the actual consumer. A failed check opens a linked repair task.'],
-  ['Integration', 'Verify the target', 'Integrate the reviewed candidate and run final acceptance on the delivery target.'],
-  ['Next gateway', 'Carry learning forward', 'Archive the completed gateway and acceptance receipt. Use recorded evidence to plan the next gate.']
-];
----
-
-<div class="hive-explorer" data-hive-explorer>
-  <header class="explorer-header">
-    <div><span class="explorer-kicker">AGENT HIVE / SYSTEM EXPLORER</span><p>Follow the work. Inspect the handoffs.</p></div>
-    <span class="explorer-demo">Illustrative workflow</span>
-  </header>
-  <div class="explorer-controls" role="group" aria-label="Choose workflow">
-    <button type="button" data-mode="delivery" aria-pressed="true">01 / Coordination</button>
-    <button type="button" data-mode="quality" aria-pressed="false">02 / Evidence &amp; repair</button>
-    <button type="button" class="motion-toggle" aria-pressed="false" disabled>Pause motion</button>
-  </div>
-  <div class="explorer-layout">
-    <div class="explorer-stage">
-      <canvas aria-hidden="true"></canvas>
-      <div class="explorer-nodes" role="group" aria-label="Workflow stages">
-        {stages.map(([title], index) => <button type="button" data-node={index} aria-pressed={index === 0}><span class="node-number">0{index + 1}</span><strong>{title}</strong></button>)}
+<div class="hive-flow">
+  <input class="motion-check" type="checkbox" id="hive-motion" />
+  <label class="motion-control" for="hive-motion"><span aria-hidden="true"></span>Pause animation</label>
+  <div class="flow-panels">
+    <figure class="flow-panel" aria-labelledby="coordination-heading">
+      <figcaption class="panel-heading">
+        <div class="heading-title"><span class="loop-number">01</span><div><p class="overline">The coordination loop</p><h3 id="coordination-heading">One goal. Shared direction.</h3></div></div>
+        <p>Define the work, give it an owner,<br class="desktop-break" /> and send the right context.</p>
+      </figcaption>
+      <ol class="coordination-lane" aria-label="Coordination stages in dependency order">
+        <li class="flow-step gateway">
+          <div class="node-card">
+            <span class="node-mark gateway-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="node-meta">Coordinator</span><h4>Design the gateway</h4><p>Goal, scope, dependencies, and a definition of done.</p>
+          </div>
+          <span class="connector" aria-hidden="true"><i></i></span>
+        </li>
+        <li class="flow-step context">
+          <div class="node-card">
+            <span class="node-mark packet-mark" aria-hidden="true"><i></i></span>
+            <span class="node-meta">Task packet</span><h4>Package the context</h4><p>Relevant contracts, files, and previous evidence.</p>
+          </div>
+          <span class="connector" aria-hidden="true"><i></i></span>
+        </li>
+        <li class="flow-step specialists">
+          <div class="worker-pair">
+            <div class="worker"><span class="worker-dot" aria-hidden="true"></span><div><h4>Specialist A</h4><p>One bounded task</p></div></div>
+            <div class="worker"><span class="worker-dot secondary" aria-hidden="true"></span><div><h4>Specialist B</h4><p>Independent write scope</p></div></div>
+          </div>
+          <span class="worker-note">Up to two parallel writers</span>
+          <span class="connector" aria-hidden="true"><i></i></span>
+        </li>
+        <li class="flow-step candidate">
+          <div class="node-card">
+            <span class="node-mark evidence-mark" aria-hidden="true">✓</span>
+            <span class="node-meta">Ready for review</span><h4>Bring the evidence</h4><p>A candidate, test results, and a clear handoff to QA.</p>
+          </div>
+        </li>
+      </ol>
+      <div class="return-path"><span aria-hidden="true">↶</span><p><strong>Back to the gateway</strong> — the coordinator records progress and selects the next ready task.</p></div>
+    </figure>
+    <div class="between-loops" aria-hidden="true"><span></span><p>Candidate + evidence</p><span>↓</span></div>
+    <figure class="flow-panel quality" aria-labelledby="quality-heading">
+      <figcaption class="panel-heading">
+        <div class="heading-title"><span class="loop-number">02</span><div><p class="overline">The evidence loop</p><h3 id="quality-heading">Build. Check. Earn the next step.</h3></div></div>
+        <p>Independent review connects<br class="desktop-break" /> the work to a verified result.</p>
+      </figcaption>
+      <div class="quality-layout">
+        <div class="iteration">
+          <p class="lane-label">Inside the specialist’s task</p>
+          <ol class="iteration-lane">
+            <li><span class="step-index">01</span><h4>Implement</h4><p>A focused change</p></li>
+            <li><span class="step-index">02</span><h4>Test</h4><p>Check the boundary</p></li>
+            <li><span class="step-index">03</span><h4>Record</h4><p>Keep the evidence</p></li>
+          </ol>
+          <div class="small-return"><span aria-hidden="true">↶</span> Test fails? Repair and test again.</div>
+        </div>
+        <span class="review-connector" aria-hidden="true"><i></i></span>
+        <div class="qa-card"><span class="qa-seal" aria-hidden="true">✓</span><span class="node-meta">A separate reviewer</span><h4>Independent QA</h4><p>Run acceptance. Inspect the consumer. Verify the evidence.</p></div>
       </div>
-      <span class="explorer-canvas-note">Select a stage to inspect its handoff</span>
-    </div>
-    <aside class="explorer-detail" aria-live="polite" aria-atomic="true">
-      <span class="detail-index">01 / 07</span>
-      <h3>Gateway</h3>
-      <p class="detail-subtitle">A shared contract</p>
-      <p class="detail-copy">{stages[0][2]}</p>
-      <div class="detail-output"><span>Handoff</span><strong>Scope + acceptance contract</strong></div>
-    </aside>
+      <div class="decision-paths">
+        <div class="decision repair"><span class="decision-symbol" aria-hidden="true">↶</span><div><span class="decision-label">FAIL / return to the task</span><h4>Repair → retest → review</h4><p>A linked fix in the same worktree, with new evidence.</p></div></div>
+        <div class="decision deliver"><span class="decision-symbol" aria-hidden="true">↗</span><div><span class="decision-label">PASS / move forward</span><h4>Integrate → final acceptance</h4><p>Verify the target, archive the receipt, open the next gateway.</p></div></div>
+      </div>
+    </figure>
+    <div class="memory-note"><span class="memory-icon" aria-hidden="true"><i></i><i></i><i></i></span><p><strong>The thread that holds it together.</strong> Contracts, checkpoints, and evidence stay with the work through every handoff.</p></div>
   </div>
-  <footer class="explorer-footer">
-    <p class="mode-caption">Gateway → context → up to two independent writers → QA → integration → next gateway.</p>
-    <span>Contracts · checkpoints · evidence</span>
-  </footer>
-  <noscript><p class="explorer-noscript">Coordination follows the stages above. The evidence loop is: implement → test → record → independent QA. PASS leads to integration and final acceptance; FAIL opens a repair task, then tests and review run again.</p></noscript>
 </div>
 
 <style>
-  .hive-explorer { margin-top: 48px; background: #101d32; color: #fffdfa; border: 1px solid #34445b; box-shadow: 10px 10px 0 #eadfc8; }
-  .explorer-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 27px 30px; border-bottom: 1px solid #34445b; }
-  .explorer-kicker, .explorer-demo, .detail-index, .detail-output > span { font: 10px var(--mono); letter-spacing: .08em; }
-  .explorer-kicker, .detail-index { color: #ffbd56; }
-  .explorer-header p { margin: 8px 0 0; font-size: 17px; }
-  .explorer-demo { color: #bcc9da; white-space: nowrap; }
-  .explorer-controls { display: flex; flex-wrap: wrap; gap: 8px; padding: 18px 30px; }
-  .explorer-controls button { border: 1px solid #52627a; background: transparent; color: #d7e0ec; padding: 10px 14px; font-size: 12px; cursor: pointer; }
-  .explorer-controls button[aria-pressed="true"] { background: #ffbd56; color: #101d32; border-color: #ffbd56; }
-  .explorer-controls .motion-toggle { margin-left: auto; }
-  .explorer-controls button:disabled { opacity: .45; cursor: default; }
-  button:focus-visible { outline: 3px solid #ffbd56; outline-offset: 4px; }
-  .explorer-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; }
-  .explorer-stage { position: relative; height: 530px; margin: 0 15px 15px; background: radial-gradient(ellipse at center, #24354c, #101d32 70%); }
-  canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-  .explorer-nodes { position: absolute; inset: 0; }
-  .explorer-nodes button { position: absolute; transform: translate(-50%, 13px); width: 130px; padding: 6px 5px; border: 1px solid transparent; border-radius: 3px; background: #15253ae8; color: #fffdfa; cursor: pointer; text-align: center; }
-  .explorer-nodes button:hover { border-color: #ffbd56; }
-  .explorer-nodes button[aria-pressed="true"] { border-color: #ffbd56; color: #ffbd56; }
-  .node-number { display: none; }
-  .explorer-nodes strong { font-size: 12px; font-weight: 600; }
-  .explorer-nodes button:nth-child(1) { left: 50%; top: 9%; }
-  .explorer-nodes button:nth-child(2) { left: 50%; top: 26%; }
-  .explorer-nodes button:nth-child(3) { left: 23%; top: 44%; }
-  .explorer-nodes button:nth-child(4) { left: 77%; top: 44%; }
-  .explorer-nodes button:nth-child(5) { left: 50%; top: 63%; }
-  .explorer-nodes button:nth-child(6) { left: 23%; top: 82%; }
-  .explorer-nodes button:nth-child(7) { left: 77%; top: 82%; }
-  .explorer-canvas-note { position: absolute; bottom: 8px; width: 100%; text-align: center; color: #b7c7db; font: 10px var(--mono); }
-  .explorer-detail { border-left: 1px solid #34445b; padding: 32px 24px; }
-  .explorer-detail h3 { font: 600 32px/1.1 var(--serif); letter-spacing: -.04em; margin: 24px 0 10px; }
-  .detail-subtitle { color: #ffbd56; font-size: 13px; }
-  .detail-copy { color: #c2cede; font-size: 14px; line-height: 1.7; }
-  .detail-output { margin-top: 35px; padding-top: 20px; border-top: 1px solid #34445b; }
-  .detail-output > span { display: block; color: #a7bacf; text-transform: uppercase; margin-bottom: 10px; }
-  .detail-output strong { font-size: 13px; font-weight: 500; }
-  .explorer-footer { border-top: 1px solid #34445b; padding: 20px 30px; }
-  .explorer-footer p { font-size: 13px; color: #d7e0ec; margin: 0 0 8px; }
-  .explorer-footer > span { font: 10px var(--mono); color: #ffbd56; }
-  .explorer-noscript { padding: 24px; }
-  @media (max-width: 780px) {
-    .explorer-header { padding: 22px; display: block; }
-    .explorer-demo { display: block; margin-top: 12px; }
-    .explorer-controls { padding: 16px; }
-    .explorer-controls .motion-toggle { margin-left: 0; }
-    .explorer-layout { grid-template-columns: 1fr; }
-    .explorer-stage { height: 520px; margin: 0 5px; }
-    .explorer-nodes button { width: 112px; }
-    .explorer-detail { border-left: 0; border-top: 1px solid #34445b; padding: 24px; }
-    .explorer-detail h3 { margin-top: 12px; }
-    .detail-output { margin-top: 20px; }
-    .explorer-footer { padding: 22px; }
+  .hive-flow { --flow-ink: #14213d; --flow-muted: #675b4b; --flow-line: #dfd6c8; --flow-gold: #d58917; position: relative; margin-top: 40px; color: var(--flow-ink); }
+  .motion-check { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
+  .motion-control { display: flex; align-items: center; gap: 9px; width: fit-content; min-height: 44px; margin: 0 0 12px auto; font-size: 12px; color: var(--flow-muted); cursor: pointer; }
+  .motion-control > span { display: grid; place-items: center; width: 17px; height: 17px; border: 1px solid #9b8b75; border-radius: 4px; }
+  .motion-check:checked + .motion-control > span::after { content: '✓'; color: var(--flow-ink); font-size: 12px; }
+  .motion-check:focus-visible + .motion-control { outline: 2px solid var(--flow-gold); outline-offset: 5px; border-radius: 3px; }
+  .flow-panel { margin: 0; border: 1px solid var(--flow-line); border-radius: 22px; padding: 30px; background: #fff; box-shadow: 0 8px 26px #3d2a1105; }
+  .panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+  .heading-title { display: flex; align-items: center; gap: 16px; }
+  .loop-number { display: grid; place-items: center; flex-shrink: 0; width: 43px; height: 43px; border: 1px solid #e8ce9c; border-radius: 50%; background: #fff8e9; color: #93600e; font: 12px var(--mono); }
+  .overline { margin: 0 0 5px; font: 10px var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--flow-muted); }
+  .panel-heading h3 { margin: 0; font: 600 clamp(21px, 2.5vw, 28px)/1.15 var(--serif); letter-spacing: -.04em; }
+  .panel-heading > p { margin: 0; color: var(--flow-muted); font-size: 12px; line-height: 1.65; }
+  .coordination-lane { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px; padding: 0; margin: 38px 0 26px; list-style: none; align-items: center; }
+  .flow-step { position: relative; min-width: 0; }
+  .node-card { min-height: 211px; padding: 22px 15px 20px; border: 1px solid var(--flow-line); border-radius: 13px; background: #fffdfa; }
+  .gateway .node-card { background: #fff5de; border-color: #e6c991; }
+  .node-meta { display: block; margin: 17px 0 7px; color: var(--flow-muted); font: 9px var(--mono); letter-spacing: .035em; text-transform: uppercase; }
+  h4 { font-size: 14px; font-weight: 600; line-height: 1.4; margin: 0 0 8px; letter-spacing: -.02em; }
+  .node-card p, .worker p { margin: 0; color: var(--flow-muted); font-size: 12px; line-height: 1.65; }
+  .node-mark { display: flex; align-items: flex-end; justify-content: center; gap: 3px; width: 30px; height: 30px; color: #a2670b; }
+  .gateway-mark { padding: 5px 2px; }
+  .gateway-mark i { width: 5px; height: 10px; border: 1px solid currentColor; border-radius: 1px; }
+  .gateway-mark i:nth-child(2) { height: 20px; background: #efbb58; }
+  .gateway-mark i:nth-child(3) { height: 15px; }
+  .packet-mark { position: relative; border: 1px solid #8d9bb0; border-radius: 3px; width: 22px; height: 26px; margin: 2px 0; box-shadow: 4px -3px 0 #e8edf4; }
+  .packet-mark i { position: absolute; top: 8px; left: 4px; right: 4px; height: 1px; background: #8d9bb0; box-shadow: 0 5px 0 #8d9bb0, 0 10px 0 #8d9bb0; }
+  .evidence-mark { align-items: center; border-radius: 50%; border: 1px solid #9cb8a5; color: #477454; font-size: 18px; }
+  .connector { position: absolute; left: 100%; top: 50%; width: 30px; height: 1px; background: #cdbc9e; }
+  .connector::after, .review-connector::after { content: ''; position: absolute; right: 1px; top: -3px; width: 6px; height: 6px; border-right: 1px solid #b19972; border-top: 1px solid #b19972; transform: rotate(45deg); }
+  .connector i, .review-connector i { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--flow-gold); top: -2px; left: 0; animation: handoff 5s ease-in-out infinite; }
+  .context .connector i { animation-delay: .6s; }
+  .specialists .connector i { animation-delay: 1.2s; }
+  .worker-pair { display: grid; gap: 12px; position: relative; }
+  .worker-pair::before { content: ''; position: absolute; top: 25%; bottom: 25%; left: -8px; width: 7px; border: 1px solid #cdbc9e; border-right: 0; border-radius: 4px 0 0 4px; }
+  .worker-pair::after { content: ''; position: absolute; top: 25%; bottom: 25%; right: -8px; width: 7px; border: 1px solid #cdbc9e; border-left: 0; border-radius: 0 4px 4px 0; }
+  .worker { display: flex; align-items: center; gap: 10px; padding: 17px 12px; border: 1px solid #d6dfeb; border-radius: 11px; background: #f5f8fc; }
+  .worker:nth-child(2) { border-color: #ded8e8; background: #f8f5fb; }
+  .worker h4 { margin-bottom: 3px; }
+  .worker p { font-size: 11px; }
+  .worker-dot { flex-shrink: 0; width: 8px; height: 8px; background: #718ba9; border-radius: 3px; box-shadow: 0 0 0 4px #e6edf5; }
+  .worker-dot.secondary { background: #a08ab4; box-shadow: 0 0 0 4px #eee7f4; }
+  .worker-note { display: block; text-align: center; font: 9px var(--mono); color: var(--flow-muted); margin-top: 13px; }
+  .return-path { display: flex; gap: 11px; align-items: center; border-top: 1px dashed #d8cbb7; padding-top: 18px; color: var(--flow-muted); }
+  .return-path > span { color: #a47931; font-size: 22px; }
+  .return-path p { margin: 0; font-size: 12px; line-height: 1.65; }
+  .return-path strong { font-weight: 600; color: var(--flow-ink); }
+  .between-loops { display: flex; flex-direction: column; align-items: center; padding: 10px 0; gap: 5px; color: #9a8057; }
+  .between-loops > span:first-child { height: 12px; width: 1px; background: #cdbc9e; }
+  .between-loops p { margin: 0; font: 9px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+  .between-loops > span:last-child { line-height: 1; }
+  .quality .loop-number { background: #f1f4f8; border-color: #cfd8e5; color: var(--flow-ink); }
+  .quality-layout { display: grid; grid-template-columns: minmax(0, 1fr) 55px 240px; align-items: center; margin: 32px 0 26px; }
+  .iteration { border: 1px solid var(--flow-line); border-radius: 13px; padding: 23px; background: #fffdfa; }
+  .lane-label { margin: 0 0 22px; color: var(--flow-muted); font: 9px var(--mono); letter-spacing: .055em; text-transform: uppercase; }
+  .iteration-lane { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; padding: 0; margin: 0; gap: 25px; }
+  .iteration-lane li { position: relative; }
+  .iteration-lane li:not(:last-child)::after { content: '→'; position: absolute; right: -17px; top: 37px; color: #baa17a; }
+  .step-index { display: block; font: 10px var(--mono); color: #9e7636; margin-bottom: 14px; }
+  .iteration-lane h4 { margin-bottom: 5px; }
+  .iteration-lane p { margin: 0; font-size: 11px; color: var(--flow-muted); }
+  .small-return { border-top: 1px dashed var(--flow-line); padding-top: 15px; margin-top: 23px; color: var(--flow-muted); font-size: 11px; }
+  .small-return span { font-size: 16px; margin-right: 7px; color: #9e7636; }
+  .review-connector { position: relative; height: 1px; background: #cdbc9e; }
+  .qa-card { padding: 23px; border-radius: 13px; background: var(--flow-ink); color: #fffdfa; }
+  .qa-seal { float: right; width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid #c4a56e; border-radius: 50%; color: #f5c875; }
+  .qa-card .node-meta { margin-top: 0; color: #f5c875; padding-right: 30px; line-height: 1.6; }
+  .qa-card h4 { font: 600 25px/1.15 var(--serif); margin: 18px 0 12px; letter-spacing: -.03em; }
+  .qa-card p { margin: 0; color: #c9d2df; font-size: 12px; line-height: 1.8; }
+  .decision-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .decision { display: flex; align-items: flex-start; gap: 13px; padding: 20px; border-radius: 12px; border: 1px solid; }
+  .repair { background: #fcf5f1; border-color: #ead9cd; }
+  .deliver { background: #f2f7f1; border-color: #d8e3d3; }
+  .decision-symbol { font-size: 24px; line-height: 1; color: #a56842; }
+  .deliver .decision-symbol { color: #527549; }
+  .decision-label { display: block; margin: 0 0 8px; font: 9px/1.5 var(--mono); letter-spacing: .035em; color: #8e5737; }
+  .deliver .decision-label { color: #466740; }
+  .decision h4 { margin-bottom: 5px; font-size: 14px; }
+  .decision p { margin: 0; font-size: 12px; color: var(--flow-muted); line-height: 1.6; }
+  .memory-note { display: flex; gap: 18px; align-items: center; max-width: 650px; margin: 27px auto 0; }
+  .memory-note p { margin: 0; font-size: 12px; line-height: 1.7; color: var(--flow-muted); }
+  .memory-note strong { color: var(--flow-ink); font-weight: 600; }
+  .memory-icon { display: grid; gap: 4px; flex: 0 0 27px; }
+  .memory-icon i { height: 5px; border: 1px solid #b59d77; border-radius: 2px; }
+  @keyframes handoff { 0%, 15% { left: 0; opacity: 0; } 25%, 75% { opacity: 1; } 90%, 100% { left: calc(100% - 5px); opacity: 0; } }
+  .motion-check:checked ~ .flow-panels *, .motion-check:checked ~ .flow-panels *::before, .motion-check:checked ~ .flow-panels *::after { animation-play-state: paused; }
+  @media (max-width: 1000px) and (min-width: 701px) {
+    .coordination-lane { gap: 20px; }
+    .connector { width: 20px; }
+    .node-card { padding: 18px 10px; min-height: 229px; }
+    .worker { padding: 15px 9px; gap: 7px; }
+    .worker-dot { display: none; }
+    .quality-layout { grid-template-columns: minmax(0, 1fr) 30px 200px; }
+    .panel-heading > p { display: none; }
+  }
+  @media (max-width: 700px) {
+    .flow-panel { padding: 24px 20px; border-radius: 17px; }
+    .panel-heading { display: block; }
+    .panel-heading > p { margin-top: 16px; }
+    .desktop-break { display: none; }
+    .heading-title { gap: 12px; align-items: flex-start; }
+    .loop-number { width: 34px; height: 34px; }
+    .overline { font-size: 9px; }
+    .coordination-lane { grid-template-columns: 1fr; gap: 29px; margin-top: 26px; }
+    .node-card { min-height: 0; padding: 18px; }
+    .node-mark { float: right; }
+    .node-meta { margin-top: 0; padding-right: 40px; }
+    .connector { left: 50%; top: 100%; height: 29px; width: 1px; }
+    .connector::after { right: -3px; top: auto; bottom: 2px; transform: rotate(135deg); }
+    .connector i { left: -2px; top: 0; animation-name: handoff-down; }
+    .worker-pair { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .worker-pair::before, .worker-pair::after { display: none; }
+    .worker { display: block; padding: 15px 10px; }
+    .worker-dot { display: block; margin: 2px 0 13px 3px; }
+    .worker h4 { font-size: 13px; }
+    .quality-layout { grid-template-columns: 1fr; margin-top: 26px; }
+    .iteration { padding: 18px 14px; }
+    .iteration-lane { gap: 15px; }
+    .iteration-lane h4 { font-size: 12px; }
+    .iteration-lane p { font-size: 11px; }
+    .iteration-lane li:not(:last-child)::after { right: -12px; font-size: 11px; }
+    .review-connector { height: 29px; width: 1px; justify-self: center; }
+    .review-connector::after { right: -3px; top: auto; bottom: 2px; transform: rotate(135deg); }
+    .review-connector i { left: -2px; top: 0; animation-name: handoff-down; }
+    .decision-paths { grid-template-columns: 1fr; gap: 12px; }
+    .decision { padding: 18px; }
+    .memory-note { align-items: flex-start; padding: 0 5px; }
+    .memory-icon { margin-top: 6px; }
+  }
+  @keyframes handoff-down { 0%, 15% { top: 0; opacity: 0; } 25%, 75% { opacity: 1; } 90%, 100% { top: calc(100% - 5px); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .flow-panels *, .flow-panels *::before, .flow-panels *::after { animation: none !important; }
+    .motion-control { display: none; }
+    .motion-check { display: none; }
   }
 </style>
-
-<script>
-  import type * as Three from 'three';
-
-  type Stage = [string, string, string, string];
-  const delivery: Stage[] = [
-    ['Gateway', 'A shared contract', 'The coordinator defines scope, dependencies, ownership, and the acceptance commands before dispatching work.', 'Scope + acceptance contract'],
-    ['Context', 'A packet for each task', 'Relevant contracts, files, and previous evidence travel with the assignment. Workers receive a bounded scope.', 'Task packet + dependencies'],
-    ['Backend', 'Specialist · APIs', 'Implement the service boundary and run focused checks in the assigned worktree.', 'Candidate + focused checks'],
-    ['Frontend', 'Specialist · interfaces', 'Build the consumer experience against agreed contracts, with evidence that it works.', 'Candidate + consumer checks'],
-    ['Independent QA', 'Evidence before approval', 'Review the candidate and test the actual consumer. A failed check opens a linked repair task.', 'Independent PASS or linked FIX'],
-    ['Integration', 'Verify the target', 'Integrate the reviewed candidate and run final acceptance on the delivery target.', 'Tested target + acceptance receipt'],
-    ['Next gateway', 'Carry learning forward', 'Archive the completed gateway and acceptance receipt. Use recorded evidence to plan the next gate.', 'Archive + next assignment']
-  ];
-  const quality: Stage[] = [
-    ['Implement', 'One bounded change', 'A specialist implements the assigned slice within the agreed files and contracts.', 'A reviewable change'],
-    ['Test', 'Check the changed boundary', 'Run a focused test. A failure returns to implementation before the candidate enters review.', 'Test output + exit code'],
-    ['Record', 'Make the work resumable', 'Persist the hypothesis, changes, checks, artifact references, and next action in an iteration record.', 'Revision + durable evidence'],
-    ['Independent QA', 'A separate reviewer', 'QA runs acceptance against the actual consumer and checks scope and evidence. The author cannot approve their own work.', 'PASS or FAIL with logs'],
-    ['Repair', 'FAIL → linked fix', 'Use the same worktree for a bounded repair. Retest and record new evidence before independent review repeats.', 'Linked FIX + new evidence'],
-    ['Integrate', 'PASS → reviewed target', 'Integrate the reviewed candidate. QA approval alone does not prove that the target is delivered.', 'Integrated candidate'],
-    ['Acceptance', 'Verify the final artifact', 'Run the final acceptance command on the target and record the result before closing the gate.', 'Artifact + acceptance receipt']
-  ];
-  const desktop = [[.5,.09],[.5,.26],[.23,.44],[.77,.44],[.5,.63],[.23,.82],[.77,.82]];
-  const qaPositions = [[.23,.09],[.77,.09],[.77,.32],[.5,.51],[.23,.32],[.23,.76],[.77,.76]];
-  type Edge = [number, number, boolean?];
-  const deliveryEdges: Edge[] = [[0,1],[1,2],[1,3],[2,4],[3,4],[4,5],[5,6]];
-  const qualityEdges: Edge[] = [[0,1],[1,0,true],[1,2],[2,3],[3,4,true],[4,0,true],[3,5],[5,6]];
-
-  document.querySelectorAll<HTMLElement>('[data-hive-explorer]').forEach((host) => {
-    const stage = host.querySelector<HTMLElement>('.explorer-stage')!;
-    const canvas = host.querySelector<HTMLCanvasElement>('canvas')!;
-    const nodes = [...host.querySelectorAll<HTMLButtonElement>('[data-node]')];
-    const modes = [...host.querySelectorAll<HTMLButtonElement>('[data-mode]')];
-    const pause = host.querySelector<HTMLButtonElement>('.motion-toggle')!;
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    let paused = reduced.matches;
-    let qualityMode = false;
-    let selected = 0;
-    let visible = false;
-    let disposed = false;
-    let raf = 0;
-    let elapsed = 0;
-    let previous = 0;
-    let renderer: Three.WebGLRenderer | undefined;
-    let contextLost = false;
-    let rebuild = () => {};
-    let render = () => {};
-    let disposeScene = () => {};
-    const events = new AbortController();
-    const positions = () => qualityMode ? qaPositions : desktop;
-    const select = (index: number) => {
-      selected = index;
-      const data = (qualityMode ? quality : delivery)[index];
-      nodes.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
-      host.querySelector('.detail-index')!.textContent = '0' + (index + 1) + ' / 07';
-      host.querySelector('.explorer-detail h3')!.textContent = data[0];
-      host.querySelector('.detail-subtitle')!.textContent = data[1];
-      host.querySelector('.detail-copy')!.textContent = data[2];
-      host.querySelector('.detail-output strong')!.textContent = data[3];
-      render();
-    };
-    nodes.forEach((button, i) => button.addEventListener('click', () => select(i), { signal: events.signal }));
-    modes.forEach((button) => button.addEventListener('click', () => {
-      qualityMode = button.dataset.mode === 'quality';
-      modes.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
-      nodes.forEach((node, i) => {
-        node.querySelector('strong')!.textContent = (qualityMode ? quality : delivery)[i][0];
-        node.style.left = positions()[i][0] * 100 + '%';
-        node.style.top = positions()[i][1] * 100 + '%';
-      });
-      host.querySelector('.mode-caption')!.textContent = qualityMode
-        ? 'FAIL → repair → retest → review again. PASS → integrate → final acceptance. Coral paths mark repairs.'
-        : 'Gateway → context → up to two independent writers → QA → integration → next gateway.';
-      select(0);
-      rebuild();
-    }, { signal: events.signal }));
-    const tick = (now: number) => {
-      raf = 0;
-      if (!visible || paused || disposed || contextLost || document.hidden || !renderer) return;
-      elapsed += previous ? Math.min((now - previous) / 1000, .05) : 0;
-      previous = now;
-      render();
-      raf = requestAnimationFrame(tick);
-    };
-    const schedule = () => {
-      cancelAnimationFrame(raf);
-      previous = 0;
-      if (visible && !paused && !disposed && !contextLost && !document.hidden && renderer) raf = requestAnimationFrame(tick);
-    };
-    const updateMotion = () => {
-      pause.textContent = paused ? 'Resume motion' : 'Pause motion';
-      pause.setAttribute('aria-pressed', String(paused));
-      schedule();
-    };
-    pause.addEventListener('click', () => { paused = !paused; updateMotion(); }, { signal: events.signal });
-    reduced.addEventListener('change', () => { paused = reduced.matches; updateMotion(); }, { signal: events.signal });
-    document.addEventListener('visibilitychange', schedule, { signal: events.signal });
-    const resize = new ResizeObserver(() => rebuild());
-    resize.observe(stage);
-    const observer = new IntersectionObserver(async ([entry]) => {
-      visible = entry.isIntersecting;
-      if (visible && !started) {
-        started = true;
-        try {
-          const { WebGLRenderer, Scene, OrthographicCamera, AmbientLight, DirectionalLight, Group, Mesh, Vector3, CylinderGeometry, MeshStandardMaterial, IcosahedronGeometry, CatmullRomCurve3, TubeGeometry, MeshBasicMaterial, ConeGeometry } = await import('three');
-          if (disposed) return;
-          renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
-          renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
-          const scene = new Scene();
-          const camera = new OrthographicCamera(0, 1, 0, 1, .1, 100);
-          camera.position.z = 20;
-          scene.add(new AmbientLight(0xffffff, 2));
-          const light = new DirectionalLight(0xffda98, 4);
-          light.position.set(-100, -200, 500);
-          scene.add(light);
-          let group = new Group();
-          scene.add(group);
-          let tokens: { mesh: Three.Mesh; curve: Three.CatmullRomCurve3; offset: number }[] = [];
-          let hubs: Three.Mesh<Three.CylinderGeometry, Three.MeshStandardMaterial>[] = [];
-          disposeScene = () => {
-            group.traverse((object) => {
-              if (object instanceof Mesh) {
-                object.geometry.dispose();
-                const materials = Array.isArray(object.material) ? object.material : [object.material];
-                materials.forEach((material) => material.dispose());
-              }
-            });
-            scene.remove(group);
-          };
-          render = () => {
-            hubs.forEach((hub, i) => {
-              hub.material.emissive.setHex(i === selected ? 0xffa72d : 0x142b43);
-              hub.material.emissiveIntensity = i === selected ? .55 : .15;
-            });
-            tokens.forEach(({mesh, curve, offset}) => mesh.position.copy(curve.getPoint((elapsed * .19 + offset) % 1)));
-            renderer?.render(scene, camera);
-          };
-          rebuild = () => {
-            if (!renderer || disposed) return;
-            disposeScene();
-            group = new Group();
-            scene.add(group);
-            tokens = [];
-            hubs = [];
-            const width = stage.clientWidth;
-            const height = stage.clientHeight;
-            renderer.setSize(width, height, false);
-            camera.right = width; camera.bottom = height; camera.updateProjectionMatrix();
-            const points = positions().map(([x,y]) => new Vector3(x * width, y * height, 0));
-            points.forEach((point) => {
-              const mesh = new Mesh(new CylinderGeometry(32, 40, 18, 6), new MeshStandardMaterial({color: 0x6b8099, metalness: .55, roughness: .35}));
-              mesh.rotation.set(.9, .25, .12);
-              mesh.position.copy(point);
-              mesh.position.y -= 9;
-              group.add(mesh);
-              hubs.push(mesh);
-              const core = new Mesh(new IcosahedronGeometry(9, 0), new MeshStandardMaterial({color: 0xffbd56, emissive: 0xfca311, emissiveIntensity: .5, metalness: .6, roughness: .3}));
-              core.position.copy(point);
-              core.position.y -= 24;
-              core.position.z = 15;
-              group.add(core);
-            });
-            (qualityMode ? qualityEdges : deliveryEdges).forEach(([from, to, repair], i) => {
-              const a = points[from].clone(); const b = points[to].clone();
-              a.z = b.z = -3;
-              const midpoint = a.clone().lerp(b, .5);
-              if (repair && from === 1 && to === 0) midpoint.y -= 37;
-              else if (repair) midpoint.x -= 30;
-              const curve = new CatmullRomCurve3([a, midpoint, b]);
-              const color = repair ? 0xff897e : 0xe9b85f;
-              const tube = new Mesh(new TubeGeometry(curve, 32, 1.3, 6, false), new MeshBasicMaterial({ color, transparent: true, opacity: .6 }));
-              group.add(tube);
-              const arrow = new Mesh(new ConeGeometry(4, 10, 3), new MeshBasicMaterial({ color }));
-              arrow.position.copy(curve.getPoint(.58));
-              arrow.quaternion.setFromUnitVectors(new Vector3(0,1,0), curve.getTangent(.58).normalize());
-              group.add(arrow);
-              const packet = new Mesh(new IcosahedronGeometry(3.8, 0), new MeshBasicMaterial({ color }));
-              group.add(packet);
-              tokens.push({mesh: packet, curve, offset: i * .13});
-            });
-            render();
-          };
-          canvas.addEventListener('webglcontextlost', (event) => {
-            event.preventDefault();
-            contextLost = true;
-            cancelAnimationFrame(raf);
-            canvas.style.display = 'none';
-            pause.disabled = true;
-            host.querySelector('.explorer-canvas-note')!.textContent = 'Select a stage · diagram rendering unavailable';
-          }, { signal: events.signal });
-          canvas.addEventListener('webglcontextrestored', () => {
-            contextLost = false;
-            canvas.style.display = '';
-            pause.disabled = false;
-            host.querySelector('.explorer-canvas-note')!.textContent = 'Select a stage to inspect its handoff';
-            rebuild(); schedule();
-          }, { signal: events.signal });
-          pause.disabled = false;
-          rebuild();
-          updateMotion();
-        } catch {
-          renderer?.dispose();
-          renderer = undefined;
-          host.querySelector('.explorer-canvas-note')!.textContent = 'Select a stage · text view';
-        }
-      }
-      schedule();
-    }, { threshold: .05 });
-    let started = false;
-    observer.observe(stage);
-    window.addEventListener('pagehide', (event) => {
-      if (event.persisted) return;
-      disposed = true; cancelAnimationFrame(raf);
-      observer.disconnect(); resize.disconnect(); events.abort();
-      disposeScene(); renderer?.dispose();
-    }, { once: true });
-  });
-</script>
