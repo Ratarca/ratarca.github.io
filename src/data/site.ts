@@ -159,11 +159,11 @@ export const labs = [
     type: 'AI'
   },
   {
-    title: 'AI Agents',
+    title: 'Agent Hive',
     description: 'A practical exploration of autonomous agents that build and operate systems.',
-    image: '/assets/img/project/ai_agents/page.webp',
+    image: '/assets/img/project/ai_agents/page.png',
     tags: ['AI', 'Automation', 'Agents'],
-    href: 'https://github.com/ratarca',
+    href: '/labs/agent-hive',
     type: 'AI'
   },
   {
