@@ -110,15 +110,20 @@ const spiralCut = Array.from({ length: 280 }, (_, index) => {
   </defs>
 
   <g class="atlas-guide" stroke="currentColor" stroke-width=".8">
-    <ellipse cx="300" cy="300" rx="226" ry="222" stroke-dasharray="2 7" />
     <path d="M28 300H572M300 18V552" stroke-dasharray="2 8" />
     <path d="M26 35h18M35 26v18M556 35h18M565 26v18M26 555h18M35 546v18M556 555h18M565 546v18" />
+  </g>
+
+  <!-- The shared orbit passes behind every medallion, joining the five figures. -->
+  <g class="atlas-network">
+    <ellipse class="atlas-network-track" cx="300" cy="300" rx="226" ry="222" stroke-width=".8" stroke-dasharray="2 7" />
+    <path class="atlas-network-flow" d="M300 78A226 222 0 0 1 300 522A226 222 0 0 1 300 78" pathLength="1" stroke-width="1.5" stroke-linecap="round" />
   </g>
 
   {capabilities.map((item, index) => {
     const branch = branches[index];
     return (
-      <g class="atlas-branch" data-atlas-branch={item.id} style={`--branch-delay: ${index * .9}s`}>
+      <g class="atlas-branch" data-atlas-branch={item.id}>
         <path d={branch.path} class="atlas-link" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
         <g class="atlas-medallion" transform={`translate(${branch.x} ${branch.y})`}>
           <circle r="62" class="atlas-orbit" stroke="currentColor" stroke-width="1" stroke-dasharray="1 4" />
@@ -134,7 +139,7 @@ const spiralCut = Array.from({ length: 280 }, (_, index) => {
   })}
 
   {capabilities.map((item, index) => (
-    <g class="atlas-branch" data-atlas-branch={item.id} style={`--branch-delay: ${index * .9}s`}>
+    <g class="atlas-branch" data-atlas-branch={item.id}>
         <path d={branches[index].path} class="atlas-ink-flow" pathLength="1" stroke-width="1.8" stroke-linecap="round" />
     </g>
   ))}

@@ -15,6 +15,7 @@ Use os tokens de `src/styles/global.css`. A paleta completa, suas combinações 
 ## Desenhos e diagramas
 
 - **Atlas:** sol em espiral no centro; cerâmica, roda de madeira, teatro de bonecos, renda e fachada vazada nos cinco medalhões. Agentic AI usa um pequeno palco com cortinas em terracota e um boneco de luva. Ao editar esse símbolo, preserve o sol e as outras quatro figuras. O atlas mantém os numerais I–V e as conexões finas.
+- **Sequência do atlas:** a tinta parte do sol e preenche os cinco ramos com pequenas defasagens. Somente após todos alcançarem os medalhões, desenhe o círculo externo que os une. Ramos e círculo compartilham um ciclo de 12 segundos, com pausa para leitura antes de reiniciar. A espiral gira continuamente, com uma volta a cada 30 segundos.
 - **Home:** sete ilustrações em molduras quadradas, com nomes das etapas e sem números romanos ou subtítulos. Design, Build e Validate são bonecos de luva com esquadro, martelo e bloco, e lupa com marca de conferência.
 - **Palco da home:** compacto, com faixa curva “Agents AI”, cortinas recolhidas nas laterais e molduras dos bonecos de contorno único. O triângulo aponta para cima: Design no topo, Build embaixo à direita e Validate embaixo à esquerda.
 - **Fluxo:** exatamente três arestas internas retas, Design → Build → Validate → Design. Understand e Solution se conectam às bordas do palco. As arestas, o letreiro e as cortinas deixam os desenhos e as legendas livres.

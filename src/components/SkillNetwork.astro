@@ -79,10 +79,64 @@ import SkillEngraving from './SkillEngraving.astro';
     let animated = !motionPreference.matches;
     let selected: string | null = null;
     let inView = false;
+    let connections: Animation[] = [];
+
+    const updatePlayback = () => {
+      const visible = inView && !document.hidden;
+      atlas.classList.toggle('is-in-view', visible);
+      connections.forEach((animation) => {
+        if (animated && visible) animation.play();
+        else animation.pause();
+      });
+    };
+
+    const createConnections = () => {
+      // One shared cycle ensures that the orbit waits for all five arrivals.
+      const cycle = 12000;
+      const branchDuration = 1400;
+      const stagger = 450;
+      const fadeStart = 10500;
+      const fadeEnd = 11500;
+      const paths = [...atlas.querySelectorAll<SVGPathElement>('.atlas-ink-flow')];
+      const draw = (element: SVGElement, start: number, duration: number) => element.animate([
+        { offset: 0, strokeDashoffset: 1, opacity: 0 },
+        { offset: start / cycle, strokeDashoffset: 1, opacity: 0 },
+        { offset: (start + 60) / cycle, strokeDashoffset: 1, opacity: 1, easing: 'ease-in-out' },
+        { offset: (start + duration) / cycle, strokeDashoffset: 0, opacity: 1 },
+        { offset: fadeStart / cycle, strokeDashoffset: 0, opacity: 1 },
+        { offset: fadeEnd / cycle, strokeDashoffset: 0, opacity: 0 },
+        { offset: 1, strokeDashoffset: 1, opacity: 0 },
+      ], { duration: cycle, iterations: Infinity });
+
+      paths.forEach((path, index) => {
+        connections.push(draw(path, index * stagger, branchDuration));
+      });
+      const orbit = atlas.querySelector<SVGPathElement>('.atlas-network-flow');
+      const allArrived = (paths.length - 1) * stagger + branchDuration;
+      if (orbit) connections.push(draw(orbit, allArrived + 250, 3400));
+      atlas.querySelectorAll<SVGCircleElement>('.atlas-orbit').forEach((orbit, index) => {
+        const arrival = index * stagger + branchDuration;
+        connections.push(orbit.animate([
+          { offset: 0, stroke: 'var(--line)', strokeWidth: 1 },
+          { offset: (arrival - 120) / cycle, stroke: 'var(--line)', strokeWidth: 1 },
+          { offset: arrival / cycle, stroke: 'var(--clay)', strokeWidth: 1.6 },
+          { offset: fadeStart / cycle, stroke: 'var(--clay)', strokeWidth: 1.6 },
+          { offset: fadeEnd / cycle, stroke: 'var(--line)', strokeWidth: 1 },
+          { offset: 1, stroke: 'var(--line)', strokeWidth: 1 },
+        ], { duration: cycle, iterations: Infinity }));
+      });
+      connections.forEach((animation) => animation.pause());
+    };
 
     const render = () => {
       atlas.classList.toggle('is-animated', animated);
       atlas.classList.toggle('has-selection', selected !== null);
+      if (animated && connections.length === 0) createConnections();
+      if (!animated) {
+        connections.forEach((animation) => animation.cancel());
+        connections = [];
+      }
+      updatePlayback();
       modes.forEach((button) => {
         const isAnimated = button.dataset.atlasMode === 'animated';
         button.setAttribute('aria-pressed', String(isAnimated === animated));
@@ -119,13 +173,12 @@ import SkillEngraving from './SkillEngraving.astro';
     });
 
     // Motion starts when the plate is visible; Static remains an explicit stop.
-    const updateVisibility = () => atlas.classList.toggle('is-in-view', inView && !document.hidden);
     const observer = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
-      updateVisibility();
+      updatePlayback();
     });
     observer.observe(atlas.querySelector('.atlas-plate') ?? atlas);
-    document.addEventListener('visibilitychange', updateVisibility);
+    document.addEventListener('visibilitychange', updatePlayback);
     render();
   });
 </script>

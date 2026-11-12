@@ -525,19 +525,17 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .atlas-roman { fill: currentColor; font-family: var(--serif); font-size: 24px; font-weight: 600; }
 .atlas-branch { transition: opacity .25s, color .25s; }
 .atlas-link { stroke: var(--line); opacity: .82; }
-.atlas-ink-flow { stroke: var(--clay); opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.atlas-network-track { stroke: var(--line); opacity: .5; }
+.atlas-ink-flow, .atlas-network-flow { stroke: var(--clay); opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
 .skill-atlas.has-selection .atlas-branch:not(.is-selected) { opacity: .3; }
 .atlas-branch.is-selected { color: var(--clay); }
 .atlas-branch.is-selected .atlas-link { stroke: var(--clay); opacity: .9; stroke-width: 1.45; }
 .atlas-branch.is-selected .atlas-node-core { fill: var(--paper); }
-.atlas-branch.is-selected .atlas-ink-flow { opacity: 1; }
-.skill-atlas.is-animated .atlas-ink-flow { --engraving-duration: 8s; animation: atlas-ink var(--engraving-duration) ease-in-out var(--branch-delay) infinite; animation-play-state: paused; }
-.skill-atlas.is-animated .atlas-orbit { --engraving-duration: 8s; animation: atlas-impression var(--engraving-duration) ease-in-out var(--branch-delay) infinite; animation-play-state: paused; }
-.skill-atlas.is-animated .atlas-solar-core { --engraving-duration: 90s; animation: atlas-solar-turn var(--engraving-duration) linear infinite; animation-play-state: paused; }
+.atlas-branch.is-selected .atlas-ink-flow { opacity: 1; stroke-dashoffset: 0; }
+.skill-atlas.is-animated .atlas-solar-core { --engraving-duration: 30s; animation: atlas-solar-turn var(--engraving-duration) linear infinite; animation-play-state: paused; }
 .skill-atlas.is-animated .atlas-puppet { --engraving-duration: 5.6s; animation: engraving-puppet var(--engraving-duration) ease-in-out infinite; animation-play-state: paused; }
-.skill-atlas.is-animated.is-in-view .atlas-ink-flow, .skill-atlas.is-animated.is-in-view .atlas-orbit, .skill-atlas.is-animated.is-in-view .atlas-solar-core, .skill-atlas.is-animated.is-in-view .atlas-puppet { animation-play-state: running; }
+.skill-atlas.is-animated.is-in-view .atlas-solar-core, .skill-atlas.is-animated.is-in-view .atlas-puppet { animation-play-state: running; }
 .skill-atlas.has-selection .atlas-branch:not(.is-selected) .atlas-puppet { animation-play-state: paused; }
-.skill-atlas.is-animated.has-selection .atlas-branch:not(.is-selected) .atlas-ink-flow, .skill-atlas.is-animated.has-selection .atlas-branch:not(.is-selected) .atlas-orbit { animation: none; }
 .atlas-plate figcaption { display: grid; gap: 2px; text-align: center; }
 .atlas-plate figcaption strong { font-family: var(--serif); font-size: 31px; font-weight: 600; line-height: 1.1; }
 .atlas-plate figcaption > span { font-family: var(--mono); font-size: 9px; color: var(--muted); }
@@ -561,16 +559,6 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .atlas-status { display: inline-flex; align-items: center; gap: 8px; color: var(--cactus); }
 .atlas-status::before { content: ''; flex: 0 0 5px; height: 5px; background: currentColor; border-radius: 50%; }
 .atlas-motion-note { margin: 0; padding: 12px 32px; color: var(--muted); border-top: 1px solid var(--line); font-size: 9px; }
-@keyframes atlas-ink {
-  0% { stroke-dashoffset: 1; opacity: 0; }
-  8% { opacity: 1; }
-  42%, 65% { stroke-dashoffset: 0; opacity: 1; }
-  90%, 100% { stroke-dashoffset: 0; opacity: 0; }
-}
-@keyframes atlas-impression {
-  0%, 25%, 90%, 100% { stroke: var(--line); stroke-width: 1; }
-  42%, 65% { stroke: var(--clay); stroke-width: 1.6; }
-}
 @keyframes atlas-solar-turn {
   to { transform: rotate(-360deg); }
 }
@@ -600,7 +588,8 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 @media print {
   .atlas-modes, .atlas-instruction, .atlas-motion-note, .atlas-colophon { display: none !important; }
   .skill-atlas .atlas-branch { opacity: 1 !important; color: var(--ink); }
-  .skill-atlas .atlas-ink-flow { display: none; }
+  .skill-atlas .atlas-ink-flow, .skill-atlas .atlas-network-flow { display: none; }
+  .skill-atlas .atlas-orbit { stroke: var(--ink) !important; stroke-width: 1 !important; }
   .skill-atlas .atlas-orbit, .skill-atlas .atlas-solar-core, .skill-atlas .atlas-puppet { animation: none !important; }
 }
 
@@ -773,7 +762,7 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   [data-reveal].will-reveal { opacity: 1; transform: none; }
   /* The diagrams start static; only their explicit Animated controls opt in. */
   .dag-scene.is-animated :is(.workflow-ink, .workflow-glyph),
-  .skill-atlas.is-animated :is(.atlas-ink-flow, .atlas-orbit, .atlas-solar-core, .atlas-puppet) {
+  .skill-atlas.is-animated :is(.atlas-solar-core, .atlas-puppet) {
     animation-duration: var(--engraving-duration) !important;
   }
 }

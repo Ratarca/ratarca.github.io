@@ -62,7 +62,7 @@ Os três bonecos ficam em quadrados de contorno único dentro de um teatro compa
 - As arestas são mais leves que os contornos dos ícones: um traço fino, contínuo e discreto. O atlas conserva seus ramos suavemente curvos.
 - No teatro, o triângulo aponta para cima e tem exatamente três arestas retas: **Design → Build → Validate → Design**. Understand e Solution se conectam às bordas do palco.
 - A seta é pequena e serve para indicar direção. A conexão deve deixar rostos, objetos e legendas livres.
-- A animação começa ao entrar na tela, percorre as conexões e destaca a etapa em execução. Os bonecos da home fazem um gesto curto durante sua etapa; no atlas, o núcleo do sol gira lentamente e o boneco do teatro se move com suavidade.
+- A animação começa ao entrar na tela, percorre as conexões e destaca a etapa em execução. Os bonecos da home fazem um gesto curto durante sua etapa. No atlas, a tinta parte do sol e preenche os cinco ramos; após todas as chegadas aos medalhões, o círculo externo se desenha para uni-los. As conexões compartilham um ciclo de 12 segundos e permanecem completas antes de desvanecer. A espiral gira continuamente a cada 30 segundos e o boneco do teatro se move com suavidade.
 - Animar o grupo interno da figura mantém molduras, letreiros e legendas estáveis. Preserve os botões estáticos, a pausa fora da tela ou com a aba oculta e o suporte a movimento reduzido.
 - Com movimento reduzido, iniciar cada diagrama estático e explicar o motivo. Manter o botão Animated disponível para uma escolha explícita de reprodução, restrita ao desenho atual e sem persistência. Static interrompe o movimento; uma nova ativação da preferência também deve interrompê-lo. As entradas de texto continuam sem animação nessa preferência.
 
