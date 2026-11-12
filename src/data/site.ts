@@ -5,7 +5,7 @@ export const profile = {
   email: 'ratarca.rtc@gmail.com',
   linkedin: 'https://www.linkedin.com/in/targino-rafael',
   github: 'https://github.com/ratarca',
-  youtube: 'https://www.youtube.com/@rafael-emergente',
+  youtube: 'https://www.youtube.com/@rafael-targino',
   resume: 'https://drive.google.com/uc?export=download&id=1o-tZESttaidA7Dl1eNf-9pGrZwHpQ4Av'
 };
 
