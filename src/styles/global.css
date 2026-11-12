@@ -37,10 +37,6 @@ img { display: block; max-width: 100%; }
 .site-shell { overflow: clip; }
 .site-header { width: min(1280px, calc(100% - 96px)); height: 96px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; border-bottom: 3px double var(--ink); }
 .site-header::before { content: ''; position: absolute; z-index: -1; inset: 0 50% auto; width: 100vw; height: 96px; transform: translateX(-50%); background: var(--paper); }
-.wordmark { display: inline-flex; align-items: center; gap: 13px; min-height: 44px; font-family: var(--serif); font-weight: 600; }
-.wordmark-mark { display: block; flex: 0 0 auto; width: 88px; }
-.wordmark-mark svg { display: block; width: 100%; height: auto; }
-.wordmark-name { font-size: 23px; letter-spacing: -.025em; }
 .desktop-nav { display: flex; gap: 27px; }
 .desktop-nav a { color: var(--muted); font-family: var(--mono); font-size: 11px; letter-spacing: .025em; padding: 10px 0; position: relative; }
 .desktop-nav a::after { content: ''; background: var(--clay); width: 100%; height: 2px; position: absolute; left: 0; bottom: 4px; opacity: 0; transition: opacity .2s; }
@@ -310,9 +306,10 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: auto 0 0; }
 .tag-list li { padding: 4px 7px; color: var(--muted); background: var(--sand); font-family: var(--mono); font-size: 9px; }
 .empty-state { color: var(--muted); padding: 40px 0; }
-.labs-cta { padding: 80px max(24px, calc((100% - 1040px) / 2)); background: var(--sand); }
+.labs-cta { padding: 80px max(24px, calc((100% - 1040px) / 2)); background: var(--cactus); color: var(--paper-light); }
+.labs-cta > .eyebrow { color: var(--ochre); }
 .labs-cta h2 { max-width: 520px; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1; margin-bottom: 4px; }
-.labs-cta-copy { max-width: 560px; margin: 14px 0 26px; color: var(--muted); font-size: 16px; line-height: 1.55; }
+.labs-cta-copy { max-width: 560px; margin: 14px 0 26px; color: var(--sand); font-size: 16px; line-height: 1.55; }
 
 /* contextual contact CTA pill */
 .lab-cta-pill {
@@ -773,8 +770,6 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   .site-header, .hero, .section, .labs-hero, .labs-section, .site-footer { width: min(100% - 40px, 620px); }
   .site-header { height: 76px; }
   .site-header::before { height: 76px; }
-  .wordmark-name { font-size: 21px; }
-  .wordmark-mark { width: 68px; }
   .desktop-nav, .resume-link { display: none; }
   .menu-button { display: inline-grid; place-items: center; }
   .mobile-nav { position: fixed; inset: 76px 0 0; height: calc(100dvh - 76px); overflow-y: auto; display: none; flex-direction: column; gap: 18px; padding: 38px 24px; background: var(--ink); color: #fff; }
@@ -906,7 +901,6 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   .availability-note { min-width: 94px; }
   .hero-social-links { justify-content: flex-end; }
   .desktop-nav { gap: 17px; }
-  .wordmark-name { display: none; }
   .about-grid, .skills-layout { gap: 55px; }
   .labs-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -920,7 +914,6 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   .hero-social-links a { width: 36px; height: 42px; }
   .hero-actions { gap: 12px; }
   .hero-actions .button { padding: 0 17px; }
-  .wordmark-name { font-size: 20px; }
   .about-map { gap: 10px; }
   .about-map ol { gap: 6px 10px; }
 }

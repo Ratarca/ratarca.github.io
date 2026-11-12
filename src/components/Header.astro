@@ -1,13 +1,13 @@
 ---
 import { profile } from '../data/site';
 import Icon from './Icon.astro';
-import wordmark from '../assets/brand/rt-sun.svg?raw';
+import BrandWordmark from './BrandWordmark.astro';
 
 const { current = 'home' } = Astro.props;
 ---
 
 <header class="site-header" data-site-header>
-  <a class="wordmark" href="/" aria-label="Rafael Targino, home"><span class="wordmark-mark" aria-hidden="true" set:html={wordmark} /><span class="wordmark-name">{profile.name}</span></a>
+  <BrandWordmark />
   <nav class="desktop-nav" aria-label="Primary navigation">
     <a class:list={[{ active: current === 'home' }]} href="/#about">About</a>
     <a class:list={[{ active: current === 'experience' }]} href="/experience">Experience</a>

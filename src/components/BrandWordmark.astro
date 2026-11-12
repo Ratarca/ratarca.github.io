@@ -1,0 +1,40 @@
+---
+import { profile } from '../data/site';
+import SunMark from './SunMark.astro';
+
+const [firstName, ...familyNames] = profile.name.split(' ');
+const lastName = familyNames.join(' ');
+---
+
+<div class="wordmark-slot">
+  <a class="wordmark" href="/" aria-label={`${profile.name}, home`}>
+    <span class="wordmark-copy" aria-hidden="true">
+      <span class="wordmark-word"><span>{firstName[0]}</span><span class="wordmark-rest">{firstName.slice(1)}</span></span>
+      <span class="wordmark-word"><span>{lastName[0]}</span><span class="wordmark-rest">{lastName.slice(1)}</span></span>
+      <span class="wordmark-sun"><SunMark /></span>
+    </span>
+  </a>
+</div>
+
+<style>
+  .wordmark-slot { --mark-compact: 72px; --mark-expanded: 248px; --mark-small-type: 34px; --mark-full-type: 32px; --mark-small-sun: 11px; --mark-full-sun: 18px; flex: 0 0 var(--mark-expanded); }
+  .wordmark { --mark-open: 0; display: inline-flex; align-items: center; justify-content: flex-start; width: calc(var(--mark-compact) + (var(--mark-expanded) - var(--mark-compact)) * var(--mark-open)); height: 56px; color: var(--ink); font-family: var(--serif); font-size: calc(var(--mark-small-type) + (var(--mark-full-type) - var(--mark-small-type)) * var(--mark-open)); font-weight: 700; letter-spacing: -.025em; transition: width .65s cubic-bezier(.22, 1, .36, 1), font-size .65s cubic-bezier(.22, 1, .36, 1); }
+  .wordmark:focus-visible { --mark-open: 1; }
+  .wordmark-copy { display: inline-flex; align-items: baseline; line-height: 1; white-space: nowrap; pointer-events: none; }
+  .wordmark-word { display: inline-flex; align-items: baseline; }
+  .wordmark-word + .wordmark-word { margin-left: calc(.2em * var(--mark-open)); transition: margin-left .65s cubic-bezier(.22, 1, .36, 1); }
+  .wordmark-rest { min-width: 0; max-width: calc(7ch * var(--mark-open)); overflow: hidden; opacity: var(--mark-open); transition: max-width .65s cubic-bezier(.22, 1, .36, 1), opacity .3s ease; }
+  .wordmark-sun { display: block; flex: none; width: calc(var(--mark-small-sun) + (var(--mark-full-sun) - var(--mark-small-sun)) * var(--mark-open)); height: calc(var(--mark-small-sun) + (var(--mark-full-sun) - var(--mark-small-sun)) * var(--mark-open)); margin-left: calc(3px + 3px * var(--mark-open)); transform: rotate(calc(120deg * var(--mark-open))); transition: width .65s ease, height .65s ease, margin-left .65s ease, transform .8s cubic-bezier(.22, 1, .36, 1); }
+  .wordmark-sun :global(svg) { display: block; width: 100%; height: 100%; }
+  @media (hover: hover) {
+    .wordmark:hover { --mark-open: 1; }
+  }
+  @media (max-width: 780px) {
+    .wordmark-slot { --mark-compact: 62px; --mark-expanded: 224px; --mark-small-type: 28px; --mark-full-type: 28px; --mark-small-sun: 10px; --mark-full-sun: 16px; }
+    .wordmark { height: 48px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark, .wordmark-rest, .wordmark-sun, .wordmark-word { transition: none !important; }
+    .wordmark-sun { transform: none; }
+  }
+</style>

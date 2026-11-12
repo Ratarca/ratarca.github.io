@@ -14,7 +14,7 @@ Este é o guia principal de identidade. Para desenhar ou substituir símbolos, c
 | Papel claro | `--paper-light` | `#FAF6ED` | Áreas de leitura, cartões e incisões claras nas ilustrações |
 | Tinta de carvão | `--ink` | `#262820` | Texto principal, títulos, silhuetas e contornos |
 | Barro | `--clay` | `#A34830` | Ênfases, seleção, sol e cortinas do teatro |
-| Mandacaru | `--cactus` | `#475640` | Ações principais, seção de contato, fundo de Connected capability e conexões concluídas |
+| Mandacaru | `--cactus` | `#475640` | Ações principais, contato, Connected capability, Open to collaboration em Labs e conexões concluídas |
 | Ocre | `--ochre` | `#CFAC63` | Pequenos detalhes, amarrações das cortinas e acentos em fundos escuros |
 | Areia | `--sand` | `#E7DCC7` | Superfícies secundárias, letreiros e roupas dos bonecos |
 | Texto secundário | `--muted` | `#626151` | Parágrafos, legendas e detalhes secundários |
@@ -28,7 +28,7 @@ A fonte dos valores é o bloco `:root` de [`src/styles/global.css`](../src/style
 | --- | --- | --- |
 | Carvão | Papel ou papel claro | Leitura principal e contornos das figuras |
 | Texto secundário | Papel ou papel claro | Legendas e descrições de apoio |
-| Papel claro | Mandacaru | Botões e chamadas da seção de contato e de Connected capability |
+| Papel claro | Mandacaru | Chamadas de contato, Connected capability e Open to collaboration de Labs |
 | Barro | Papel claro | Ênfases pontuais, seleção e pequenos elementos ilustrados |
 | Ocre | Mandacaru ou carvão | Detalhes e acentos em áreas escuras |
 | Traço | Papel ou papel claro | Filetes, guias e arestas; reservar o texto para carvão ou texto secundário |
@@ -63,9 +63,11 @@ Os aliases mantêm os componentes anteriores na mesma paleta. Em novas edições
 
 ![Marca RT com o sol de barro em espiral no lugar do ponto.](../src/assets/brand/rt-sun.svg)
 
-O header usa uma marca RT de desenho próprio, com letras serifadas em carvão e um pequeno sol em espiral como ponto. Os contornos estão em [`src/assets/brand/rt-sun.svg`](../src/assets/brand/rt-sun.svg), sem dependência de fonte para as iniciais. O SVG é incorporado no [`Header.astro`](../src/components/Header.astro), acompanha os tokens da paleta e mantém o nome Rafael Targino ao lado. A marca mede 88 px de largura no desktop e 68 px no celular.
+O header usa a marca de [`BrandWordmark.astro`](../src/components/BrandWordmark.astro): RT em Cormorant Garamond, amplo e sem moldura, com um pequeno sol em espiral no lugar do ponto. Ao passar o mouse ou dar foco pelo teclado, as letras intermediárias se revelam suavemente até formar Rafael Targino, com o sol no final. Ao sair, o nome recolhe para RT. O sol é desenhado em [`SunMark.astro`](../src/components/SunMark.astro), usando os mesmos tokens de barro e papel das gravuras.
 
-O [favicon](../public/favicon.svg) reúne o sol, o palco com cortinas de barro e um boneco em uma silhueta simples sobre papel claro. Essa composição identifica o site em abas claras ou escuras. O [`favicon.ico`](../public/favicon.ico) contém rasterizações de 16, 32 e 48 px do mesmo SVG. Os dois formatos são declarados no [`BaseLayout.astro`](../src/layouts/BaseLayout.astro); ao alterar a arte, regenere o ICO e atualize o parâmetro de versão dos links para renovar o ícone em cache. A marca e o favicon permanecem estáticos.
+O header reserva 248 px no desktop e 224 px no celular para a expansão sem deslocar a navegação. RT aparece maior para facilitar a leitura; a abertura do nome leva cerca de 650 ms. Em dispositivos sem hover, a marca mantém o estado compacto e o link direto para a home. O foco pelo teclado também revela o nome; com movimento reduzido, essa troca é instantânea. A interação usa apenas CSS e funciona sem JavaScript. [`src/assets/brand/rt-sun.svg`](../src/assets/brand/rt-sun.svg) permanece como versão estática de exportação, com letras em contornos vetoriais.
+
+O [favicon](../public/favicon.svg) reúne o sol, o palco com cortinas de barro e um boneco em uma silhueta simples sobre papel claro. Essa composição identifica o site em abas claras ou escuras. O [`favicon.ico`](../public/favicon.ico) contém rasterizações de 16, 32 e 48 px do mesmo SVG. Os dois formatos são declarados no [`BaseLayout.astro`](../src/layouts/BaseLayout.astro); ao alterar a arte, regenere o ICO e atualize o parâmetro de versão dos links para renovar o ícone em cache. O favicon permanece estático.
 
 ## Ícones e ilustrações simples
 
