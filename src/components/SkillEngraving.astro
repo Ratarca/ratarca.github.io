@@ -66,12 +66,16 @@ const spiralCut = Array.from({ length: 280 }, (_, index) => {
       <path d="M-36-31Q-18-30 0-34Q18-30 36-31V-19Q18-22 0-19Q-18-22-36-19Z" fill="var(--sand)" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
       <path d="M-9-26H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
       <path d="m-25-28 2 2-2 2-2-2Zm50 0 2 2-2 2-2-2Z" fill="currentColor" />
+      <path d="M-35 28H35M-37 33H37" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    </symbol>
+
+    <!-- Animate a rendered instance of the actor while its stage remains fixed. -->
+    <symbol id="atlas-agentic-puppet" viewBox="-40 -40 80 80">
       <path d="m-4 3-8-5-3 4 8 7M4 3l8-5 3 4-8 7" fill="var(--sand)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
       <path d="M-5 0H5L11 20Q0 24-11 20Z" fill="url(#atlas-fine-hatch)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
       <circle cy="-7" r="6" class="atlas-paper-fill" stroke="currentColor" stroke-width="1.8" />
       <path d="M-7-10q6-10 14 0Z" fill="currentColor" />
       <path d="M-2-7h.1M2-7h.1M-2-3q2 2 4 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-      <path d="M-35 28H35M-37 33H37" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
     </symbol>
 
     <!-- Repeated openwork and interlaced geometry recall handwoven patterns. -->
@@ -122,6 +126,7 @@ const spiralCut = Array.from({ length: 280 }, (_, index) => {
           <circle r="51" class="atlas-node-core" stroke="currentColor" stroke-width="1.4" />
           <circle r="47" stroke="currentColor" stroke-width=".7" />
           <use href={`#atlas-emblem-${item.id}`} x="-32" y="-40" width="64" height="64" />
+          {item.id === 'agentic' && <g class="atlas-puppet"><use href="#atlas-agentic-puppet" x="-32" y="-40" width="64" height="64" /></g>}
           <text y="41" text-anchor="middle" class="atlas-roman">{item.number}</text>
         </g>
       </g>

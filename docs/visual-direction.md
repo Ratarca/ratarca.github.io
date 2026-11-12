@@ -57,6 +57,7 @@ Os aliases mantêm os componentes anteriores na mesma paleta. Em novas edições
 - O retrato protagoniza a abertura; localização e canais de contato aparecem logo abaixo. A xilogravura fica registrada como referência visual e não acompanha o bloco de localização.
 - O verde conecta a abertura à seção final. As páginas internas, os estudos de caso e os diagramas usam a mesma paleta.
 - Os textos principais, dados, projetos, imagens de projetos e destinos dos links existentes foram preservados, incluindo o idioma original.
+- About e Skills usam entradas graduais de texto e blocos ao rolar a página. Os atrasos entre elementos ficam entre 80 e 200 ms; sem JavaScript ou com movimento reduzido, o conteúdo permanece diretamente visível.
 
 ## Ícones e ilustrações simples
 
@@ -94,8 +95,8 @@ Constraints: no letters, no typography, no UI, no watermark, no logos, no knight
 
 O atlas é uma prancha de gravura com cinco medalhões numerados conectados ao centro **Problem solving**, representado por um sol de barro com incisão em espiral e raios de tinta. Os medalhões evocam cerâmica, uma roda de madeira, um teatro de bonecos, tramas de renda e uma fachada com telhas e aberturas vazadas. Em **Agentic AI**, o pequeno teatro tem faixa superior curva, cortinas em terracota e um boneco de luva no palco, seguindo a mesma linguagem do teatro da home. Ao editar esse símbolo, preserve o sol e os outros quatro desenhos. O [mapa de iconografia](iconografia-e-referencias.md) relaciona cada figura à disciplina correspondente.
 
-- **Static engraving:** composição completa, parada, exibida por padrão.
-- **Animated engraving:** um traço fino de tinta percorre os ramos e o núcleo do sol gira lentamente. As conexões usam uma linha única e discreta; o ramo selecionado recebe um leve destaque. O botão de gravura estática encerra o movimento; a animação também pausa fora da tela ou com a aba oculta.
+- **Animated engraving:** inicia automaticamente quando a prancha entra na tela, se o dispositivo permitir movimento. Um traço fino de tinta percorre os ramos, o núcleo do sol gira lentamente e o boneco de Agentic AI faz um gesto suave. As conexões usam uma linha única e discreta; o ramo selecionado recebe um leve destaque. A animação pausa fora da tela ou com a aba oculta.
+- **Static engraving:** o botão mantém a composição completa e parada até o usuário reativar o modo animado. É a apresentação usada sem JavaScript ou com preferência por movimento reduzido.
 - A chave de leitura mantém todas as disciplinas e ferramentas visíveis. Selecionar uma disciplina destaca o ramo correspondente; selecionar novamente restaura o conjunto.
 - O desenho é SVG nativo, em `src/components/SkillEngraving.astro`. A interface e os controles estão em `src/components/SkillNetwork.astro`, e o conteúdo vem de `capabilities` em `src/data/site.ts`.
 - A leitura funciona sem JavaScript ou WebGL. Os controles usam botões com estado acessível por teclado. A preferência por movimento reduzido mantém a gravura estática; a impressão também remove a animação.
@@ -111,7 +112,7 @@ A referência complementar de clareza é a [Anthropic Academy](https://anthropic
 O fluxo é **Problem → Understand → [Design → Build → Validate → Design] → Solution → Value**. O triângulo aponta para cima, com Design no topo, Build no vértice inferior direito e Validate no inferior esquerdo. Ele tem somente três arestas internas, todas retas e direcionadas, uma para cada lado do ciclo. As arestas usam um traço fino e uma ponta de seta pequena; a animação acrescenta apenas um leve acento de tinta. As molduras dos bonecos têm um único contorno. A seta de Understand termina na borda de entrada do teatro; a seta para Solution parte da borda de saída. O letreiro e as cortinas deixam essas entradas e os bonecos livres. As sete etapas, as sete transições e o percurso animado estão em `workflowTasks`, `workflowDependencies` e `workflowSequence`, em `src/data/site.ts`. A arte fica em `src/components/WorkflowEngraving.astro` e o controle de animação em `src/components/DagScene.astro`.
 
 - A composição horizontal se transforma em vertical quando o espaço disponível é menor.
-- **Animated:** a tinta percorre o ciclo Design → Build → Validate → Design e depois segue para Solution e Value.
+- **Animated:** inicia quando o fluxo entra na tela. A tinta percorre o ciclo Design → Build → Validate → Design e depois segue para Solution e Value; o símbolo em execução recebe um movimento discreto. Os três bonecos fazem um gesto curto, mantendo as molduras e legendas fixas.
 - **Static:** todas as etapas ficam completas e o desenho permanece parado.
 - O movimento pausa fora da tela e com a aba oculta. Movimento reduzido e ausência de JavaScript exibem a gravura estática completa.
 - As ilustrações são SVG; a lista das sete etapas também está disponível para leitores de tela. Os controles funcionam por teclado e indicam o modo selecionado.

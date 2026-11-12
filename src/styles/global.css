@@ -105,6 +105,7 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .workflow-node-frame { fill: var(--paper-light); stroke: var(--ink); stroke-width: 1.7; }
 .workflow-node-inset { fill: none; stroke: var(--line); stroke-width: .7; }
 .workflow-node[data-state="running"] .workflow-glyph { color: var(--clay); }
+.workflow-glyph { transform-box: fill-box; transform-origin: center; }
 .workflow-node[data-state="running"] .workflow-node-frame { stroke: var(--clay); stroke-width: 2.6; }
 .workflow-node-title { fill: var(--ink); font-family: var(--mono); font-size: 19px; letter-spacing: .04em; }
 .workflow-art-compact .workflow-node-title { font-size: 18px; }
@@ -124,6 +125,9 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .workflow-accent-fill { fill: var(--clay); }
 .dag-scene.is-animated .workflow-route[data-state="running"] .workflow-ink { animation: workflow-etch 1.2s ease-in-out infinite; animation-play-state: paused; }
 .dag-scene.is-running .workflow-route[data-state="running"] .workflow-ink { animation-play-state: running; }
+.dag-scene.is-animated .workflow-node[data-state="running"] .workflow-glyph { animation: workflow-impression 1.2s ease-in-out infinite; animation-play-state: paused; }
+.dag-scene.is-animated .workflow-node-agent[data-state="running"] .workflow-glyph { animation-name: engraving-puppet; transform-origin: 50% 90%; }
+.dag-scene.is-running .workflow-node[data-state="running"] .workflow-glyph { animation-play-state: running; }
 .dag-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 23px; padding: 15px 24px; color: var(--muted); border-top: 1px solid var(--ink); font-family: var(--mono); font-size: 9px; }
 .dag-footer > span { display: inline-flex; align-items: center; gap: 7px; }
 .dag-success-dot { background: var(--cactus); }
@@ -135,6 +139,14 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   0% { stroke-dashoffset: 1; opacity: 0; }
   10% { opacity: 1; }
   85%, 100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes workflow-impression {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-1px) scale(1.025); }
+}
+@keyframes engraving-puppet {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-1.3px) rotate(3deg); }
 }
 @container (max-width: 680px) {
   .workflow-art-wide { display: none; }
@@ -150,11 +162,12 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dag-scene.is-animated .workflow-route[data-state="running"] .workflow-ink { animation: none; opacity: 1; }
+  .dag-scene .workflow-glyph { animation: none !important; transform: none !important; }
 }
 @media print {
   .dag-controls, .dag-motion-note { display: none !important; }
   .dag-scene .workflow-ink { animation: none !important; stroke-dashoffset: 0 !important; }
-  .dag-scene .workflow-glyph { color: var(--ink) !important; }
+  .dag-scene .workflow-glyph { color: var(--ink) !important; animation: none !important; transform: none !important; }
 }
 .availability-note { min-width: 105px; }
 .availability-note span { display: block; color: var(--clay); font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
@@ -510,6 +523,7 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .atlas-solar-spiral { stroke: var(--paper-light); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
 .atlas-solar-grain { stroke: var(--paper-light); stroke-width: .9; opacity: .75; }
 .atlas-solar-core { transform-box: fill-box; transform-origin: center; }
+.atlas-puppet { transform-box: fill-box; transform-origin: 50% 90%; }
 .atlas-paper-fill, .atlas-node-core { fill: var(--paper-light); }
 .atlas-cut { stroke: var(--paper-light); }
 .atlas-roman { fill: currentColor; font-family: var(--serif); font-size: 24px; font-weight: 600; }
@@ -524,7 +538,9 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .skill-atlas.is-animated .atlas-ink-flow { animation: atlas-ink 8s ease-in-out var(--branch-delay) infinite; animation-play-state: paused; }
 .skill-atlas.is-animated .atlas-orbit { animation: atlas-impression 8s ease-in-out var(--branch-delay) infinite; animation-play-state: paused; }
 .skill-atlas.is-animated .atlas-solar-core { animation: atlas-solar-turn 90s linear infinite; animation-play-state: paused; }
-.skill-atlas.is-animated.is-in-view .atlas-ink-flow, .skill-atlas.is-animated.is-in-view .atlas-orbit, .skill-atlas.is-animated.is-in-view .atlas-solar-core { animation-play-state: running; }
+.skill-atlas.is-animated .atlas-puppet { animation: engraving-puppet 5.6s ease-in-out infinite; animation-play-state: paused; }
+.skill-atlas.is-animated.is-in-view .atlas-ink-flow, .skill-atlas.is-animated.is-in-view .atlas-orbit, .skill-atlas.is-animated.is-in-view .atlas-solar-core, .skill-atlas.is-animated.is-in-view .atlas-puppet { animation-play-state: running; }
+.skill-atlas.has-selection .atlas-branch:not(.is-selected) .atlas-puppet { animation-play-state: paused; }
 .skill-atlas.is-animated.has-selection .atlas-branch:not(.is-selected) .atlas-ink-flow, .skill-atlas.is-animated.has-selection .atlas-branch:not(.is-selected) .atlas-orbit { animation: none; }
 .atlas-plate figcaption { display: grid; gap: 2px; text-align: center; }
 .atlas-plate figcaption strong { font-family: var(--serif); font-size: 31px; font-weight: 600; line-height: 1.1; }
@@ -586,13 +602,13 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   .atlas-motion-note { padding: 12px 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .skill-atlas.is-animated .atlas-ink-flow, .skill-atlas.is-animated .atlas-orbit, .skill-atlas.is-animated .atlas-solar-core { animation: none; }
+  .skill-atlas.is-animated .atlas-ink-flow, .skill-atlas.is-animated .atlas-orbit, .skill-atlas.is-animated .atlas-solar-core, .skill-atlas.is-animated .atlas-puppet { animation: none !important; }
 }
 @media print {
   .atlas-modes, .atlas-instruction, .atlas-motion-note, .atlas-colophon { display: none !important; }
   .skill-atlas .atlas-branch { opacity: 1 !important; color: var(--ink); }
   .skill-atlas .atlas-ink-flow { display: none; }
-  .skill-atlas .atlas-orbit, .skill-atlas .atlas-solar-core { animation: none !important; }
+  .skill-atlas .atlas-orbit, .skill-atlas .atlas-solar-core, .skill-atlas .atlas-puppet { animation: none !important; }
 }
 
 .education-page-section { width: min(1040px, calc(100% - 48px)); margin: 0 auto; padding: 0 0 140px; }

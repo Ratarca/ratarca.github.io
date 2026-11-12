@@ -31,7 +31,7 @@ import SkillEngraving from './SkillEngraving.astro';
     </header>
 
     <div class="atlas-spread">
-      <figure class="atlas-plate" id="atlas-plate">
+      <figure class="atlas-plate" id="atlas-plate" data-reveal>
         <div class="atlas-plate-heading"><span>Systems · disciplines · connections</span><span aria-hidden="true">✳</span></div>
         <SkillEngraving />
         <figcaption>
@@ -40,7 +40,7 @@ import SkillEngraving from './SkillEngraving.astro';
         </figcaption>
       </figure>
 
-      <div class="atlas-key">
+      <div class="atlas-key" data-reveal style="--delay: 120ms">
         <p class="atlas-key-heading">A reading key <span aria-hidden="true">↙</span></p>
         <ol class="atlas-disciplines">
           {capabilities.map((item) => (
@@ -76,7 +76,7 @@ import SkillEngraving from './SkillEngraving.astro';
     const status = atlas.querySelector<HTMLElement>('[data-atlas-status]');
     const motionNote = atlas.querySelector<HTMLElement>('.atlas-motion-note');
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let animated = false;
+    let animated = !motionPreference.matches;
     let selected: string | null = null;
     let inView = false;
 
@@ -113,7 +113,7 @@ import SkillEngraving from './SkillEngraving.astro';
       render();
     });
 
-    // CSS animation runs only on request, while the plate is on screen.
+    // Motion starts when the plate is visible; Static remains an explicit stop.
     const updateVisibility = () => atlas.classList.toggle('is-in-view', inView && !document.hidden);
     const observer = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;

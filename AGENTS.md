@@ -19,6 +19,7 @@ Use os tokens de `src/styles/global.css`. A paleta completa, suas combinações 
 - **Palco da home:** compacto, com faixa curva “Agents AI”, cortinas recolhidas nas laterais e molduras dos bonecos de contorno único. O triângulo aponta para cima: Design no topo, Build embaixo à direita e Validate embaixo à esquerda.
 - **Fluxo:** exatamente três arestas internas retas, Design → Build → Validate → Design. Understand e Solution se conectam às bordas do palco. As arestas, o letreiro e as cortinas deixam os desenhos e as legendas livres.
 - As referências regionais aparecem nas ilustrações e na paleta. Os títulos e as legendas descrevem as competências e as etapas.
+- As animações da home e do atlas iniciam ao entrar na tela e pausam fora dela ou com a aba oculta. Os bonecos fazem gestos discretos; molduras e legendas ficam estáveis. Preserve os botões estáticos, a preferência por movimento reduzido e a leitura sem JavaScript.
 
 ## Conteúdo
 
