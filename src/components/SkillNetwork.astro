@@ -64,7 +64,7 @@ import SkillEngraving from './SkillEngraving.astro';
       <span class="atlas-status" role="status" data-atlas-status>Static engraving · all five disciplines</span>
       <span>Five disciplines. One way of working.</span>
     </footer>
-    <p class="atlas-motion-note" id="atlas-motion-note" hidden>Motion is reduced in your device settings. Explore every branch in the static engraving.</p>
+    <p class="atlas-motion-note" id="atlas-motion-note" hidden>Reduced motion is enabled on your device. Choose Animated engraving to play this illustration, or keep the static view.</p>
   </div>
 </section>
 
@@ -86,18 +86,23 @@ import SkillEngraving from './SkillEngraving.astro';
       modes.forEach((button) => {
         const isAnimated = button.dataset.atlasMode === 'animated';
         button.setAttribute('aria-pressed', String(isAnimated === animated));
-        button.disabled = isAnimated && motionPreference.matches;
       });
       disciplines.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.atlasDiscipline === selected)));
       branches.forEach((branch) => branch.classList.toggle('is-selected', branch.dataset.atlasBranch === selected));
       const name = Array.from(disciplines).find((button) => button.dataset.atlasDiscipline === selected)?.querySelector('.atlas-name')?.textContent;
       if (status) status.textContent = `${animated ? 'Animated' : 'Static'} engraving · ${name ? `${name} selected` : 'all five disciplines'}`;
-      if (motionNote) motionNote.hidden = !motionPreference.matches;
+      if (motionNote) {
+        motionNote.hidden = !motionPreference.matches;
+        motionNote.textContent = animated
+          ? 'Playing by your choice. Choose Static engraving to stop the animation.'
+          : 'Reduced motion is enabled on your device. Choose Animated engraving to play this illustration, or keep the static view.';
+      }
     };
 
     atlas.querySelectorAll<HTMLElement>('[data-atlas-controls]').forEach((element) => { element.hidden = false; });
     modes.forEach((button) => button.addEventListener('click', () => {
-      animated = button.dataset.atlasMode === 'animated' && !motionPreference.matches;
+      // Reduced motion sets the initial mode; the reader can explicitly opt in.
+      animated = button.dataset.atlasMode === 'animated';
       render();
     }));
     disciplines.forEach((button) => {

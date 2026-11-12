@@ -96,10 +96,10 @@ Constraints: no letters, no typography, no UI, no watermark, no logos, no knight
 O atlas é uma prancha de gravura com cinco medalhões numerados conectados ao centro **Problem solving**, representado por um sol de barro com incisão em espiral e raios de tinta. Os medalhões evocam cerâmica, uma roda de madeira, um teatro de bonecos, tramas de renda e uma fachada com telhas e aberturas vazadas. Em **Agentic AI**, o pequeno teatro tem faixa superior curva, cortinas em terracota e um boneco de luva no palco, seguindo a mesma linguagem do teatro da home. Ao editar esse símbolo, preserve o sol e os outros quatro desenhos. O [mapa de iconografia](iconografia-e-referencias.md) relaciona cada figura à disciplina correspondente.
 
 - **Animated engraving:** inicia automaticamente quando a prancha entra na tela, se o dispositivo permitir movimento. Um traço fino de tinta percorre os ramos, o núcleo do sol gira lentamente e o boneco de Agentic AI faz um gesto suave. As conexões usam uma linha única e discreta; o ramo selecionado recebe um leve destaque. A animação pausa fora da tela ou com a aba oculta.
-- **Static engraving:** o botão mantém a composição completa e parada até o usuário reativar o modo animado. É a apresentação usada sem JavaScript ou com preferência por movimento reduzido.
+- **Static engraving:** o botão mantém a composição completa e parada até o usuário reativar o modo animado. É a apresentação usada sem JavaScript ou, inicialmente, com preferência por movimento reduzido.
 - A chave de leitura mantém todas as disciplinas e ferramentas visíveis. Selecionar uma disciplina destaca o ramo correspondente; selecionar novamente restaura o conjunto.
 - O desenho é SVG nativo, em `src/components/SkillEngraving.astro`. A interface e os controles estão em `src/components/SkillNetwork.astro`, e o conteúdo vem de `capabilities` em `src/data/site.ts`.
-- A leitura funciona sem JavaScript ou WebGL. Os controles usam botões com estado acessível por teclado. A preferência por movimento reduzido mantém a gravura estática; a impressão também remove a animação.
+- A leitura funciona sem JavaScript ou WebGL. Os controles usam botões com estado acessível por teclado. Com movimento reduzido, a gravura começa estática e uma nota explica o motivo; **Animated engraving** continua disponível para iniciar somente esse desenho por escolha explícita. **Static engraving** interrompe o movimento. A escolha não é persistida e uma nova ativação de movimento reduzido interrompe a reprodução. A impressão remove a animação.
 
 Mantenha os cinco conjuntos de ferramentas existentes e a hierarquia da leitura. A gravura representa conexões entre disciplinas, não níveis de proficiência ou métricas. A influência do Nordeste aparece no sol em espiral, nas formas dos medalhões, nas hachuras e na paleta. Não acrescente menções regionais explícitas aos títulos, às legendas ou às instruções da interface.
 
@@ -114,7 +114,7 @@ O fluxo é **Problem → Understand → [Design → Build → Validate → Desig
 - A composição horizontal se transforma em vertical quando o espaço disponível é menor.
 - **Animated:** inicia quando o fluxo entra na tela. A tinta percorre o ciclo Design → Build → Validate → Design e depois segue para Solution e Value; o símbolo em execução recebe um movimento discreto. Os três bonecos fazem um gesto curto, mantendo as molduras e legendas fixas.
 - **Static:** todas as etapas ficam completas e o desenho permanece parado.
-- O movimento pausa fora da tela e com a aba oculta. Movimento reduzido e ausência de JavaScript exibem a gravura estática completa.
+- O movimento pausa fora da tela e com a aba oculta. Movimento reduzido começa com a gravura estática completa, mas o botão **Animated** permite iniciar apenas esse fluxo por escolha explícita, sem persistir a escolha. Uma nova ativação de movimento reduzido interrompe a reprodução. Sem JavaScript, a gravura permanece estática.
 - As ilustrações são SVG; a lista das sete etapas também está disponível para leitores de tela. Os controles funcionam por teclado e indicam o modo selecionado.
 
 ## Direção fotográfica

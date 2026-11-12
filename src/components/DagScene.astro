@@ -33,7 +33,7 @@ import { workflowTasks } from '../data/site';
     <span>0 failures</span>
     <span class="dag-run-state is-success" data-run-state>SUCCESS</span>
   </footer>
-  <p class="dag-motion-note" id="workflow-motion-note" hidden>Motion is reduced in your device settings. The complete workflow is shown as a static engraving.</p>
+  <p class="dag-motion-note" id="workflow-motion-note" hidden>Reduced motion is enabled on your device. Choose Animated to play this workflow, or keep the static view.</p>
 </div>
 
 <script>
@@ -82,11 +82,15 @@ import { workflowTasks } from '../data/site';
       }
       if (countLabel) countLabel.textContent = `${completed ? workflowTasks.length : visitedTasks.size} / ${workflowTasks.length} tasks`;
       if (schedule) schedule.textContent = animated ? 'continuous' : 'still';
-      if (motionNote) motionNote.hidden = !preference.matches;
+      if (motionNote) {
+        motionNote.hidden = !preference.matches;
+        motionNote.textContent = animated
+          ? 'Playing by your choice. Choose Static to stop the animation.'
+          : 'Reduced motion is enabled on your device. Choose Animated to play this workflow, or keep the static view.';
+      }
       modes.forEach((button) => {
         const isAnimated = button.dataset.workflowMode === 'animated';
         button.setAttribute('aria-pressed', String(isAnimated === animated));
-        button.disabled = isAnimated && preference.matches;
       });
     };
 
@@ -119,7 +123,8 @@ import { workflowTasks } from '../data/site';
 
     const setMode = (animate: boolean) => {
       pause();
-      animated = animate && !preference.matches;
+      // Reduced motion sets the initial mode; the reader can explicitly opt in.
+      animated = animate;
       step = animated ? 0 : workflowSequence.length;
       remaining = stepDuration;
       render();

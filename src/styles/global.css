@@ -123,9 +123,9 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .workflow-theater-title { fill: var(--ink); font-family: var(--serif); font-size: 24px; font-weight: 600; letter-spacing: .02em; }
 .workflow-stage-floor { stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; }
 .workflow-accent-fill { fill: var(--clay); }
-.dag-scene.is-animated .workflow-route[data-state="running"] .workflow-ink { animation: workflow-etch 1.2s ease-in-out infinite; animation-play-state: paused; }
+.dag-scene.is-animated .workflow-route[data-state="running"] .workflow-ink { --engraving-duration: 1.2s; animation: workflow-etch var(--engraving-duration) ease-in-out infinite; animation-play-state: paused; }
 .dag-scene.is-running .workflow-route[data-state="running"] .workflow-ink { animation-play-state: running; }
-.dag-scene.is-animated .workflow-node[data-state="running"] .workflow-glyph { animation: workflow-impression 1.2s ease-in-out infinite; animation-play-state: paused; }
+.dag-scene.is-animated .workflow-node[data-state="running"] .workflow-glyph { --engraving-duration: 1.2s; animation: workflow-impression var(--engraving-duration) ease-in-out infinite; animation-play-state: paused; }
 .dag-scene.is-animated .workflow-node-agent[data-state="running"] .workflow-glyph { animation-name: engraving-puppet; transform-origin: 50% 90%; }
 .dag-scene.is-running .workflow-node[data-state="running"] .workflow-glyph { animation-play-state: running; }
 .dag-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 23px; padding: 15px 24px; color: var(--muted); border-top: 1px solid var(--ink); font-family: var(--mono); font-size: 9px; }
@@ -159,10 +159,6 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 @media (max-width: 640px) {
   .workflow-art-wide { display: none; }
   .workflow-art-compact { display: block; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dag-scene.is-animated .workflow-route[data-state="running"] .workflow-ink { animation: none; opacity: 1; }
-  .dag-scene .workflow-glyph { animation: none !important; transform: none !important; }
 }
 @media print {
   .dag-controls, .dag-motion-note { display: none !important; }
@@ -535,10 +531,10 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .atlas-branch.is-selected .atlas-link { stroke: var(--clay); opacity: .9; stroke-width: 1.45; }
 .atlas-branch.is-selected .atlas-node-core { fill: var(--paper); }
 .atlas-branch.is-selected .atlas-ink-flow { opacity: 1; }
-.skill-atlas.is-animated .atlas-ink-flow { animation: atlas-ink 8s ease-in-out var(--branch-delay) infinite; animation-play-state: paused; }
-.skill-atlas.is-animated .atlas-orbit { animation: atlas-impression 8s ease-in-out var(--branch-delay) infinite; animation-play-state: paused; }
-.skill-atlas.is-animated .atlas-solar-core { animation: atlas-solar-turn 90s linear infinite; animation-play-state: paused; }
-.skill-atlas.is-animated .atlas-puppet { animation: engraving-puppet 5.6s ease-in-out infinite; animation-play-state: paused; }
+.skill-atlas.is-animated .atlas-ink-flow { --engraving-duration: 8s; animation: atlas-ink var(--engraving-duration) ease-in-out var(--branch-delay) infinite; animation-play-state: paused; }
+.skill-atlas.is-animated .atlas-orbit { --engraving-duration: 8s; animation: atlas-impression var(--engraving-duration) ease-in-out var(--branch-delay) infinite; animation-play-state: paused; }
+.skill-atlas.is-animated .atlas-solar-core { --engraving-duration: 90s; animation: atlas-solar-turn var(--engraving-duration) linear infinite; animation-play-state: paused; }
+.skill-atlas.is-animated .atlas-puppet { --engraving-duration: 5.6s; animation: engraving-puppet var(--engraving-duration) ease-in-out infinite; animation-play-state: paused; }
 .skill-atlas.is-animated.is-in-view .atlas-ink-flow, .skill-atlas.is-animated.is-in-view .atlas-orbit, .skill-atlas.is-animated.is-in-view .atlas-solar-core, .skill-atlas.is-animated.is-in-view .atlas-puppet { animation-play-state: running; }
 .skill-atlas.has-selection .atlas-branch:not(.is-selected) .atlas-puppet { animation-play-state: paused; }
 .skill-atlas.is-animated.has-selection .atlas-branch:not(.is-selected) .atlas-ink-flow, .skill-atlas.is-animated.has-selection .atlas-branch:not(.is-selected) .atlas-orbit { animation: none; }
@@ -600,9 +596,6 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   .atlas-name { font-size: 27px; }
   .atlas-colophon { padding: 16px 20px; }
   .atlas-motion-note { padding: 12px 20px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .skill-atlas.is-animated .atlas-ink-flow, .skill-atlas.is-animated .atlas-orbit, .skill-atlas.is-animated .atlas-solar-core, .skill-atlas.is-animated .atlas-puppet { animation: none !important; }
 }
 @media print {
   .atlas-modes, .atlas-instruction, .atlas-motion-note, .atlas-colophon { display: none !important; }
@@ -774,7 +767,16 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 
 [data-reveal].will-reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease var(--delay, 0ms), transform .65s ease var(--delay, 0ms); }
 [data-reveal].will-reveal.is-visible { opacity: 1; transform: translateY(0); }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } [data-reveal].will-reveal { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  [data-reveal].will-reveal { opacity: 1; transform: none; }
+  /* The diagrams start static; only their explicit Animated controls opt in. */
+  .dag-scene.is-animated :is(.workflow-ink, .workflow-glyph),
+  .skill-atlas.is-animated :is(.atlas-ink-flow, .atlas-orbit, .atlas-solar-core, .atlas-puppet) {
+    animation-duration: var(--engraving-duration) !important;
+  }
+}
 
 @media (max-width: 780px) {
   .site-header, .hero, .section, .labs-hero, .labs-section, .site-footer { width: min(100% - 40px, 620px); }
