@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="116" height="64" viewBox="0 0 116 64" fill="none">
+  <title>Rafael Targino — RT with a woodcut sun</title>
+  <g fill="var(--ink, #262820)">
+    <path fill-rule="evenodd" d="M6 10H27C40 10 46 14 46 23C46 30 40 34 32 35L47 52H34L22 35H20V47L26 50V53H6V50L12 47V16L6 13ZM20 15V31H26C33 31 36 28 36 23S33 15 26 15Z"/>
+    <path d="M51 10H87L88 24H84L80 15H74V47L81 50V53H56V50L63 47V15H57L53 24H49Z"/>
+  </g>
+  <g transform="translate(102 45)">
+    <g fill="var(--clay, #a34830)">
+      <path d="M-1-8Q-2-10-.3-13Q1-101-8Z" transform="rotate(0)"/>
+      <path d="M-1-8Q-2-10-.3-12.7Q1-101-8Z" transform="rotate(30)"/>
+      <path d="M-1-8Q-2-10-.3-12.2Q1-101-8Z" transform="rotate(60)"/>
+      <path d="M-1-8Q-2-10-.3-13Q1-101-8Z" transform="rotate(90)"/>
+      <path d="M-1-8Q-2-10-.3-12.2Q1-101-8Z" transform="rotate(120)"/>
+      <path d="M-1-8Q-2-10-.3-12.7Q1-101-8Z" transform="rotate(150)"/>
+      <path d="M-1-8Q-2-10-.3-13Q1-101-8Z" transform="rotate(180)"/>
+      <path d="M-1-8Q-2-10-.3-12.7Q1-101-8Z" transform="rotate(210)"/>
+      <path d="M-1-8Q-2-10-.3-12.2Q1-101-8Z" transform="rotate(240)"/>
+      <path d="M-1-8Q-2-10-.3-13Q1-101-8Z" transform="rotate(270)"/>
+      <path d="M-1-8Q-2-10-.3-12.2Q1-101-8Z" transform="rotate(300)"/>
+      <path d="M-1-8Q-2-10-.3-12.7Q1-101-8Z" transform="rotate(330)"/>
+      <path d="M.3-6.8C4.6-7 7.1-3.5 6.7.2C7 4.6 3.5 7-1 6.6C-5 6.2-7 3.4-6.7-.6C-6.5-4.2-3.7-7 .3-6.8Z"/>
+    </g>
+    <path d="M.2.4C-1.4 1-2.1-.4-1.3-1.5C-.3-2.8 2.1-2.3 2.8-.5C3.8 2.3 1.4 4.5-1.4 4C-5 3.4-5.3-.9-3.1-3.5C-.4-6.7 4.9-4.6 5.1-.9" stroke="var(--paper-light, #faf6ed)" stroke-width=".95" stroke-linecap="round"/>
+  </g>
+</svg>

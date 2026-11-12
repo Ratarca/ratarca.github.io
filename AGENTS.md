@@ -12,6 +12,8 @@ O conceito reúne sertão nordestino, cidade e tecnologia, com referências a xi
 
 Use os tokens de `src/styles/global.css`. A paleta completa, suas combinações e uma prancha de cores estão no guia visual. Os ícones usam silhueta clara, contorno firme, poucos traços internos e SVG nativo. A Anthropic Academy orienta a clareza dos desenhos; a xilogravura e os teatros de bonecos orientam a linguagem e a composição. As fontes estão no guia de iconografia.
 
+A marca do header usa letras RT desenhadas em SVG, com um sol de barro em espiral no lugar do ponto. O arquivo é `src/assets/brand/rt-sun.svg`; preserve a leitura do ponto solar e o nome Rafael Targino ao lado. O favicon combina o sol com um teatro de bonecos em `public/favicon.svg`. Ao editá-lo, regenere também `public/favicon.ico` com versões de 16, 32 e 48 px. Confira a leitura nesses tamanhos e atualize o parâmetro de versão dos links em `BaseLayout.astro` quando mudar o favicon.
+
 ## Desenhos e diagramas
 
 - **Atlas:** sol em espiral no centro; cerâmica, roda de madeira, teatro de bonecos, renda e fachada vazada nos cinco medalhões. Agentic AI usa um pequeno palco com cortinas em terracota e um boneco de luva. Ao editar esse símbolo, preserve o sol e as outras quatro figuras. O atlas mantém os numerais I–V e as conexões finas.

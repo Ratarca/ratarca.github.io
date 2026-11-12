@@ -59,6 +59,14 @@ Os aliases mantêm os componentes anteriores na mesma paleta. Em novas edições
 - Os textos principais, dados, projetos, imagens de projetos e destinos dos links existentes foram preservados, incluindo o idioma original.
 - About e Skills usam entradas graduais de texto e blocos ao rolar a página. Os atrasos entre elementos ficam entre 80 e 200 ms; sem JavaScript ou com movimento reduzido, o conteúdo permanece diretamente visível.
 
+## Marca e ícone da aba
+
+![Marca RT com o sol de barro em espiral no lugar do ponto.](../src/assets/brand/rt-sun.svg)
+
+O header usa uma marca RT de desenho próprio, com letras serifadas em carvão e um pequeno sol em espiral como ponto. Os contornos estão em [`src/assets/brand/rt-sun.svg`](../src/assets/brand/rt-sun.svg), sem dependência de fonte para as iniciais. O SVG é incorporado no [`Header.astro`](../src/components/Header.astro), acompanha os tokens da paleta e mantém o nome Rafael Targino ao lado. A marca mede 88 px de largura no desktop e 68 px no celular.
+
+O [favicon](../public/favicon.svg) reúne o sol, o palco com cortinas de barro e um boneco em uma silhueta simples sobre papel claro. Essa composição identifica o site em abas claras ou escuras. O [`favicon.ico`](../public/favicon.ico) contém rasterizações de 16, 32 e 48 px do mesmo SVG. Os dois formatos são declarados no [`BaseLayout.astro`](../src/layouts/BaseLayout.astro); ao alterar a arte, regenere o ICO e atualize o parâmetro de versão dos links para renovar o ícone em cache. A marca e o favicon permanecem estáticos.
+
 ## Ícones e ilustrações simples
 
 O guia de [iconografia e referências](iconografia-e-referencias.md) reúne as regras de desenho, o mapa completo dos símbolos e suas fontes. Os princípios comuns são:

@@ -8,10 +8,11 @@ Cada ícone deve comunicar uma ideia por meio de uma silhueta reconhecível, um 
 
 O teste de leitura é o tamanho real na página. Um símbolo que funciona ampliado também precisa ser identificável dentro do medalhão do atlas, onde a ilustração pode aparecer com cerca de 30 px de largura no celular.
 
-## Três usos
+## Usos
 
 | Família | Aplicação | Orientação | Arquivo |
 | --- | --- | --- | --- |
+| Marca e favicon | Identidade no header e na aba do navegador | RT em contornos vetoriais, com um sol em espiral como ponto. Na aba, combinar sol e teatro de bonecos com poucos traços. | [`rt-sun.svg`](../src/assets/brand/rt-sun.svg), [`favicon.svg`](../public/favicon.svg), [`favicon.ico`](../public/favicon.ico) |
 | Ícones funcionais | Contato, redes sociais, navegação e controles | Preservar os símbolos conhecidos e a consistência de tamanho e alinhamento. No layout principal, os links sociais têm alvos de 44 px. | [`Icon.astro`](../src/components/Icon.astro), [`global.css`](../src/styles/global.css) |
 | Emblemas ilustrados | Disciplinas do atlas e etapas do fluxo | Uma figura principal e um objeto que ajude a reconhecer seu papel. Usar SVG nativo. | [`SkillEngraving.astro`](../src/components/SkillEngraving.astro), [`WorkflowEngraving.astro`](../src/components/WorkflowEngraving.astro) |
 | Composições | Sol, medalhões e palco Agents AI | Organizar os emblemas com espaço, hierarquia e conexões discretas. | Os mesmos componentes de gravura |
@@ -29,6 +30,12 @@ O teste de leitura é o tamanho real na página. Um símbolo que funciona amplia
 Como referência de implementação, os emblemas usam `viewBox` de 80 × 80 ou 90 × 90 unidades. Contornos principais geralmente ficam entre 1,8 e 2,8 unidades; detalhes são mais finos. Ajuste pela leitura visual no tamanho final, preservando o peso dos desenhos vizinhos.
 
 ## Símbolos atuais
+
+### Marca RT e favicon
+
+- **Header:** RT em carvão e ponto em forma de sol de barro, com doze raios e uma incisão em espiral. As letras são contornos SVG para manter o desenho independente da fonte instalada. O nome Rafael Targino continua ao lado.
+- **Aba do navegador:** sol acima de um pequeno palco, cortinas de barro e um boneco de silhueta escura, sobre fundo de papel claro. O favicon usa uma versão simplificada dos mesmos motivos das gravuras.
+- O SVG da marca usa tokens CSS com valores da paleta como fallback. O favicon é independente e usa os mesmos valores diretamente; o ICO deve ser regenerado a partir dele em 16, 32 e 48 px. Preserve a leitura no tamanho real e mantenha os links versionados no layout.
 
 ### Atlas of capabilities
 
