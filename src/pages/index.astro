@@ -10,8 +10,6 @@ import { profile } from '../data/site';
 
 <BaseLayout title="Rafael Targino — Data Engineer & Software Builder" description="Portfolio of Rafael Targino, data engineer and software builder based in São Paulo, Brazil.">
   <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-orbit hero-orbit-one" aria-hidden="true"></div>
-    <div class="hero-orbit hero-orbit-two" aria-hidden="true"></div>
     <div class="hero-content">
       <p class="eyebrow hero-eyebrow"><span class="status-dot"></span> Available for interesting problems</p>
       <h1 id="hero-title">I build data systems that move <em>business</em> forward.</h1>
@@ -21,14 +19,18 @@ import { profile } from '../data/site';
         <a class="button button-secondary" href="/experience">My experience</a>
       </div>
     </div>
-    <div class="hero-aside" data-reveal>
-      <div class="profile-image-wrap"><img src="/assets/img/profile.jpg" alt="Rafael Targino" width="400" height="500" /></div>
-      <div class="availability-note"><span>Based in</span><strong>São Paulo, BR</strong><span class="note-line" aria-hidden="true"></span></div>
-      <div class="hero-social-links" aria-label="Rafael’s social links">
-        <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" size={18} /></a>
-        <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" size={18} /></a>
-        <a href={`mailto:${profile.email}`} aria-label="Email"><Icon name="mail" size={18} /></a>
-        <a href={profile.youtube} target="_blank" rel="noreferrer" aria-label="YouTube"><Icon name="youtube" size={19} /></a>
+    <div class="hero-aside">
+      <figure class="hero-portrait">
+        <img src="/assets/img/profile.jpg" alt="Rafael Targino" width="1178" height="1599" fetchpriority="high" />
+      </figure>
+      <div class="hero-colophon">
+        <div class="availability-note"><span>Based in</span><strong>São Paulo, BR</strong></div>
+        <div class="hero-social-links" aria-label="Rafael’s social links">
+          <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" size={23} /></a>
+          <a href={profile.youtube} target="_blank" rel="noreferrer" aria-label="YouTube"><Icon name="youtube" size={23} /></a>
+          <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" size={23} /></a>
+          <a href={`mailto:${profile.email}`} aria-label="Email"><Icon name="mail" size={23} /></a>
+        </div>
       </div>
     </div>
     <a class="scroll-cue" href="#about" aria-label="Scroll to about section"><span>Scroll to discover</span><i></i></a>

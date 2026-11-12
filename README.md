@@ -46,20 +46,28 @@ In the repository's GitHub Pages settings, select **GitHub Actions** as the buil
 ## 📁 Project structure
 
 ```
+├── AGENTS.md                # Editing instructions and visual constraints
+├── docs/
+│   ├── visual-direction.md # Palette, typography, composition and implementation map
+│   ├── iconografia-e-referencias.md # Simple icons, symbol map and visual references
+│   ├── direcao-fotografica.md # Portrait reference and photography brief
+│   └── assets/paleta.svg    # Visual color reference
 ├── public/
 │   └── assets/              # Images, fonts, and legacy vendor scripts
 ├── src/
 │   ├── components/          # Reusable Astro components
 │   │   ├── AboutMap.astro
-│   │   ├── DagScene.astro       # Three.js workflow scene
+│   │   ├── DagScene.astro       # Engraved workflow + static / animated controls
 │   │   ├── EducationCarousel.astro
 │   │   ├── ExperienceTimeline.astro
 │   │   ├── Footer.astro / Header.astro
 │   │   ├── Icon.astro           # Inline SVG icon system
 │   │   ├── LabGrid.astro        # Labs cards + client-side filters
 │   │   ├── SectionHeading.astro
-│   │   ├── SkillNetwork.astro   # Three.js capability network
-│   │   └── TestimonialCarousel.astro
+│   │   ├── SkillEngraving.astro # SVG woodcut plate: five branches, one root
+│   │   ├── SkillNetwork.astro   # Skills atlas: static / animated modes + reading key
+│   │   ├── TestimonialCarousel.astro
+│   │   └── WorkflowEngraving.astro # Woodcut routes and seven illustrated stages
 │   ├── data/
 │   │   └── site.ts          # ✏️ Single source of content: profile, timeline,
 │   │                          skills, education slides, and lab cards
@@ -68,7 +76,7 @@ In the repository's GitHub Pages settings, select **GitHub Actions** as the buil
 │   ├── pages/
 │   │   ├── index.astro      # Home, about, testimonials, DAG scene
 │   │   ├── experience.astro # Experience timeline
-│   │   ├── skills.astro     # Education carousel + skill network
+│   │   ├── skills.astro     # Education carousel + engraved skills atlas
 │   │   ├── labs.astro       # Labs index with filters
 │   │   └── labs/
 │   │       └── azure-data-lake.astro  # Project detail + System Design section
@@ -83,63 +91,55 @@ In the repository's GitHub Pages settings, select **GitHub Actions** as the buil
 
 ## 🎨 Design system
 
-All design tokens live in `:root` at the top of [`src/styles/global.css`](src/styles/global.css).
+The visual direction combines northeastern Brazilian woodcuts, scientific engraving, and a contemporary editorial layout for data, economics, mathematics, AI, and programming.
 
-### Color palette
+| Guide | Contents |
+| --- | --- |
+| [Visual direction](docs/visual-direction.md) | Palette, color combinations, typography, composition, illustration prompt and where to edit |
+| [Simple icons and visual references](docs/iconografia-e-referencias.md) | Drawing rules, every symbol's meaning, Anthropic Academy, woodcuts and puppet theater references |
+| [Photography direction](docs/direcao-fotografica.md) | Original portrait, treatment and brief for future photographs |
+| [Editing instructions](AGENTS.md) | Required context and constraints for future changes |
 
-| Token         | Value     | Usage                                        |
-| ------------- | --------- | -------------------------------------------- |
-| `--paper`     | `#fffdfa` | Page background (warm off-white)             |
-| `--ink`       | `#000000` | Primary text                                 |
-| `--navy`      | `#14213d` | Dark surfaces, primary buttons, table header |
-| `--muted`     | `#3d2a11` | Secondary text                               |
-| `--lime`      | `#fca311` | Accent — highlights, badges, shadows         |
-| `--lime-deep` | `#a52422` | Emphasis (`<em>`), eyebrows, links on hover  |
-| `--line`      | `#bea57d` | Borders, dividers                            |
-| `--blue`      | `#bea57d` | Alias of `--line` (kept for compatibility)   |
+![Portfolio palette: nine warm paper, charcoal, terracotta, green, ochre and neutral colors.](docs/assets/paleta.svg)
 
-Quick visual reference:
+All design tokens live in `:root` in [`src/styles/global.css`](src/styles/global.css).
 
-```
-Paper   █ #fffdfa   — background
-Ink     █ #000000   — text
-Navy    █ #14213d   — dark blocks
-Lime    █ #fca311   — accent
-Brick   █ #a52422   — emphasis
-Sand    █ #bea57d   — lines/borders
-Cream   █ #eadfc8   — tinted sections
-```
+| Token | Value | Usage |
+| --- | --- | --- |
+| `--paper` | `#f3ecde` | Warm paper background |
+| `--paper-light` | `#faf6ed` | Reading surfaces |
+| `--ink` | `#262820` | Charcoal text and rules |
+| `--clay` | `#a34830` | Terracotta emphasis |
+| `--cactus` | `#475640` | Primary actions and contact section |
+| `--ochre` | `#cfac63` | Accents on dark surfaces |
+| `--sand` | `#e7dcc7` | Secondary surfaces |
+| `--muted` | `#626151` | Secondary text |
+| `--line` | `#b9b09d` | Borders and dividers |
 
-### Typography
+Legacy aliases (`--navy`, `--lime`, `--lime-deep`, `--blue`) map to the new palette for existing components. SVG diagrams share the same pigment tokens.
 
-| Token     | Stack                              | Usage                                           |
-| --------- | ---------------------------------- | ----------------------------------------------- |
-| `--serif` | `'Fraunces', Georgia, serif`       | Display headings (`h1`, `h2`), wordmark, quotes |
-| `--sans`  | `'DM Sans', system-ui, sans-serif` | Body copy, navigation, buttons                  |
-| `--mono`  | `'DM Mono', monospace`             | Eyebrows, labels, badges, captions, numbers     |
+| Token | Stack | Usage |
+| --- | --- | --- |
+| `--serif` | `'Cormorant Garamond', Georgia, serif` | Titles, quotations, figures |
+| `--sans` | `'DM Sans', system-ui, sans-serif` | Body copy |
+| `--mono` | `'DM Mono', monospace` | Navigation, captions, technical labels |
 
-Type scale highlights:
+The reference illustration is `public/assets/img/sertao-engraving.webp`. Double rules, fine hatching, subtle paper grain, and squared frames extend the visual language across the site. Illustrated icons use clear silhouettes, firm outlines, flat fills, and a few internal marks. A recognizable prop explains each role; details are checked at their displayed size on mobile. Original copy, project images, and link destinations are preserved.
 
-- `h1` — `clamp(3.2rem, 6.2vw, 5.85rem)`, tight `-0.055em` letter-spacing
-- Section headings — `clamp(2.4rem, 4.5vw, 4rem)`
-- Eyebrow labels — `11px` mono, uppercase, `.08em` letter-spacing
-- Body — `16px`, line-height `1.55`
+The skills atlas uses an original SVG woodcut: five numbered medallions with handcrafted motifs surround a spiral sun, with the disciplines and tools in a reading key. Fine, single-stroke connections keep the medallions visually quiet; selection adds a restrained accent. The regional references appear in the artwork rather than interface labels. `capabilities` in `src/data/site.ts` supplies the content. Static mode is the default; animation traces the connections and slowly turns the sun on request, pausing off screen. Selecting a discipline highlights its route. The plate and tools remain readable without JavaScript, with no WebGL requirement. Reduced-motion preferences keep the engraving static.
 
-### Signature visual motifs
+The home `problem_to_value` diagram frames seven illustrations in squares, showing only their stage names. The compact puppet theater has a curved “Agents AI” marquee and tied terracotta curtains. Design, Build, and Validate are distinct glove puppets with clear silhouettes, larger faces, and a set square, hammer and block, or magnifier with a check mark. Design is the upper vertex of a compact triangle, Build is at the lower right, and Validate is at the lower left. Exactly three straight, fine internal edges form Design → Build → Validate → Design, with small arrowheads. Understand connects to the theater's entry border and Solution to its exit border. `workflowTasks`, `workflowDependencies`, and `workflowSequence` in `src/data/site.ts` define the content, transitions, and animated traversal. It runs as an SVG engraving, with horizontal and vertical compositions chosen for the available width, static / animated controls, off-screen pause, and a complete static view without JavaScript or when reduced motion is requested. Illustration references and dimensions are recorded in the visual guide.
 
-- **Hard offset shadows** — `box-shadow: 15px 15px 0 var(--lime)` on project covers
-- **Split diagonal backgrounds** — two-tone `linear-gradient(135deg, …)` sections
-- **1px sand-colored grid lines** between cards instead of gaps
-- **Reveal-on-scroll** via `[data-reveal]` with staggered `--delay`
-- **Reduced motion respected** — `prefers-reduced-motion` disables transitions
+Keyboard focus, mobile navigation, reduced motion, and readable content without JavaScript are supported. Reveal animations are enabled only after their observer is ready.
 
 ---
 
 ## 🧩 Conventions
 
-- **Astro zero-JS by default** — interactivity is scoped `<script>` per component; Three.js scenes load only where used.
+- **Astro zero-JS by default** — interactivity is scoped `<script>` per component; the engraved diagrams remain readable without JavaScript.
 - **Content in data files** — edit `src/data/site.ts`; avoid hardcoding copy in pages.
-- **Icons** — use `<Icon name="…" size={16} />` from `src/components/Icon.astro`.
+- **Functional icons** — use `<Icon name="…" size={16} />` from `src/components/Icon.astro` for controls and contact symbols.
+- **Illustrated emblems** — edit the native SVG in `SkillEngraving.astro` or `WorkflowEngraving.astro`, following the [iconography guide](docs/iconografia-e-referencias.md). Preserve symbols outside the requested scope.
 - **Styling** — plain CSS in `global.css`, organized per-section; mobile breakpoint at `780px`.
 - **Naming** — kebab-case file names, section-prefixed classes (`.hero-*`, `.project-*`, `.design-*`).
 

@@ -1,394 +1,126 @@
+---
+import { capabilities } from '../data/site';
+import SkillEngraving from './SkillEngraving.astro';
+---
+
 <section class="capability-section" id="capabilities" aria-labelledby="capability-title">
   <header class="capability-heading" data-reveal>
     <div>
       <p class="eyebrow">02 — Connected capability</p>
       <h2 id="capability-title">Skills become valuable when they work as a <em>system.</em></h2>
     </div>
-    <p>The matrix below maps what I use every day. Select it to see how problem solving connects each discipline into one capability.</p>
+    <p>Five disciplines connected through problem solving. Read the engraving or set it in motion to follow the connections between the tools I use every day.</p>
   </header>
 
-  <button
-    class="skill-network"
-    type="button"
-    data-skill-network
-    aria-pressed="false"
-    aria-label="Skills matrix. Select to show the connected skills graph."
-  >
-    <span class="skill-network-toolbar">
-      <span><i aria-hidden="true"></i><strong data-network-mode>skills_matrix</strong></span>
-      <span data-network-hint>click to expand graph</span>
-    </span>
+  <div class="skill-atlas" data-skill-atlas>
+    <header class="atlas-masthead">
+      <div>
+        <p class="atlas-edition">Field notes / Fig. 01</p>
+        <h3>Atlas of capabilities</h3>
+      </div>
+      <div class="atlas-modes" role="group" aria-label="Engraving mode" data-atlas-controls hidden>
+        <button type="button" data-atlas-mode="static" aria-pressed="true" aria-controls="atlas-plate">
+          <svg viewBox="0 0 18 18" width="16" height="16" aria-hidden="true"><rect x="4" y="3" width="10" height="12" fill="none" stroke="currentColor"/><path d="M6 7h6M6 10h6M6 13h4" fill="none" stroke="currentColor"/></svg>
+          Static engraving
+        </button>
+        <button type="button" data-atlas-mode="animated" aria-pressed="false" aria-controls="atlas-plate" aria-describedby="atlas-motion-note">
+          <svg viewBox="0 0 18 18" width="16" height="16" aria-hidden="true"><path d="m5 3 10 6-10 6Z" fill="none" stroke="currentColor"/></svg>
+          Animated engraving
+        </button>
+      </div>
+    </header>
 
-    <span class="skill-matrix-stage" data-matrix-stage>
-      <span class="skill-matrix" role="img" aria-label="Skills matrix: data, backend, agentic AI, quantitative methods, and architecture, all applied through problem solving.">
-        <span class="skill-matrix-row skill-matrix-head">
+    <div class="atlas-spread">
+      <figure class="atlas-plate" id="atlas-plate">
+        <div class="atlas-plate-heading"><span>Systems · disciplines · connections</span><span aria-hidden="true">✳</span></div>
+        <SkillEngraving />
+        <figcaption>
           <strong>Problem solving</strong>
           <span>the thread through every discipline</span>
-        </span>
-        <span class="skill-matrix-row">
-          <strong>Data</strong>
-          <span>Spark · Databricks · Airflow · SQL · Unity Catalog</span>
-        </span>
-        <span class="skill-matrix-row">
-          <strong>Backend</strong>
-          <span>Python · FastAPI · Go · PostgreSQL · Redis</span>
-        </span>
-        <span class="skill-matrix-row">
-          <strong>Agentic AI</strong>
-          <span>LLM agents · RAG · workflow automation</span>
-        </span>
-        <span class="skill-matrix-row">
-          <strong>Quantitative</strong>
-          <span>econometrics · pricing &amp; risk models · optimization</span>
-        </span>
-        <span class="skill-matrix-row">
-          <strong>Architecture</strong>
-          <span>Azure · AWS · Terraform · event-driven systems</span>
-        </span>
-      </span>
-      <span class="matrix-caption">Five disciplines, one way of working — select to see them connect.</span>
-    </span>
+        </figcaption>
+      </figure>
 
-    <canvas aria-hidden="true"></canvas>
-    <span class="skill-graph-fallback" aria-hidden="true">
-      <strong>Problem Solving</strong>
-      <span>Data</span><span>Backend</span><span>Agentic AI</span><span>Quantitative</span><span>Architecture</span>
-    </span>
+      <div class="atlas-key">
+        <p class="atlas-key-heading">A reading key <span aria-hidden="true">↙</span></p>
+        <ol class="atlas-disciplines">
+          {capabilities.map((item) => (
+            <li>
+              <button type="button" data-atlas-discipline={item.id} aria-pressed="false" aria-controls="atlas-plate" disabled>
+                <span class="atlas-number" aria-hidden="true">{item.number}</span>
+                <span class="atlas-entry">
+                  <span class="atlas-name">{item.name}</span>
+                  <span class="atlas-tools">{item.tools}</span>
+                </span>
+                <span class="atlas-entry-mark" aria-hidden="true">↗</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+        <p class="atlas-instruction" data-atlas-controls hidden>Select a discipline to trace its branch. Select it again to see the whole atlas.</p>
+      </div>
+    </div>
 
-    <span class="skill-network-footer">
-      <span><i></i><span data-network-state>Matrix view</span></span>
-      <span>Select anywhere to switch views</span>
-    </span>
-  </button>
+    <footer class="atlas-colophon">
+      <span class="atlas-status" role="status" data-atlas-status>Static engraving · all five disciplines</span>
+      <span>Five disciplines. One way of working.</span>
+    </footer>
+    <p class="atlas-motion-note" id="atlas-motion-note" hidden>Motion is reduced in your device settings. Explore every branch in the static engraving.</p>
+  </div>
 </section>
 
 <script>
-  import * as THREE from 'three';
+  document.querySelectorAll<HTMLElement>('[data-skill-atlas]').forEach((atlas) => {
+    const modes = atlas.querySelectorAll<HTMLButtonElement>('[data-atlas-mode]');
+    const disciplines = atlas.querySelectorAll<HTMLButtonElement>('[data-atlas-discipline]');
+    const branches = atlas.querySelectorAll<SVGGElement>('[data-atlas-branch]');
+    const status = atlas.querySelector<HTMLElement>('[data-atlas-status]');
+    const motionNote = atlas.querySelector<HTMLElement>('.atlas-motion-note');
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let animated = false;
+    let selected: string | null = null;
+    let inView = false;
 
-  const nodeData = [
-    { label: 'DATA' },
-    { label: 'BACKEND' },
-    { label: 'AGENTIC AI' },
-    { label: 'QUANTITATIVE' },
-    { label: 'ARCHITECTURE' },
-    { label: 'PROBLEM SOLVING', center: true }
-  ];
-  const edges: [number, number][] = [[5, 0], [5, 1], [5, 2], [5, 3], [5, 4]];
-  const desktopPositions = [
-    [-3.4, 1.55], [-3.4, -1.55], [3.4, -1.55], [3.4, 1.55], [0, 2.35], [0, 0]
-  ];
-  const mobilePositions = [
-    [-1.45, 1.5], [1.45, 1.5], [-1.45, -1.55], [1.45, -1.55], [0, 2.65], [0, 0]
-  ];
-  const colors = { navy: 0x14213d, gold: 0xfca311, sand: 0xbea57d, red: 0xa52422, paper: 0xfffdfa };
-
-  const roundedRect = (context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) => {
-    context.beginPath();
-    context.roundRect(x, y, width, height, radius);
-  };
-
-  document.querySelectorAll<HTMLButtonElement>('[data-skill-network]').forEach((container) => {
-    const canvas = container.querySelector('canvas');
-    const modeLabel = container.querySelector<HTMLElement>('[data-network-mode]');
-    const hintLabel = container.querySelector<HTMLElement>('[data-network-hint]');
-    const stateLabel = container.querySelector<HTMLElement>('[data-network-state]');
-    if (!(canvas instanceof HTMLCanvasElement)) return;
-
-    let graphMode = false;
-    let startGraph: (() => void) | undefined;
-    let stopGraph: (() => void) | undefined;
-
-    const setMode = (showGraph: boolean) => {
-      graphMode = showGraph;
-      container.classList.toggle('is-graph', graphMode);
-      container.setAttribute('aria-pressed', String(graphMode));
-      container.setAttribute('aria-label', graphMode
-        ? 'Connected skills graph. Select to return to the skills matrix.'
-        : 'Skills matrix. Select to show the connected skills graph.');
-      if (modeLabel) modeLabel.textContent = graphMode ? 'capability_graph' : 'skills_matrix';
-      if (hintLabel) hintLabel.textContent = graphMode ? 'hover to break into graph' : 'click to expand graph';
-      if (stateLabel) stateLabel.textContent = graphMode ? 'Graph view' : 'Matrix view';
-      graphMode ? startGraph?.() : stopGraph?.();
+    const render = () => {
+      atlas.classList.toggle('is-animated', animated);
+      atlas.classList.toggle('has-selection', selected !== null);
+      modes.forEach((button) => {
+        const isAnimated = button.dataset.atlasMode === 'animated';
+        button.setAttribute('aria-pressed', String(isAnimated === animated));
+        button.disabled = isAnimated && motionPreference.matches;
+      });
+      disciplines.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.atlasDiscipline === selected)));
+      branches.forEach((branch) => branch.classList.toggle('is-selected', branch.dataset.atlasBranch === selected));
+      const name = Array.from(disciplines).find((button) => button.dataset.atlasDiscipline === selected)?.querySelector('.atlas-name')?.textContent;
+      if (status) status.textContent = `${animated ? 'Animated' : 'Static'} engraving · ${name ? `${name} selected` : 'all five disciplines'}`;
+      if (motionNote) motionNote.hidden = !motionPreference.matches;
     };
-    container.addEventListener('click', () => setMode(!graphMode));
 
-    try {
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(42, 1, .1, 60);
-      camera.position.set(0, 0, 11);
-      const root = new THREE.Group();
-      scene.add(root);
-
-      /* ---------- skill card sprites (unchanged look) ---------- */
-      const createNode = (index: number) => {
-        const item = nodeData[index];
-        const textureCanvas = document.createElement('canvas');
-        textureCanvas.width = 640;
-        textureCanvas.height = 180;
-        const context = textureCanvas.getContext('2d');
-        if (!context) throw new Error('Canvas 2D context unavailable');
-        const texture = new THREE.CanvasTexture(textureCanvas);
-        texture.colorSpace = THREE.SRGBColorSpace;
-        texture.minFilter = THREE.LinearFilter;
-
-        context.clearRect(0, 0, textureCanvas.width, textureCanvas.height);
-        context.shadowColor = 'rgba(0,0,0,.22)';
-        context.shadowBlur = 18;
-        context.shadowOffsetY = 8;
-        roundedRect(context, 20, 18, 600, 142, 14);
-        context.fillStyle = item.center ? '#A52422' : '#fffdfa';
-        context.fill();
-        context.shadowColor = 'transparent';
-        context.lineWidth = item.center ? 5 : 3;
-        context.strokeStyle = item.center ? '#FCA311' : '#BEA57D';
-        context.stroke();
-        context.fillStyle = item.center ? '#FCA311' : '#A52422';
-        context.beginPath();
-        context.arc(58, 89, 10, 0, Math.PI * 2);
-        context.fill();
-        context.fillStyle = item.center ? '#fffdfa' : '#14213D';
-        context.font = `700 ${item.center ? 45 : 48}px Arial, sans-serif`;
-        context.textBaseline = 'middle';
-        context.fillText(item.label, 88, 89);
-
-        const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
-        const sprite = new THREE.Sprite(material);
-        sprite.scale.set(item.center ? 3.0 : 2.35, item.center ? .84 : .66, 1);
-        sprite.renderOrder = item.center ? 4 : 3;
-        root.add(sprite);
-        return { sprite, material, texture, base: new THREE.Vector3(), index };
-      };
-      const nodes = nodeData.map((_, index) => createNode(index));
-      const layoutTargets = nodes.map(() => new THREE.Vector3());
-
-      /* ---------- curved bezier edges ---------- */
-      const SEGMENTS = 28;
-      const links = edges.map(([from, to], index) => {
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array((SEGMENTS + 1) * 3), 3));
-        const material = new THREE.LineBasicMaterial({ color: colors.gold, transparent: true, opacity: .5 });
-        const line = new THREE.Line(geometry, material);
-        root.add(line);
-        const packet = new THREE.Mesh(
-          new THREE.CircleGeometry(.075, 20),
-          new THREE.MeshBasicMaterial({ color: index % 2 ? colors.red : colors.gold, transparent: true })
-        );
-        packet.renderOrder = 2;
-        root.add(packet);
-        return { from, to, line, material, packet, offset: index / edges.length, curve: new THREE.QuadraticBezierCurve3(new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()) };
+    atlas.querySelectorAll<HTMLElement>('[data-atlas-controls]').forEach((element) => { element.hidden = false; });
+    modes.forEach((button) => button.addEventListener('click', () => {
+      animated = button.dataset.atlasMode === 'animated' && !motionPreference.matches;
+      render();
+    }));
+    disciplines.forEach((button) => {
+      button.disabled = false;
+      button.addEventListener('click', () => {
+        const id = button.dataset.atlasDiscipline ?? null;
+        selected = selected === id ? null : id;
+        render();
       });
+    });
+    motionPreference.addEventListener('change', () => {
+      if (motionPreference.matches) animated = false;
+      render();
+    });
 
-      /* ---------- ambient topology: drifting particle mesh ---------- */
-      const PARTICLES = 70;
-      const MAX_LINKS = 260;
-      const particleGeo = new THREE.BufferGeometry();
-      const particlePos = new Float32Array(PARTICLES * 3);
-      const particleVel: THREE.Vector2[] = [];
-      const homePos: THREE.Vector2[] = [];
-      for (let i = 0; i < PARTICLES; i++) {
-        const x = (Math.random() - .5) * 10.5;
-        const y = (Math.random() - .5) * 6.4;
-        particlePos[i * 3] = x; particlePos[i * 3 + 1] = y; particlePos[i * 3 + 2] = -1.4 - Math.random() * 1.6;
-        homePos.push(new THREE.Vector2(x, y));
-        particleVel.push(new THREE.Vector2((Math.random() - .5) * .12, (Math.random() - .5) * .12));
-      }
-      particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
-      const points = new THREE.Points(particleGeo, new THREE.PointsMaterial({
-        color: colors.sand, size: .055, transparent: true, opacity: .75, depthWrite: false
-      }));
-      root.add(points);
-
-      const linkGeo = new THREE.BufferGeometry();
-      const linkPositions = new Float32Array(MAX_LINKS * 6);
-      linkGeo.setAttribute('position', new THREE.BufferAttribute(linkPositions, 3));
-      const webLines = new THREE.LineSegments(linkGeo, new THREE.LineBasicMaterial({
-        color: colors.sand, transparent: true, opacity: .16, depthWrite: false
-      }));
-      root.add(webLines);
-
-      /* ---------- interaction state ---------- */
-      const clock = new THREE.Clock();
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let inViewport = false;
-      let mobile = false;
-      let frame = 0;
-      const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
-      container.addEventListener('pointermove', (event) => {
-        const bounds = container.getBoundingClientRect();
-        pointer.tx = ((event.clientX - bounds.left) / bounds.width - .5) * 2;
-        pointer.ty = ((event.clientY - bounds.top) / bounds.height - .5) * 2;
-      });
-      container.addEventListener('pointerleave', () => { pointer.tx = 0; pointer.ty = 0; });
-
-      /* ---------- homeomorphic morph state ---------- */
-      // In graph view the nodes rest on a circle. Hovering the graph applies a
-      // continuous deformation that maps the circle onto the skill layout
-      // (circle -> graph is a homeomorphism); leaving reverses it smoothly.
-      const MORPH_DURATION = 1.6;
-      let morphT = 0;          // 0 = circle, 1 = full graph
-      let morphTarget = 0;     // where we're heading
-      const circlePositions = nodeData.map((_, index) => {
-        const angle = (index / nodeData.length) * Math.PI * 2 - Math.PI / 2;
-        return new THREE.Vector3(Math.cos(angle) * 2.55, Math.sin(angle) * 2.05, 0);
-      });
-      const smootherstep = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
-
-      // hover drives the breakdown: enter -> deform to graph, leave -> reform circle
-      container.addEventListener('pointerenter', () => { morphTarget = 1; });
-      container.addEventListener('pointerleave', () => { morphTarget = 0; pointer.tx = 0; pointer.ty = 0; });
-
-      const tmpA = new THREE.Vector3();
-      const updateLinks = (elapsed = 0) => {
-        links.forEach((link) => {
-          const start = nodes[link.from].sprite.position;
-          const end = nodes[link.to].sprite.position;
-          // gentle fixed bow — no time-based breathing, keeps edges calm
-          tmpA.lerpVectors(start, end, .5);
-          const dx = end.x - start.x, dy = end.y - start.y;
-          const len = Math.hypot(dx, dy) || 1;
-          tmpA.x += (-dy / len) * len * .08;
-          tmpA.y += (dx / len) * len * .08;
-          link.curve.v0.copy(start);
-          link.curve.v1.copy(tmpA);
-          link.curve.v2.copy(end);
-          const positions = link.line.geometry.getAttribute('position') as THREE.BufferAttribute;
-          for (let s = 0; s <= SEGMENTS; s++) {
-            link.curve.getPoint(s / SEGMENTS, tmpA);
-            positions.setXYZ(s, tmpA.x, tmpA.y, -.15);
-          }
-          positions.needsUpdate = true;
-          // slow steady packet travel
-          const raw = (elapsed * .05 + link.offset) % 1;
-          link.packet.position.copy(link.curve.getPoint(raw));
-          link.packet.position.z = .1;
-        });
-      };
-
-      const updateTopology = (dt: number, elapsed: number) => {
-        const positions = particleGeo.getAttribute('position') as THREE.BufferAttribute;
-        for (let i = 0; i < PARTICLES; i++) {
-          const vel = particleVel[i];
-          vel.x += Math.sin(elapsed * .2 + i * 1.7) * .002;
-          vel.y += Math.cos(elapsed * .17 + i * 2.3) * .002;
-          vel.clampLength(0, .1);
-          const home = homePos[i];
-          home.x += vel.x * dt * 8;
-          home.y += vel.y * dt * 8;
-          if (home.x > 5.4 || home.x < -5.4) vel.x *= -1;
-          if (home.y > 3.3 || home.y < -3.3) vel.y *= -1;
-          home.x = Math.max(-5.4, Math.min(5.4, home.x));
-          home.y = Math.max(-3.3, Math.min(3.3, home.y));
-          positions.setXYZ(i, home.x, home.y, positions.getZ(i));
-        }
-        positions.needsUpdate = true;
-        // proximity web
-        let count = 0;
-        for (let i = 0; i < PARTICLES && count < MAX_LINKS; i++) {
-          for (let j = i + 1; j < PARTICLES && count < MAX_LINKS; j++) {
-            const dx = homePos[i].x - homePos[j].x;
-            const dy = homePos[i].y - homePos[j].y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < 1.9) {
-              const o = count * 6;
-              linkPositions[o] = homePos[i].x; linkPositions[o + 1] = homePos[i].y; linkPositions[o + 2] = -1.6;
-              linkPositions[o + 3] = homePos[j].x; linkPositions[o + 4] = homePos[j].y; linkPositions[o + 5] = -1.6;
-              count++;
-            }
-          }
-        }
-        linkGeo.setDrawRange(0, count * 2);
-        (linkGeo.getAttribute('position') as THREE.BufferAttribute).needsUpdate = true;
-      };
-
-      const positionScene = () => {
-        const bounds = container.getBoundingClientRect();
-        mobile = bounds.width < 620;
-        const positions = mobile ? mobilePositions : desktopPositions;
-        nodes.forEach((node, index) => {
-          node.base.set(positions[index][0], positions[index][1], 0);
-          layoutTargets[index].copy(node.base);
-          node.sprite.position.copy(node.base);
-          if (mobile) node.sprite.scale.set(nodeData[index].center ? 2.7 : 2.25, nodeData[index].center ? .76 : .63, 1);
-          else node.sprite.scale.set(nodeData[index].center ? 3.0 : 2.35, nodeData[index].center ? .84 : .66, 1);
-        });
-        camera.aspect = bounds.width / bounds.height;
-        const viewHeight = mobile ? 7.2 : 6.6;
-        camera.fov = 42;
-        camera.position.z = viewHeight / (2 * Math.tan((camera.fov * Math.PI) / 360)) * (camera.aspect > 1 ? 1 : 1 / Math.max(camera.aspect, .55));
-        camera.updateProjectionMatrix();
-        renderer.setSize(bounds.width, bounds.height, false);
-        updateLinks();
-        renderer.render(scene, camera);
-      };
-
-      let lastElapsed = 0;
-      const renderFrame = () => {
-        const elapsed = clock.getElapsedTime();
-        const dt = Math.min(elapsed - lastElapsed, .05);
-        lastElapsed = elapsed;
-        // homeomorphic deformation driven by hover: circle <-> graph
-        morphT += (morphTarget - morphT) * Math.min(dt * 2.4, 1);
-        const ease = smootherstep(Math.max(0, Math.min(1, morphT)));
-        nodes.forEach((node, index) => {
-          // stretch/shrink between the circle position and the layout position
-          node.base.lerpVectors(circlePositions[index], layoutTargets[index], ease);
-          // single subtle drift — no layered wobble
-          node.sprite.position.x = node.base.x + Math.sin(elapsed * .15 + index * 1.7) * .03;
-          node.sprite.position.y = node.base.y + Math.sin(elapsed * .19 + index * 1.1) * .04;
-        });
-        // gentle parallax only, no scene tilt wobble
-        pointer.x += (pointer.tx - pointer.x) * .05;
-        pointer.y += (pointer.ty - pointer.y) * .05;
-        root.rotation.y = pointer.x * .05;
-        root.rotation.x = -pointer.y * .035;
-        updateLinks(elapsed);
-        updateTopology(dt, elapsed);
-        renderer.render(scene, camera);
-        if (graphMode && inViewport && !document.hidden && !reducedMotion) frame = requestAnimationFrame(renderFrame);
-      };
-
-      startGraph = () => {
-        cancelAnimationFrame(frame);
-        // enter graph view resting on the circle; hovering breaks it into the graph
-        morphT = 0;
-        morphTarget = 0;
-        nodes.forEach((node, index) => node.base.copy(circlePositions[index]));
-        lastElapsed = clock.getElapsedTime();
-        renderer.render(scene, camera);
-        if (inViewport && !reducedMotion) frame = requestAnimationFrame(renderFrame);
-      };
-      stopGraph = () => cancelAnimationFrame(frame);
-
-      const resizeObserver = new ResizeObserver(positionScene);
-      resizeObserver.observe(container);
-      positionScene();
-      container.classList.add('is-webgl-ready');
-
-      const visibilityObserver = new IntersectionObserver(([entry]) => {
-        inViewport = entry.isIntersecting;
-        cancelAnimationFrame(frame);
-        if (inViewport && graphMode && !reducedMotion) frame = requestAnimationFrame(renderFrame);
-      }, { threshold: .08 });
-      visibilityObserver.observe(container);
-
-      window.addEventListener('pagehide', () => {
-        cancelAnimationFrame(frame);
-        resizeObserver.disconnect();
-        visibilityObserver.disconnect();
-        links.forEach(({ line, material, packet }) => { line.geometry.dispose(); material.dispose(); packet.geometry.dispose(); (packet.material as THREE.Material).dispose(); });
-        nodes.forEach(({ material, texture }) => { material.dispose(); texture.dispose(); });
-        particleGeo.dispose();
-        linkGeo.dispose();
-        (points.material as THREE.Material).dispose();
-        (webLines.material as THREE.Material).dispose();
-        renderer.dispose();
-      }, { once: true });
-    } catch (error) {
-      container.classList.add('is-fallback');
-      console.warn('The capability graph is using its static fallback.', error);
-    }
+    // CSS animation runs only on request, while the plate is on screen.
+    const updateVisibility = () => atlas.classList.toggle('is-in-view', inView && !document.hidden);
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      updateVisibility();
+    });
+    observer.observe(atlas.querySelector('.atlas-plate') ?? atlas);
+    document.addEventListener('visibilitychange', updateVisibility);
+    render();
   });
 </script>

@@ -1,0 +1,156 @@
+---
+import { workflowDependencies, workflowTasks } from '../data/site';
+
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+const prefix = compact ? 'workflow-compact' : 'workflow-wide';
+const frame = compact
+  ? { x: 42, y: 332, width: 336, height: 314 }
+  : { x: 352, y: 28, width: 336, height: 314 };
+const agents = [[168, 116], [248, 238], [88, 238]].map(([x, y]) => [frame.x + x, frame.y + y]);
+const positions = compact
+  ? [[210, 70], [210, 222], ...agents, [210, 732], [210, 880]]
+  : [[70, 195], [225, 195], ...agents, [815, 195], [970, 195]];
+const loopRoutes = ['M193 154L223 200', 'M210 238H126', 'M113 200L143 154'];
+const routes = compact ? [
+  'M210 154V178',
+  'M210 306V332',
+  ...loopRoutes,
+  'M210 646V688',
+  'M210 816V836'
+] : [
+  'M114 195H181',
+  'M269 195H352',
+  ...loopRoutes,
+  'M688 195H771',
+  'M859 195H926'
+];
+---
+
+<svg class:list={['workflow-art', compact ? 'workflow-art-compact' : 'workflow-art-wide']} viewBox={compact ? '0 0 420 980' : '0 0 1040 370'} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <pattern id={`${prefix}-hatch`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <path d="M0 0V5" stroke="currentColor" stroke-width="1.3" />
+    </pattern>
+    <pattern id={`${prefix}-fine`} width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+      <path d="M0 0V4" stroke="currentColor" stroke-width=".7" />
+    </pattern>
+    <marker id={`${prefix}-arrow`} viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M1 1 6.5 4 1 7" class="workflow-arrow" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" />
+    </marker>
+
+    <!-- A tangled thread opens the journey. -->
+    <symbol id={`${prefix}-emblem-problem`} viewBox="-45 -45 90 90">
+      <path d="M-39 26C-23 25-38-13-13-24C9-33 28-11 17 11C8 31-29 23-27 1C-25-27 23-38 33-9C43 21 7 36-10 15C-25-4-3-28 16-16C36-2 9 31-7 10C-17-5 7-12 10 1C13 15-7 19-2 2M33-9c9-5 12-14 5-22M-39 26l-3 6" class="workflow-thread" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M-31-13c2-10 10-16 18-18M18 27c9-4 16-11 19-20" stroke="currentColor" stroke-width=".8" stroke-linecap="round" />
+    </symbol>
+
+    <!-- A carved lens finds the pattern inside scattered marks. -->
+    <symbol id={`${prefix}-emblem-understand`} viewBox="-45 -45 90 90">
+      <path d="m12 15 24 23 6-7-25-22Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" />
+      <path d="m22 23 13 12m-10-15 13 12" class="workflow-cut" stroke-width="1.1" />
+      <circle cx="-6" cy="-7" r="28" fill={`url(#${prefix}-hatch)`} stroke="currentColor" stroke-width="2" />
+      <circle cx="-6" cy="-7" r="22" class="workflow-paper" stroke="currentColor" stroke-width="1.4" />
+      <path d="M-21-5C-15-13-1-13 6-5M-18 3C-11-4-2-4 3 3M-20-19l4-3M5-21l3 4M-24 8l2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      <path d="m-7-13 4 6-4 6-4-6Z" fill="currentColor" />
+    </symbol>
+
+    <!-- Large, simple silhouettes keep the three glove puppets readable. -->
+    <symbol id={`${prefix}-emblem-design`} viewBox="-45 -45 90 90">
+      <path d="m-13-2-15 6-5 10 9 4 14-9M5-2l18 5-1 11L5 8" class="workflow-puppet-cloth" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+      <path d="M-14-2Q-4-7 7-2L14 32Q-4 37-23 30Z" class="workflow-puppet-cloth" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+      <circle cx="-5" cy="-17" r="11" class="workflow-paper" stroke="currentColor" stroke-width="2.5" />
+      <path d="M-19-24C-15-37 2-35 9-26L1-23Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      <circle cx="-9" cy="-18" r="1.2" fill="currentColor" />
+      <circle cx="-1" cy="-18" r="1.2" fill="currentColor" />
+      <path d="M-9-12q5 4 9-1M-14 3q9 5 18 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+      <path d="M12 1 35 25H12Z" class="workflow-paper" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+      <path d="m18 14 7 7h-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+      <path d="m-13 17-2 10M-3 20v9" class="workflow-puppet-fold" />
+    </symbol>
+
+    <!-- A broad cap, mallet and block identify the builder. -->
+    <symbol id={`${prefix}-emblem-build`} viewBox="-45 -45 90 90">
+      <path d="m-12-1-16 9 5 10 14-8M7-1l10 5 7-11 7 5-9 18L7 12" class="workflow-puppet-cloth" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+      <path d="M-12-2Q-2-6 9-1L18 32Q0 37-20 32Z" class="workflow-puppet-cloth" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+      <circle cx="-4" cy="-17" r="11" class="workflow-paper" stroke="currentColor" stroke-width="2.5" />
+      <path d="M-17-23Q-7-36 7-24L11-20H-20Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      <circle cx="-8" cy="-17" r="1.2" fill="currentColor" />
+      <circle cy="-17" r="1.2" fill="currentColor" />
+      <path d="M-8-11q4 3 8-1M-12 2l3 9H7l3-9M-9 11v16H9V11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="m25-12-6 28" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+      <path d="m18-24 18 5-3 11-18-5Z" class="workflow-puppet-cloth" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+      <path d="M-34 10h17v17h-17Zm0 0 5-5h16l-4 5m4-5v16l-4 6" class="workflow-paper" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+    </symbol>
+
+    <!-- A single large lens and check mark identify the inspector. -->
+    <symbol id={`${prefix}-emblem-validate`} viewBox="-45 -45 90 90">
+      <path d="m-14-1-17 8 4 10 17-6M6-1l13 9 7-5 5 7-13 10L5 11" class="workflow-puppet-cloth" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+      <path d="M-15-2Q-4-7 7-1L15 32Q-5 37-24 31Z" class="workflow-puppet-cloth" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+      <circle cx="-7" cy="-18" r="11" class="workflow-paper" stroke="currentColor" stroke-width="2.5" />
+      <path d="M-19-22Q-16-33-4-31L5-23" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+      <circle cx="-11" cy="-19" r="1.2" fill="currentColor" />
+      <circle cx="-3" cy="-19" r="1.2" fill="currentColor" />
+      <path d="M-11-12q4 3 8-1M-14 3l8 6 9-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="m29 1 8 14" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+      <circle cx="22" cy="-9" r="12" class="workflow-paper" stroke="currentColor" stroke-width="2.8" />
+      <path d="m16-9 4 4 8-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="m-14 19-2 9M-4 21v8" class="workflow-puppet-fold" />
+    </symbol>
+
+    <!-- An arch joins the two paths into one durable crossing. -->
+    <symbol id={`${prefix}-emblem-solution`} viewBox="-45 -45 90 90">
+      <path d="M-36-15H36V28H17V12C17-11-17-11-17 12V28H-36Z" fill={`url(#${prefix}-hatch)`} stroke="currentColor" stroke-width="2" />
+      <path d="M-39-20H39V-13H-39ZM-40 30H-15M15 30H40" class="workflow-paper" stroke="currentColor" stroke-width="2" />
+      <path d="M-25 27V12C-25-20 25-20 25 12V27M-36 3h12M24 3h12M-18-8l5 8M18-8l-5 8M0-12v9" stroke="currentColor" stroke-width="1.4" />
+      <path d="M-32 35q15-4 28 0m8 0q15-4 28 0" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+    </symbol>
+
+    <!-- A flowering stem is the result of the whole path rather than another node card. -->
+    <symbol id={`${prefix}-emblem-value`} viewBox="-45 -45 90 90">
+      <path d="M-2 36C4 15-5-3 0-19M0 10l20-13M-1 20-20-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+      <path d="M-19-6C-37-3-38-23-30-29C-15-26-11-14-19-6ZM15 1C14-15 27-22 36-17C35-4 27 6 15 1Z" fill={`url(#${prefix}-hatch)`} stroke="currentColor" stroke-width="1.8" />
+      <path d="m-29-23 10 15M19-2l11-10" class="workflow-cut" stroke-width="1.4" />
+      {Array.from({length: 6}, (_, index) => <path d="M0-18C-15-21-12-36 0-39C12-36 15-21 0-18Z" transform={`rotate(${index * 60} 0 -20)`} class="workflow-paper" stroke="currentColor" stroke-width="1.7" />)}
+      <circle cy="-20" r="7" class="workflow-accent-fill" stroke="currentColor" stroke-width="1.5" />
+      <path d="M-2 34-9 39M0 34l7 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+    </symbol>
+  </defs>
+
+  <g class="workflow-registration" stroke="currentColor" stroke-width=".8">
+    {compact ? <path d="M12 18h18M21 9v18M390 18h18M399 9v18M12 962h18M21 953v18M390 962h18M399 953v18" /> : <path d="M12 20h18M21 11v18M1010 20h18M1019 11v18M12 350h18M21 341v18M1010 350h18M1019 341v18" />}
+  </g>
+
+  <rect class="workflow-iteration-frame" x={frame.x} y={frame.y + 8} width={frame.width} height={frame.height - 8} />
+
+  <g class="workflow-theater" transform={`translate(${frame.x} ${frame.y})`}>
+    <path class="workflow-curtain" d="M8 38H78C65 51 54 67 47 88C39 111 34 136 26 153L35 284H8ZM328 38H258C271 51 282 67 289 88C297 111 302 136 310 153L301 284H328Z" />
+    <path class="workflow-curtain-cut" d="M18 54C20 85 18 111 17 136M37 49C31 75 28 98 27 117M17 170l5 92M318 54C316 85 318 111 319 136M299 49C305 75 308 98 309 117M319 170l-5 92" />
+    <path class="workflow-curtain-tie" d="m9 151 18-4 2 6-20 4Zm318 0-18-4-2 6 20 4Z" />
+    <path class="workflow-theater-marquee" d="M0 8Q84 11 168 0Q252 11 336 8V44Q252 37 168 44Q84 37 0 44Z" />
+    <path class="workflow-sign-star" d="m30 17 2 5 5 2-5 2-2 5-2-5-5-2 5-2Zm276 0 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" />
+    <text x="168" y="29" text-anchor="middle" class="workflow-theater-title">Agents AI</text>
+    <path class="workflow-stage-floor" d="M8 306H328" />
+  </g>
+
+  {workflowDependencies.map(([from, to], index) => {
+    const internal = [2, 3, 4].includes(from) && [2, 3, 4].includes(to);
+    return <g class="workflow-route" transform={internal ? `translate(${frame.x} ${frame.y})` : undefined} data-workflow-edge={index} data-state="success" data-from={from} data-to={to} data-to-group={from === 1 && to === 2 ? 'iteration' : undefined} data-from-group={from === 4 && to === 5 ? 'iteration' : undefined}>
+      <path class="workflow-edge" d={routes[index]} stroke-width="1.2" stroke-linecap="round" marker-end={`url(#${prefix}-arrow)`} />
+      <path class="workflow-ink" d={routes[index]} pathLength="1" stroke-width="1.8" stroke-linecap="round" />
+    </g>;
+  })}
+
+  {workflowTasks.map((task, index) => {
+    const [x, y] = positions[index];
+    const isAgent = ['design', 'build', 'validate'].includes(task.id);
+    const half = isAgent ? 38 : 44;
+    const glyphSize = isAgent ? 68 : 72;
+    return <g class:list={['workflow-node', isAgent && 'workflow-node-agent']} transform={`translate(${x} ${y})`} data-workflow-node={index} data-state="success">
+      <rect x={-half} y={-half} width={half * 2} height={half * 2} class="workflow-node-frame" />
+      {!isAgent && <rect x="-39" y="-39" width="78" height="78" class="workflow-node-inset" />}
+      <g class="workflow-glyph"><use href={`#${prefix}-emblem-${task.id}`} x={-glyphSize / 2} y={-glyphSize / 2} width={glyphSize} height={glyphSize} /></g>
+      <text y={task.id === 'design' ? -50 : isAgent ? 60 : 70} text-anchor="middle" class="workflow-node-title">{task.title}</text>
+    </g>;
+  })}
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="480" viewBox="0 0 960 480" role="img" aria-labelledby="title description">
+  <title id="title">Paleta de cores do portfólio de Rafael Targino</title>
+  <desc id="description">Nove cores: papel #F3ECDE, papel claro #FAF6ED, carvão #262820, barro #A34830, mandacaru #475640, ocre #CFAC63, areia #E7DCC7, texto secundário #626151 e traço #B9B09D.</desc>
+  <style>
+    text { fill: #262820; font-family: system-ui, sans-serif; }
+    .name { font-size: 17px; font-weight: 600; }
+    .hex { font-family: ui-monospace, monospace; font-size: 15px; }
+    .token { fill: #626151; font-family: ui-monospace, monospace; font-size: 13px; }
+    .subtitle { fill: #626151; font-size: 14px; }
+    .swatch { width: 80px; height: 80px; stroke: #B9B09D; stroke-width: 1; }
+  </style>
+  <path fill="#FAF6ED" d="M0 0h960v480H0z" />
+  <text x="24" y="43" font-size="27" font-weight="600">Paleta do portfólio</text>
+  <text class="subtitle" x="24" y="69">Papel · tinta · barro · verde · ocre</text>
+  <g transform="translate(24 100)">
+    <rect class="swatch" fill="#F3ECDE" width="80" height="80" />
+    <text class="name" x="98" y="21">Papel</text>
+    <text class="hex" x="98" y="46">#F3ECDE</text>
+    <text class="token" x="98" y="69">--paper</text>
+  </g>
+  <g transform="translate(336 100)">
+    <rect class="swatch" fill="#FAF6ED" width="80" height="80" />
+    <text class="name" x="98" y="21">Papel claro</text>
+    <text class="hex" x="98" y="46">#FAF6ED</text>
+    <text class="token" x="98" y="69">--paper-light</text>
+  </g>
+  <g transform="translate(648 100)">
+    <rect class="swatch" fill="#262820" width="80" height="80" />
+    <text class="name" x="98" y="21">Carvão</text>
+    <text class="hex" x="98" y="46">#262820</text>
+    <text class="token" x="98" y="69">--ink</text>
+  </g>
+  <g transform="translate(24 224)">
+    <rect class="swatch" fill="#A34830" width="80" height="80" />
+    <text class="name" x="98" y="21">Barro</text>
+    <text class="hex" x="98" y="46">#A34830</text>
+    <text class="token" x="98" y="69">--clay</text>
+  </g>
+  <g transform="translate(336 224)">
+    <rect class="swatch" fill="#475640" width="80" height="80" />
+    <text class="name" x="98" y="21">Mandacaru</text>
+    <text class="hex" x="98" y="46">#475640</text>
+    <text class="token" x="98" y="69">--cactus</text>
+  </g>
+  <g transform="translate(648 224)">
+    <rect class="swatch" fill="#CFAC63" width="80" height="80" />
+    <text class="name" x="98" y="21">Ocre</text>
+    <text class="hex" x="98" y="46">#CFAC63</text>
+    <text class="token" x="98" y="69">--ochre</text>
+  </g>
+  <g transform="translate(24 348)">
+    <rect class="swatch" fill="#E7DCC7" width="80" height="80" />
+    <text class="name" x="98" y="21">Areia</text>
+    <text class="hex" x="98" y="46">#E7DCC7</text>
+    <text class="token" x="98" y="69">--sand</text>
+  </g>
+  <g transform="translate(336 348)">
+    <rect class="swatch" fill="#626151" width="80" height="80" />
+    <text class="name" x="98" y="21">Texto secundário</text>
+    <text class="hex" x="98" y="46">#626151</text>
+    <text class="token" x="98" y="69">--muted</text>
+  </g>
+  <g transform="translate(648 348)">
+    <rect class="swatch" fill="#B9B09D" width="80" height="80" />
+    <text class="name" x="98" y="21">Traço</text>
+    <text class="hex" x="98" y="46">#B9B09D</text>
+    <text class="token" x="98" y="69">--line</text>
+  </g>
+</svg>

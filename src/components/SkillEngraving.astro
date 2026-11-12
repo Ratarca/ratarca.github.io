@@ -1,0 +1,160 @@
+---
+import { capabilities } from '../data/site';
+
+const branches = [
+  { x: 112, y: 190, path: 'M259 269 C229 245 199 225 163 215' },
+  { x: 488, y: 190, path: 'M341 269 C371 245 401 225 437 215' },
+  { x: 300, y: 90, path: 'M300 241 C300 205 300 178 300 146' },
+  { x: 128, y: 430, path: 'M258 341 C224 359 204 383 177 406' },
+  { x: 472, y: 430, path: 'M342 341 C376 359 396 383 423 406' }
+];
+
+// Slight variations in the contour and cut evoke ink pressed from a carved block.
+const sunOutline = Array.from({ length: 120 }, (_, index) => {
+  const angle = index / 120 * Math.PI * 2;
+  const radius = 53 + Math.sin(angle * 5) * .85 + Math.cos(angle * 13) * .45;
+  return `${index ? 'L' : 'M'}${(Math.cos(angle) * radius).toFixed(2)} ${(Math.sin(angle) * radius).toFixed(2)}`;
+}).join(' ') + 'Z';
+
+const spiralCut = Array.from({ length: 280 }, (_, index) => {
+  const progress = index / 279;
+  const angle = progress * Math.PI * 6.8 - Math.PI / 2;
+  const radius = 2 + progress * 45 + Math.sin(angle * 3) * .3;
+  return `${index ? 'L' : 'M'}${(Math.cos(angle) * radius).toFixed(2)} ${(Math.sin(angle) * radius).toFixed(2)}`;
+}).join(' ');
+---
+
+<svg class="atlas-engraving" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <pattern id="atlas-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-32)">
+      <path d="M0 0V5" stroke="currentColor" stroke-width="1.4" />
+    </pattern>
+    <pattern id="atlas-fine-hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(25)">
+      <path d="M0 0V4" stroke="currentColor" stroke-width=".65" />
+    </pattern>
+
+    <!-- Storage becomes a clay vessel: a silhouette shaped by carved, curved cuts. -->
+    <symbol id="atlas-emblem-data" viewBox="-40 -40 80 80">
+      <path d="M-10-29H10V-17C10-11 18-10 25-3C38 12 25 31 16 33H-16C-25 31-38 12-25-3C-18-10-10-11-10-17Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      <ellipse cy="-29" rx="12" ry="4" class="atlas-paper-fill" stroke="currentColor" stroke-width="2" />
+      <path d="M-6-23v10M-1-23v9M5-23v10M-17-7Q0-14 17-7M-23 0Q0-7 23 0M-26 7Q0 0 26 7M-26 14Q0 7 26 14M-23 21Q0 15 23 21M-18 28Q0 23 18 28" class="atlas-cut" stroke-width="1.6" stroke-linecap="round" />
+      <path d="M-20 0c-8 9-4 18 0 23M-16-3c-4 4-5 7-5 10" class="atlas-cut" stroke-width="2.1" stroke-linecap="round" />
+      <path d="M-17 35H17" stroke="currentColor" stroke-width="1.5" />
+    </symbol>
+
+    <!-- A wooden wheel suggests the mechanism that keeps the system moving. -->
+    <symbol id="atlas-emblem-backend" viewBox="-40 -40 80 80">
+      <path d="M1-35C21-35 35-20 35 0C35 20 20 35 0 35C-20 35-35 21-35 0C-35-20-20-35 1-35Z" fill="url(#atlas-hatch)" stroke="currentColor" stroke-width="2.3" />
+      <circle r="27" class="atlas-paper-fill" stroke="currentColor" stroke-width="2" />
+      {Array.from({ length: 8 }, (_, index) => (
+        <g transform={`rotate(${index * 45})`}>
+          <path d="M-3-6-4-27H4L3-6Z" fill="currentColor" />
+          <path d="M0-12 .5-24" class="atlas-cut" stroke-width="1.2" stroke-linecap="round" />
+        </g>
+      ))}
+      <path d="M-23-20C-12-32 6-33 19-25M25-17c8 13 7 27-2 38M17 27c-15 8-28 4-36-3M-27 17c-6-10-7-21-2-30" class="atlas-cut" stroke-width="1.2" stroke-linecap="round" />
+      <circle r="8" fill="currentColor" />
+      <circle r="3" class="atlas-paper-fill" />
+    </symbol>
+
+    <!-- A small glove-puppet theater echoes the Agents AI stage on the home page. -->
+    <symbol id="atlas-emblem-agentic" viewBox="-40 -40 80 80">
+      <path d="M-34-28H34V31H-34Z" class="atlas-paper-fill" stroke="currentColor" stroke-width="2" />
+      <path d="M-31-20H-17C-19-10-23-3-27 2L-23 25H-31ZM31-20H17C19-10 23-3 27 2L23 25H31Z" fill="var(--clay)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+      <path d="M-26-15-28-2m1 10 1 13M26-15 28-2m-1 10-1 13" class="atlas-cut" stroke-width="1.1" stroke-linecap="round" />
+      <path d="m-31 1 5-2 1 4-6 2Zm62 0-5-2-1 4 6 2Z" fill="var(--ochre)" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
+      <path d="M-36-31Q-18-30 0-34Q18-30 36-31V-19Q18-22 0-19Q-18-22-36-19Z" fill="var(--sand)" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      <path d="M-9-26H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+      <path d="m-25-28 2 2-2 2-2-2Zm50 0 2 2-2 2-2-2Z" fill="currentColor" />
+      <path d="m-4 3-8-5-3 4 8 7M4 3l8-5 3 4-8 7" fill="var(--sand)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+      <path d="M-5 0H5L11 20Q0 24-11 20Z" fill="url(#atlas-fine-hatch)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+      <circle cy="-7" r="6" class="atlas-paper-fill" stroke="currentColor" stroke-width="1.8" />
+      <path d="M-7-10q6-10 14 0Z" fill="currentColor" />
+      <path d="M-2-7h.1M2-7h.1M-2-3q2 2 4 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+      <path d="M-35 28H35M-37 33H37" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    </symbol>
+
+    <!-- Repeated openwork and interlaced geometry recall handwoven patterns. -->
+    <symbol id="atlas-emblem-quantitative" viewBox="-40 -40 80 80">
+      {Array.from({ length: 8 }, (_, index) => (
+        <g transform={`rotate(${index * 45})`}>
+          <path d="M0-5C-13-13-13-26 0-36C13-26 13-13 0-5Z" fill="url(#atlas-fine-hatch)" stroke="currentColor" stroke-width="1.5" />
+          <path d="M0-11V-29M-5-21 0-27 5-21 0-15Z" class="atlas-paper-fill" stroke="currentColor" stroke-width="1" />
+          <circle cy="-36" r="1.8" fill="currentColor" />
+        </g>
+      ))}
+      <path d="m0-13 13 13-13 13-13-13Z" class="atlas-paper-fill" stroke="currentColor" stroke-width="1.5" />
+      <path d="m0-8 8 8-8 8-8-8Z" fill="url(#atlas-hatch)" stroke="currentColor" />
+      <circle r="2.5" fill="currentColor" />
+    </symbol>
+
+    <!-- A tiled roof and pierced facade carry the idea of shelter and structure. -->
+    <symbol id="atlas-emblem-architecture" viewBox="-40 -40 80 80">
+      <path d="M-27-8H27V31H-27Z" fill="url(#atlas-fine-hatch)" stroke="currentColor" stroke-width="2" />
+      <path d="M-36-7 0-34 36-7 30-4 0-26-30-4Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+      <path d="M-25-12-3-28M-17-12 1-25M-9-12 5-22M-1-12 9-19M7-12l6-4M15-12l3-1" class="atlas-cut" stroke-width="1.3" stroke-linecap="round" />
+      <path d="M-7 31V13C-7 2 7 2 7 13V31Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" />
+      <path d="M-3 15v13M2 13v15" class="atlas-cut" stroke-width="1.1" stroke-linecap="round" />
+      {[-18, 18].map((x) => (
+        <g transform={`translate(${x} 3)`}>
+          <path d="M-6-5H6V10H-6Z" fill="currentColor" />
+          <path d="m0-2 3 4-3 4-3-4Z" class="atlas-paper-fill" />
+        </g>
+      ))}
+      <path d="M-31 34H31M-25 26h12M13 26h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+    </symbol>
+  </defs>
+
+  <g class="atlas-guide" stroke="currentColor" stroke-width=".8">
+    <ellipse cx="300" cy="300" rx="226" ry="222" stroke-dasharray="2 7" />
+    <path d="M28 300H572M300 18V552" stroke-dasharray="2 8" />
+    <path d="M26 35h18M35 26v18M556 35h18M565 26v18M26 555h18M35 546v18M556 555h18M565 546v18" />
+  </g>
+
+  {capabilities.map((item, index) => {
+    const branch = branches[index];
+    return (
+      <g class="atlas-branch" data-atlas-branch={item.id} style={`--branch-delay: ${index * .9}s`}>
+        <path d={branch.path} class="atlas-link" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+        <g class="atlas-medallion" transform={`translate(${branch.x} ${branch.y})`}>
+          <circle r="62" class="atlas-orbit" stroke="currentColor" stroke-width="1" stroke-dasharray="1 4" />
+          <circle r="57" fill="url(#atlas-hatch)" stroke="currentColor" stroke-width="1.5" />
+          <circle r="51" class="atlas-node-core" stroke="currentColor" stroke-width="1.4" />
+          <circle r="47" stroke="currentColor" stroke-width=".7" />
+          <use href={`#atlas-emblem-${item.id}`} x="-32" y="-40" width="64" height="64" />
+          <text y="41" text-anchor="middle" class="atlas-roman">{item.number}</text>
+        </g>
+      </g>
+    );
+  })}
+
+  {capabilities.map((item, index) => (
+    <g class="atlas-branch" data-atlas-branch={item.id} style={`--branch-delay: ${index * .9}s`}>
+        <path d={branches[index].path} class="atlas-ink-flow" pathLength="1" stroke-width="1.8" stroke-linecap="round" />
+    </g>
+  ))}
+
+  <!-- A spiral cut and tapered rays form the shared center, without a written regional label. -->
+  <g class="atlas-center" transform="translate(300 300)">
+    <g class="atlas-solar-rays" fill="currentColor">
+      {Array.from({ length: 32 }, (_, index) => {
+        const tip = index % 4 === 0 ? 86 : index % 2 === 0 ? 78 : 82;
+        return (
+          <g transform={`rotate(${index * 360 / 32})`}>
+            <path d={`M-2.5-60C-5-67-5-${tip - 8}-1-${tip}C-1-${tip - 8} 3-67 2-60Z`} />
+            {index % 2 === 0 && <path d={`M-.5-65Q-2-${tip - 10}-1-${tip - 5}`} class="atlas-cut" stroke-width=".9" />}
+          </g>
+        );
+      })}
+    </g>
+    <g class="atlas-solar-core">
+      <path d={sunOutline} class="atlas-solar-disc" />
+      <path d={spiralCut} class="atlas-solar-spiral" />
+      <g class="atlas-solar-grain" stroke-linecap="round">
+        {Array.from({ length: 24 }, (_, index) => (
+          <path d="M-1-49 .5-51" transform={`rotate(${index * 15 + 5})`} />
+        ))}
+      </g>
+    </g>
+  </g>
+</svg>

@@ -18,6 +18,31 @@ export const skills = [
   'DevOps'
 ];
 
+// The numbered connections and reading key in the engraved skills atlas.
+export const capabilities = [
+  { id: 'data', number: 'I', name: 'Data', tools: 'Spark · Databricks · Airflow · SQL · Unity Catalog' },
+  { id: 'backend', number: 'II', name: 'Backend', tools: 'Python · FastAPI · Go · PostgreSQL · Redis' },
+  { id: 'agentic', number: 'III', name: 'Agentic AI', tools: 'LLM agents · RAG · workflow automation' },
+  { id: 'quantitative', number: 'IV', name: 'Quantitative', tools: 'econometrics · pricing & risk models · optimization' },
+  { id: 'architecture', number: 'V', name: 'Architecture', tools: 'Azure · AWS · Terraform · event-driven systems' }
+];
+
+export const workflowTasks = [
+  { id: 'problem', title: 'PROBLEM' },
+  { id: 'understand', title: 'UNDERSTAND' },
+  { id: 'design', title: 'DESIGN' },
+  { id: 'build', title: 'BUILD' },
+  { id: 'validate', title: 'VALIDATE' },
+  { id: 'solution', title: 'SOLUTION' },
+  { id: 'value', title: 'VALUE' }
+];
+
+export const workflowDependencies: [number, number][] = [
+  [0, 1], [1, 2], [2, 3], [3, 4], [4, 2], [4, 5], [5, 6]
+];
+// Complete the three-edge iteration before delivering the solution.
+export const workflowSequence = [0, 1, 2, 3, 4, 2, 3, 4, 5, 6];
+
 // Add future degrees and certifications here; the Skills page carousel updates automatically.
 export const education = [
   {

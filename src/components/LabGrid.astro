@@ -4,8 +4,8 @@ import Icon from './Icon.astro';
 ---
 
 <div class="lab-filters" data-lab-filters aria-label="Filter labs">
-  <button class="active" data-filter="All" type="button">All work</button>
-  {[...new Set(labs.map((lab) => lab.type))].map((type) => <button data-filter={type} type="button">{type}</button>)}
+  <button class="active" data-filter="All" type="button" aria-pressed="true">All work</button>
+  {[...new Set(labs.map((lab) => lab.type))].map((type) => <button data-filter={type} type="button" aria-pressed="false">{type}</button>)}
 </div>
 
 <div class="labs-grid" data-lab-grid>
