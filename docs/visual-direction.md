@@ -14,7 +14,7 @@ Este é o guia principal de identidade. Para desenhar ou substituir símbolos, c
 | Papel claro | `--paper-light` | `#FAF6ED` | Áreas de leitura, cartões e incisões claras nas ilustrações |
 | Tinta de carvão | `--ink` | `#262820` | Texto principal, títulos, silhuetas e contornos |
 | Barro | `--clay` | `#A34830` | Ênfases, seleção, sol e cortinas do teatro |
-| Mandacaru | `--cactus` | `#475640` | Ações principais, seção de contato e conexões concluídas |
+| Mandacaru | `--cactus` | `#475640` | Ações principais, seção de contato, fundo de Connected capability e conexões concluídas |
 | Ocre | `--ochre` | `#CFAC63` | Pequenos detalhes, amarrações das cortinas e acentos em fundos escuros |
 | Areia | `--sand` | `#E7DCC7` | Superfícies secundárias, letreiros e roupas dos bonecos |
 | Texto secundário | `--muted` | `#626151` | Parágrafos, legendas e detalhes secundários |
@@ -28,7 +28,7 @@ A fonte dos valores é o bloco `:root` de [`src/styles/global.css`](../src/style
 | --- | --- | --- |
 | Carvão | Papel ou papel claro | Leitura principal e contornos das figuras |
 | Texto secundário | Papel ou papel claro | Legendas e descrições de apoio |
-| Papel claro | Mandacaru | Botões e chamadas da seção de contato |
+| Papel claro | Mandacaru | Botões e chamadas da seção de contato e de Connected capability |
 | Barro | Papel claro | Ênfases pontuais, seleção e pequenos elementos ilustrados |
 | Ocre | Mandacaru ou carvão | Detalhes e acentos em áreas escuras |
 | Traço | Papel ou papel claro | Filetes, guias e arestas; reservar o texto para carvão ou texto secundário |
@@ -92,6 +92,8 @@ Constraints: no letters, no typography, no UI, no watermark, no logos, no knight
 ```
 
 ## Atlas de habilidades
+
+A seção **Connected capability** usa o mesmo fundo verde oliva/mandacaru (`--cactus`) da faixa de contato na home. O título fica em papel claro, as ênfases e a identificação em ocre, e o texto de apoio em areia. A prancha do atlas permanece em papel claro, com tinta de carvão e barro, mantendo a leitura das figuras e dos controles.
 
 O atlas é uma prancha de gravura com cinco medalhões numerados conectados ao centro **Problem solving**, representado por um sol de barro com incisão em espiral e raios de tinta. Os medalhões evocam cerâmica, uma roda de madeira, um teatro de bonecos, tramas de renda e uma fachada com telhas e aberturas vazadas. Em **Agentic AI**, o pequeno teatro tem faixa superior curva, cortinas em terracota e um boneco de luva no palco, seguindo a mesma linguagem do teatro da home. Ao editar esse símbolo, preserve o sol e os outros quatro desenhos. O [mapa de iconografia](iconografia-e-referencias.md) relaciona cada figura à disciplina correspondente.
 

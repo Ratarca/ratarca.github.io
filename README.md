@@ -41,6 +41,8 @@ npm run check
 A GitHub Actions workflow deploys `dist/` to **GitHub Pages** automatically whenever `main` is updated.
 In the repository's GitHub Pages settings, select **GitHub Actions** as the build source once.
 
+Project styles are embedded in each generated HTML page with `build.inlineStylesheets: 'always'` in `astro.config.mjs`. This keeps cached pages and their CSS together when GitHub Pages replaces the previous deployment, avoiding missing hashed stylesheets. Fonts and images remain external resources. Use `npm run build` followed by `npm run preview` to verify this production behavior; the development server handles styles differently.
+
 ---
 
 ## 📁 Project structure
@@ -110,7 +112,7 @@ All design tokens live in `:root` in [`src/styles/global.css`](src/styles/global
 | `--paper-light` | `#faf6ed` | Reading surfaces |
 | `--ink` | `#262820` | Charcoal text and rules |
 | `--clay` | `#a34830` | Terracotta emphasis |
-| `--cactus` | `#475640` | Primary actions and contact section |
+| `--cactus` | `#475640` | Primary actions, contact section and Connected capability background |
 | `--ochre` | `#cfac63` | Accents on dark surfaces |
 | `--sand` | `#e7dcc7` | Secondary surfaces |
 | `--muted` | `#626151` | Secondary text |

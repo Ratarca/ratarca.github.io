@@ -496,8 +496,10 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .education-controls button { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; color: var(--navy); border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; transition: color .2s, background .2s, transform .2s; }
 .education-controls button:hover { color: #fff; background: var(--navy); transform: translateY(-2px); }
 
-.capability-section { padding: 112px max(24px, calc((100% - 1120px) / 2)) 120px; background: var(--sand); border-top: 3px double var(--ink); }
+.capability-section { padding: 112px max(24px, calc((100% - 1120px) / 2)) 120px; background: var(--cactus); color: var(--paper-light); border-top: 3px double var(--paper); }
 .capability-heading { gap: 70px; }
+.capability-heading .eyebrow, .capability-heading h2 em { color: var(--ochre); }
+.capability-heading > p { color: var(--sand); }
 .skill-atlas { color: var(--ink); background: var(--paper-light); border: 3px double var(--ink); box-shadow: 6px 6px 0 var(--sand), 7px 7px 0 var(--line); }
 .skill-atlas [hidden] { display: none !important; }
 .atlas-masthead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: 27px 32px; border-bottom: 1px solid var(--ink); }
