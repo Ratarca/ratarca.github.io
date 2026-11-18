@@ -12,7 +12,7 @@ O teste de leitura é o tamanho real na página. Um símbolo que funciona amplia
 
 | Família | Aplicação | Orientação | Arquivo |
 | --- | --- | --- | --- |
-| Marca e favicon | Identidade no header e na aba do navegador | RT em tipografia ampla e sem moldura se expande para revelar Rafael Targino, sempre com ponto solar. Na aba, combinar sol e teatro de bonecos com poucos traços. | [`BrandWordmark.astro`](../src/components/BrandWordmark.astro), [`SunMark.astro`](../src/components/SunMark.astro), [`rt-sun.svg`](../src/assets/brand/rt-sun.svg), [`favicon.svg`](../public/favicon.svg), [`favicon.ico`](../public/favicon.ico) |
+| Marca e favicon | Identidade no header e na aba do navegador | RT em tipografia ampla e sem moldura se expande para revelar Rafael Targino, sempre com ponto solar. Na aba, usar um sol amarelo ocre em espiral, com raios de xilogravura e poucos cortes escuros. | [`BrandWordmark.astro`](../src/components/BrandWordmark.astro), [`SunMark.astro`](../src/components/SunMark.astro), [`rt-sun.svg`](../src/assets/brand/rt-sun.svg), [`favicon.svg`](../public/favicon.svg), [`favicon.ico`](../public/favicon.ico) |
 | Ícones funcionais | Contato, redes sociais, navegação e controles | Preservar os símbolos conhecidos e a consistência de tamanho e alinhamento. No layout principal, os links sociais têm alvos de 44 px. | [`Icon.astro`](../src/components/Icon.astro), [`global.css`](../src/styles/global.css) |
 | Emblemas ilustrados | Disciplinas do atlas e etapas do fluxo | Uma figura principal e um objeto que ajude a reconhecer seu papel. Usar SVG nativo. | [`SkillEngraving.astro`](../src/components/SkillEngraving.astro), [`WorkflowEngraving.astro`](../src/components/WorkflowEngraving.astro) |
 | Composições | Sol, medalhões e palco Agents AI | Organizar os emblemas com espaço, hierarquia e conexões discretas. | Os mesmos componentes de gravura |
@@ -34,7 +34,7 @@ Como referência de implementação, os emblemas usam `viewBox` de 80 × 80 ou 9
 ### Marca RT e favicon
 
 - **Header:** RT em carvão, com tipografia Cormorant Garamond ampla e sem moldura. O sol de barro tem doze raios e uma incisão em espiral no lugar do ponto. No hover ou foco pelo teclado, as letras se expandem suavemente para revelar Rafael Targino; o mesmo sol continua no final. O símbolo usa SVG nativo. Com movimento reduzido, a mudança é instantânea. A navegação permanece fixa e o link continua levando à home.
-- **Aba do navegador:** sol acima de um pequeno palco, cortinas de barro e um boneco de silhueta escura, sobre fundo de papel claro. O favicon usa uma versão simplificada dos mesmos motivos das gravuras.
+- **Aba do navegador:** sol amarelo ocre em espiral, com raios irregulares e cortes de carvão sobre papel claro. O desenho simplificado da xilogravura mantém o sol reconhecível em 16 px.
 - A [versão estática de exportação](../src/assets/brand/rt-sun.svg) mantém as letras em contornos SVG e usa tokens CSS com valores da paleta como fallback. O favicon é independente e usa os mesmos valores diretamente; o ICO deve ser regenerado a partir dele em 16, 32 e 48 px. Preserve a leitura no tamanho real e mantenha os links versionados no layout.
 
 ### Atlas of capabilities

@@ -67,7 +67,7 @@ O header usa a marca de [`BrandWordmark.astro`](../src/components/BrandWordmark.
 
 O header reserva 248 px no desktop e 224 px no celular para a expansão sem deslocar a navegação. RT aparece maior para facilitar a leitura; a abertura do nome leva cerca de 650 ms. Em dispositivos sem hover, a marca mantém o estado compacto e o link direto para a home. O foco pelo teclado também revela o nome; com movimento reduzido, essa troca é instantânea. A interação usa apenas CSS e funciona sem JavaScript. [`src/assets/brand/rt-sun.svg`](../src/assets/brand/rt-sun.svg) permanece como versão estática de exportação, com letras em contornos vetoriais.
 
-O [favicon](../public/favicon.svg) reúne o sol, o palco com cortinas de barro e um boneco em uma silhueta simples sobre papel claro. Essa composição identifica o site em abas claras ou escuras. O [`favicon.ico`](../public/favicon.ico) contém rasterizações de 16, 32 e 48 px do mesmo SVG. Os dois formatos são declarados no [`BaseLayout.astro`](../src/layouts/BaseLayout.astro); ao alterar a arte, regenere o ICO e atualize o parâmetro de versão dos links para renovar o ícone em cache. O favicon permanece estático.
+O [favicon](../public/favicon.svg) destaca um sol amarelo ocre (`--ochre`) em espiral, com raios irregulares e cortes de carvão sobre papel claro. A silhueta simples remete à xilogravura nordestina e mantém o sol legível em abas pequenas. O [`favicon.ico`](../public/favicon.ico) contém rasterizações de 16, 32 e 48 px do mesmo SVG. Os dois formatos são declarados no [`BaseLayout.astro`](../src/layouts/BaseLayout.astro); ao alterar a arte, regenere o ICO e atualize o parâmetro de versão dos links para renovar o ícone em cache. O favicon permanece estático.
 
 ## Ícones e ilustrações simples
 
