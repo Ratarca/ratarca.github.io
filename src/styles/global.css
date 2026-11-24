@@ -68,7 +68,7 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .button-secondary:hover { border-color: var(--ink); background: var(--sand); }
 .hero-aside { position: relative; width: 100%; max-width: 480px; justify-self: end; }
 .hero-portrait { margin: 0; padding: 8px; border: 1px solid var(--line); background: var(--paper-light); box-shadow: 7px 7px 0 var(--sand); }
-.hero-portrait img { width: 100%; height: auto; aspect-ratio: 1178 / 1599; object-fit: cover; object-position: center 22%; filter: grayscale(100%) contrast(1.07); mix-blend-mode: multiply; }
+.hero-portrait img { width: 100%; height: auto; }
 .hero-colophon { display: flex; align-items: center; gap: 18px; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--line); }
 .dag-scene { position: relative; container-type: inline-size; color: var(--ink); border: 3px double var(--ink); background: var(--paper-light); box-shadow: 5px 5px 0 var(--cactus), 6px 6px 0 var(--line); }
 .dag-scene [hidden] { display: none !important; }

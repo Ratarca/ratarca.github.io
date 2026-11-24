@@ -4,9 +4,11 @@ Guia de referência para fotos pessoais e editoriais do portfólio.
 
 ## Retrato principal
 
-O arquivo de referência é [`profile.jpg`](../public/assets/img/profile.jpg), com 1178 × 1599 px. Ele já fazia parte do projeto e agora ocupa o lugar principal na abertura da home, junto da localização “Based in” e dos links sociais. A miniatura da xilogravura foi removida do bloco de localização. A arte permanece no projeto como referência de linguagem visual.
+O arquivo de referência é [`profile.jpg`](../public/assets/img/profile.jpg), com 1178 × 1599 px. A abertura da home usa a versão [`profile-yellow.webp`](../public/assets/img/profile-yellow.webp), com 1076 × 1461 px, junto da localização “Based in” e dos links sociais.
 
-A fotografia original não foi alterada. O navegador aplica um tratamento monocromático suave, contraste e recorte vertical para aproximá-la da impressão em tinta sobre papel. A imagem também serve de referência visual para outras fotos; não é necessário criar ou manter uma cópia.
+A primeira edição com ImageGen usou a foto original e a [gravura de referência do sertão](../public/assets/img/sertao-engraving.webp) para criar o [fundo de madeira ocre](../public/assets/img/profile-ochre.webp). A versão da home já traz o retrato em preto e branco e o amarelo liso no WebP.
+
+O brief da edição atual pediu a troca do fundo anterior por amarelo uniforme, preservando o enquadramento, a expressão, os traços e a luz do retrato em preto e branco.
 
 ## Linguagem das próximas fotos
 

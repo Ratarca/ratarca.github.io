@@ -99,7 +99,7 @@ The visual direction combines northeastern Brazilian woodcuts, scientific engrav
 | --- | --- |
 | [Visual direction](docs/visual-direction.md) | Palette, color combinations, typography, composition, illustration prompt and where to edit |
 | [Simple icons and visual references](docs/iconografia-e-referencias.md) | Drawing rules, every symbol's meaning, Anthropic Academy, woodcuts and puppet theater references |
-| [Photography direction](docs/direcao-fotografica.md) | Original portrait, treatment and brief for future photographs |
+| [Photography direction](docs/direcao-fotografica.md) | Original portrait, monochrome home portrait on solid yellow, and brief for future photographs |
 | [Editing instructions](AGENTS.md) | Required context and constraints for future changes |
 
 ![Portfolio palette: nine warm paper, charcoal, terracotta, green, ochre and neutral colors.](docs/assets/paleta.svg)

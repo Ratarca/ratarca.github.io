@@ -132,7 +132,7 @@ O fluxo é **Problem → Understand → [Design → Build → Validate → Desig
 
 ## Direção fotográfica
 
-O retrato de referência é [`public/assets/img/profile.jpg`](../public/assets/img/profile.jpg) (1178 × 1599). Ele agora ocupa a abertura da home, junto da localização “Based in” e dos canais de contato. A foto original não foi alterada; a página aplica um tratamento monocromático e um recorte vertical. Consulte o [guia de direção fotográfica](direcao-fotografica.md) para instruções de uso e um brief reutilizável.
+A abertura da home usa um [retrato em preto e branco sobre fundo amarelo liso](../public/assets/img/profile-yellow.webp), junto da localização “Based in” e dos canais de contato. A [foto original](../public/assets/img/profile.jpg) e o brief da edição estão registrados no [guia de direção fotográfica](direcao-fotografica.md).
 
 ## Onde editar
 
