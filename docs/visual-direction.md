@@ -132,7 +132,7 @@ O fluxo é **Problem → Understand → [Design → Build → Validate → Desig
 
 ## Direção fotográfica
 
-A abertura da home usa um [retrato em preto e branco sobre fundo amarelo liso](../public/assets/img/profile-yellow.webp), junto da localização “Based in” e dos canais de contato. A [foto original](../public/assets/img/profile.jpg) e o brief da edição estão registrados no [guia de direção fotográfica](direcao-fotografica.md).
+A abertura da home usa um [retrato quadrado em preto e branco sobre fundo amarelo liso](../public/assets/img/profile-linkedin.webp), junto da localização “Based in” e dos canais de contato. A [foto original](../public/assets/img/profile.jpg) e o brief da edição estão registrados no [guia de direção fotográfica](direcao-fotografica.md).
 
 ## Onde editar
 

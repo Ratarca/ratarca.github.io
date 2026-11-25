@@ -34,7 +34,7 @@ A marca interativa do header fica em `BrandWordmark.astro`: começa em RT grande
 
 ## Home e imagens
 
-- Mantenha `public/assets/img/profile.jpg` como foto original de Rafael. O retrato da home usa `public/assets/img/profile-yellow.webp`, com fundo amarelo liso e a pessoa em preto e branco.
+- Mantenha `public/assets/img/profile.jpg` como foto original de Rafael. O retrato da home usa `public/assets/img/profile-linkedin.webp`, com enquadramento quadrado, fundo amarelo liso e a pessoa em preto e branco.
 - O bloco da foto mantém a localização “Based in — São Paulo, BR” e os links sociais.
 - Não coloque miniaturas de gravura no bloco “Based in”.
 - `public/assets/img/sertao-engraving.webp` é a ilustração de referência do projeto. Consulte a documentação antes de reutilizá-la.

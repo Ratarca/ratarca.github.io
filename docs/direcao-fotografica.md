@@ -4,11 +4,9 @@ Guia de referência para fotos pessoais e editoriais do portfólio.
 
 ## Retrato principal
 
-O arquivo de referência é [`profile.jpg`](../public/assets/img/profile.jpg), com 1178 × 1599 px. A abertura da home usa a versão [`profile-yellow.webp`](../public/assets/img/profile-yellow.webp), com 1076 × 1461 px, junto da localização “Based in” e dos links sociais.
+O arquivo de referência é [`profile.jpg`](../public/assets/img/profile.jpg), com 1178 × 1599 px. A abertura da home usa a versão quadrada do retrato do LinkedIn, exportada como [`profile-linkedin.webp`](../public/assets/img/profile-linkedin.webp) em 800 × 800 px, junto da localização “Based in” e dos links sociais.
 
-A primeira edição com ImageGen usou a foto original e a [gravura de referência do sertão](../public/assets/img/sertao-engraving.webp) para criar o [fundo de madeira ocre](../public/assets/img/profile-ochre.webp). A versão da home já traz o retrato em preto e branco e o amarelo liso no WebP.
-
-O brief da edição atual pediu a troca do fundo anterior por amarelo uniforme, preservando o enquadramento, a expressão, os traços e a luz do retrato em preto e branco.
+A primeira edição com ImageGen usou a foto original e a [gravura de referência do sertão](../public/assets/img/sertao-engraving.webp) para criar o [fundo de madeira ocre](../public/assets/img/profile-ochre.webp). A [edição vertical com fundo amarelo liso](../public/assets/img/profile-yellow.webp) serviu de base para o retrato quadrado, que centraliza o rosto e deixa margem acima do cabelo.
 
 ## Linguagem das próximas fotos
 
