@@ -130,8 +130,9 @@ export const experience = [
     url: 'https://www.xpi.com.br',
     period: 'Sep 2024 — Present',
     role: 'Data Engineer III',
+    award: 'Developer of the Year · 1 of 2 selected from 60 developers',
     highlights: [
-      'Selected as one of two developers of the year from a group of 60.',
+      'Turned OKRs into projects with defined roadmaps, enabling sprint management and task allocation across the development team.',
       'Reduced wholesale-bank data operations costs by US$2M annually.',
       'Led an agentic AI data squad that streamlined data-engineering and business-analysis work.',
       'Helped modernize credit-card services from a monolith to event-driven systems.'
@@ -152,11 +153,12 @@ export const experience = [
     company: 'ModalMais Bank',
     url: 'https://www.modalmais.com.br/',
     period: 'Nov 2021 — May 2023',
-    role: 'Data Engineer II · Software Engineer I, Risk',
+    role: 'Software Engineer at Risk & Data',
     highlights: [
-      'Built an AWS data lake with Terraform and migrated on-premise workloads to the cloud.',
-      'Created FastAPI and PostgreSQL integrations, data pipelines, and platform OKRs.',
-      'Supported real-time risk and liquidity systems using WebSockets, Redis, and quantitative analysis.'
+      'Supported and improve real-time risk and liquidity systems using WebSockets, Redis, and quantitative analysis that generate U$24mm per year.',
+      'Built an AWS data platform with Terraform and migrated on-premise workloads to the cloud.',
+      'Created APIs for integration with partners and implemented data pipelines for consolidated reporting.',
+      'Managed data team while integ.'
     ]
   },
   {
@@ -165,7 +167,7 @@ export const experience = [
     period: 'Apr 2018 — Nov 2019',
     role: 'Economics Intern',
     highlights: [
-      'Built partner APIs and a real-estate data warehouse.',
+      'Built partner APIs and a real state data warehouse.',
       'Supported credit models and economic analysis for construction companies.'
     ]
   }

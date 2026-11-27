@@ -1,5 +1,6 @@
 ---
 import { experience } from '../data/site';
+import Icon from './Icon.astro';
 ---
 
 <ol class="career-timeline">
@@ -8,9 +9,12 @@ import { experience } from '../data/site';
       <div class="career-period"><span>{job.period}</span><i aria-hidden="true"></i></div>
       <article class="career-card">
         <header>
-          <p>0{index + 1} · <a href={job.url} target="_blank" rel="noreferrer">{job.company} <span aria-hidden="true">↗</span></a></p>
+          <p>0{index + 1} · <a href={job.url} target="_blank" rel="noreferrer">{job.company} <span aria-hidden="true">↗</span></a><span class="career-award-mark" aria-hidden="true"><Icon name="trophy" size={15} /></span></p>
           <h2>{job.role}</h2>
         </header>
+        {job.award && (
+          <p class="career-award"><Icon name="trophy" size={16} /><span><strong>Award</strong> {job.award}</span></p>
+        )}
         <ul>
           {job.highlights.map((highlight) => <li>{highlight}</li>)}
         </ul>
