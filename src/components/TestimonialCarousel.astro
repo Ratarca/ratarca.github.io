@@ -15,8 +15,8 @@ const hasMultiple = testimonials.length > 1;
     <div class="testimonial-slides" aria-live={hasMultiple ? 'polite' : undefined}>
       {testimonials.map((testimonial, index) => (
         <article class="testimonial-slide" data-testimonial-slide aria-label={hasMultiple ? `Testimonial ${index + 1} of ${testimonials.length}` : undefined} hidden={index !== 0}>
-          <Icon name="quote" size={42} />
-          <blockquote lang={testimonial.lang}>
+          <Icon name="quote" size={30} />
+          <blockquote lang={testimonial.lang} tabindex="0">
             {testimonial.quote.map((paragraph, paragraphIndex) => (
               <p>{paragraphIndex === 0 && '“'}{paragraph}{paragraphIndex === testimonial.quote.length - 1 && '”'}</p>
             ))}
