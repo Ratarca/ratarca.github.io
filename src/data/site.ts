@@ -111,6 +111,16 @@ export const testimonials: Testimonial[] = [
     role: 'Senior Manager · AB InBev',
     photo: '/assets/img/testimonials/matheus-antunes.jpg',
     linkedin: 'https://br.linkedin.com/in/matheus-antunes-a2001b176'
+  },
+  {
+    quote: [
+      'Rafael is a highly dedicated and driven professional. I had the opportunity to work with him early in his tech career, when he was transitioning from a different field. What impressed me was how seriously he approached learning and how much effort he put into understanding root problems. What sets Rafael apart is his combination of technical expertise and a strong understanding of stockholders’ demands, developed through his experience in the financial sector. I believe this combination makes him a particularly valuable professional, and I would strongly recommend him.'
+    ],
+    lang: 'en',
+    name: 'Pedro Lima, PhD',
+    role: 'AI Scientist · Amazon (USA)',
+    photo: '/assets/img/testimonials/pedro-lima.jpg',
+    linkedin: 'https://www.linkedin.com/in/pedro-lima-87222815a'
   }
 ];
 
