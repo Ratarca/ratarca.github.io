@@ -196,20 +196,23 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
 .impact-card span { max-width: 180px; color: var(--muted); font-size: 13px; line-height: 1.35; }
 
 .testimonials-section { margin-top: 90px; padding-top: 70px; border-top: 3px double var(--line); }
-.testimonials-heading { display: grid; grid-template-columns: 1.15fr .85fr; gap: 90px; align-items: end; margin-bottom: 42px; }
+.testimonials-heading { margin-bottom: 42px; }
 .testimonials-heading h2 { max-width: 610px; margin: 0; font-size: clamp(2.15rem, 4vw, 3.65rem); line-height: 1; }
-.testimonials-heading > p { max-width: 330px; color: var(--muted); font-size: 15px; margin: 0 0 4px; }
 .testimonial-carousel { border: 1px solid var(--line); background: var(--paper-light); }
 .testimonial-slide { min-height: 325px; display: grid; grid-template-columns: 56px 1fr; column-gap: 22px; align-content: center; padding: 42px; background: transparent; }
 .testimonial-slide[hidden] { display: none !important; }
 .testimonial-slide > svg { grid-row: span 2; color: var(--lime-deep); }
 .testimonial-slide blockquote { max-width: 730px; margin: 0; font-family: var(--serif); font-size: clamp(1.55rem, 3vw, 2.35rem); line-height: 1.18; letter-spacing: -.04em; }
+.testimonial-slide blockquote p { margin: 0; }
+.testimonial-slide blockquote p + p { margin-top: .65em; }
 .testimonial-slide footer { display: flex; align-items: center; gap: 10px; margin-top: 31px; }
 .testimonial-avatar { display: grid; place-items: center; flex: 0 0 auto; width: 35px; height: 35px; color: #fff; background: var(--navy); border-radius: 50%; font-family: var(--serif); font-size: 17px; }
+img.testimonial-avatar { object-fit: cover; border: 1px solid var(--line); }
 .testimonial-slide footer strong, .testimonial-slide footer span { display: block; }
 .testimonial-slide footer strong { font-size: 13px; }
 .testimonial-slide footer span { color: var(--muted); font-size: 12px; }
-.testimonial-slide footer em { margin-left: auto; padding: 6px 9px; color: var(--lime-deep); border: 1px solid var(--lime-deep); font-family: var(--mono); font-size: 9px; font-style: normal; letter-spacing: .05em; text-transform: uppercase; }
+.testimonial-linkedin { display: grid; place-items: center; width: 44px; height: 44px; color: var(--ink); border: 1px solid var(--line); border-radius: 50%; }
+.testimonial-linkedin:hover { color: var(--clay); border-color: currentColor; }
 .testimonial-controls { display: flex; align-items: center; justify-content: space-between; min-height: 58px; padding: 0 20px 0 62px; border-top: 1px solid var(--line); }
 .testimonial-progress { display: flex; gap: 7px; }
 .testimonial-progress i { width: 22px; height: 2px; background: var(--line); transition: background .2s, width .2s; }
@@ -798,12 +801,11 @@ h1 em, h2 em { color: var(--lime-deep); font-style: italic; }
   .impact-grid { max-width: none; grid-template-columns: 1fr 1fr; gap: 20px; }
   .impact-card strong { font-size: 56px; }
   .testimonials-section { margin-top: 82px; padding-top: 72px; }
-  .testimonials-heading { grid-template-columns: 1fr; gap: 14px; margin-bottom: 29px; }
+  .testimonials-heading { margin-bottom: 29px; }
   .testimonial-slide { grid-template-columns: 1fr; gap: 18px; min-height: 365px; padding: 33px 25px 27px; background: transparent; }
   .testimonial-slide > svg { grid-row: auto; }
   .testimonial-slide blockquote { font-size: 25px; }
   .testimonial-slide footer { margin-top: 12px; flex-wrap: wrap; }
-  .testimonial-slide footer em { width: 100%; margin: 6px 0 0 45px; }
   .testimonial-controls { min-height: 54px; padding: 0 17px 0 25px; }
   .education-card { grid-template-columns: 1fr auto; gap: 20px; }
   .education-card img { width: 100%; height: 190px; grid-column: 1 / -1; }

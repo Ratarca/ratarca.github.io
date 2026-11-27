@@ -81,25 +81,36 @@ export const education = [
   }
 ];
 
-// Replace these placeholders with real recommendations when they are available.
-export const testimonials = [
+type Testimonial = {
+  quote: string[];
+  lang?: string;
+  name: string;
+  role: string;
+  photo?: string;
+  linkedin?: string;
+};
+
+export const testimonials: Testimonial[] = [
   {
-    quote: 'Add a short recommendation here about the problem we solved together, the way I worked, and the outcome we achieved.',
-    name: 'Name of colleague',
-    role: 'Role · Company',
-    context: 'Placeholder recommendation'
+    quote: [
+      'During the three years I worked with Rafael Targino, I witnessed his professional growth, driven by intelligence, resilience, and exceptional commitment. He joined our team as a trainee, earned multiple promotions, and consistently took on greater responsibilities, demonstrating strong competence and delivering outstanding results.',
+      'He played a key role in implementing the Retail Liquidity Provider (RLP) project, which enabled the institution to generate US$24 million in annual revenue, demonstrating his ability to translate technical expertise into tangible business value.'
+    ],
+    lang: 'en',
+    name: 'Adone Totti Garcia',
+    role: 'Director IT & Risk · Mirae Asset Group',
+    linkedin: 'https://es.linkedin.com/in/adonejunior'
   },
   {
-    quote: 'Use this space for a client, leader, or teammate to describe how I brought clarity to a complex data or product challenge.',
-    name: 'Name of collaborator',
-    role: 'Role · Company',
-    context: 'Placeholder recommendation'
-  },
-  {
-    quote: 'Add a quote that speaks to execution: how we turned an ambiguous opportunity into a system that created measurable value.',
-    name: 'Name of stakeholder',
-    role: 'Role · Company',
-    context: 'Placeholder recommendation'
+    quote: [
+      'During a project to modernize the data architecture, Rafael Targino implemented architectural improvements that directly contributed to generating US$2 million in business value.',
+      'He is highly collaborative, thinks strategically, and can rethink processes from different perspectives. He continually looks for ways to improve efficiency and amplify the team’s impact.'
+    ],
+    lang: 'en',
+    name: 'Matheus Antunes',
+    role: 'Senior Manager · AB InBev',
+    photo: '/assets/img/testimonials/matheus-antunes.jpg',
+    linkedin: 'https://br.linkedin.com/in/matheus-antunes-a2001b176'
   }
 ];
 
