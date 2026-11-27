@@ -133,8 +133,8 @@ export const experience = [
     award: 'Developer of the Year · 1 of 2 selected from 60 developers',
     highlights: [
       'Reduced wholesale-bank data operations costs by US$2M annually.',
-      'Turned OKRs into projects with defined roadmaps, enabling sprint management and task allocation across the development team.',
       'Led an agentic AI data squad that streamlined data-engineering and business-analysis work.',
+      'Turned OKRs into projects with defined roadmaps, enabling sprint management and task allocation across the development team.',
       'Helped modernize credit-card services from a monolith to event-driven systems.'
     ]
   },
