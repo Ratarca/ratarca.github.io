@@ -129,11 +129,11 @@ export const experience = [
     company: 'XP Inc.',
     url: 'https://www.xpi.com.br',
     period: 'Sep 2024 — Present',
-    role: 'Data Engineer III',
+    role: 'Forward Deployed Engineer',
     award: 'Developer of the Year · 1 of 2 selected from 60 developers',
     highlights: [
-      'Turned OKRs into projects with defined roadmaps, enabling sprint management and task allocation across the development team.',
       'Reduced wholesale-bank data operations costs by US$2M annually.',
+      'Turned OKRs into projects with defined roadmaps, enabling sprint management and task allocation across the development team.',
       'Led an agentic AI data squad that streamlined data-engineering and business-analysis work.',
       'Helped modernize credit-card services from a monolith to event-driven systems.'
     ]
@@ -142,9 +142,10 @@ export const experience = [
     company: 'Serasa Experian',
     url: 'https://www.serasaexperian.com.br/',
     period: 'May 2023 — Sep 2024',
-    role: 'Data Engineer III',
+    role: 'Software Data Engineer III',
+    award: 'Selected for project of the year.',
     highlights: [
-      'Designed and implemented a data-consent platform serving 80M customers.',
+      'Designed and implemented a data-consent platform serving 80M customers with AWS.',
       'Built marketing and CRM data products that contributed to US$8M in revenue growth.',
       'Implemented Unity Catalog to improve data governance and cost allocation.'
     ]
@@ -153,12 +154,13 @@ export const experience = [
     company: 'ModalMais Bank',
     url: 'https://www.modalmais.com.br/',
     period: 'Nov 2021 — May 2023',
-    role: 'Software Engineer at Risk & Data',
+    role: 'Data Software Engineer at Risk',
+    award: 'Become partner of the company',
     highlights: [
       'Supported and improve real-time risk and liquidity systems using WebSockets, Redis, and quantitative analysis that generate U$24mm per year.',
       'Built an AWS data platform with Terraform and migrated on-premise workloads to the cloud.',
       'Created APIs for integration with partners and implemented data pipelines for consolidated reporting.',
-      'Managed data team while integ.'
+      'Manage the backlog by distributing tasks to the data team to achieve the roadmap for modernizing the data platform.'
     ]
   },
   {
