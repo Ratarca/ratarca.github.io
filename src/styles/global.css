@@ -214,9 +214,8 @@ img.testimonial-avatar { object-fit: cover; border: 1px solid var(--line); }
 .testimonial-linkedin { display: grid; place-items: center; width: 44px; height: 44px; color: var(--ink); border: 1px solid var(--line); border-radius: 50%; }
 .testimonial-linkedin:hover { color: var(--clay); border-color: currentColor; }
 .testimonial-controls { display: flex; align-items: center; justify-content: space-between; min-height: 58px; padding: 0 20px 0 62px; border-top: 1px solid var(--line); }
-.testimonial-progress { display: flex; gap: 7px; }
-.testimonial-progress i { width: 22px; height: 2px; background: var(--line); transition: background .2s, width .2s; }
-.testimonial-progress i.active { width: 42px; background: var(--lime-deep); }
+.testimonial-progress { color: var(--muted); font: .875rem var(--mono); white-space: nowrap; }
+.testimonial-progress span { color: var(--clay); }
 .testimonial-controls > div:last-child { display: flex; gap: 6px; }
 .testimonial-controls button { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--navy); cursor: pointer; transition: background .2s, color .2s, transform .2s; }
 .testimonial-controls button:hover { color: #fff; background: var(--navy); transform: translateY(-2px); }

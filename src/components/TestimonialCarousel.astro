@@ -40,7 +40,7 @@ const hasMultiple = testimonials.length > 1;
     {hasMultiple && (
       <div class="testimonial-controls">
         <div class="testimonial-progress" aria-hidden="true">
-          {testimonials.map((_, index) => <i data-testimonial-dot class:list={[{ active: index === 0 }]}></i>)}
+          <span data-testimonial-current>1</span> / {testimonials.length}
         </div>
         <div>
           <button type="button" data-testimonial-prev aria-label="Show previous testimonial"><Icon name="chevron-left" size={18} /></button>
@@ -54,7 +54,7 @@ const hasMultiple = testimonials.length > 1;
 <script>
   document.querySelectorAll<HTMLElement>('[data-testimonial-carousel]').forEach((carousel) => {
     const slides = [...carousel.querySelectorAll<HTMLElement>('[data-testimonial-slide]')];
-    const dots = [...carousel.querySelectorAll<HTMLElement>('[data-testimonial-dot]')];
+    const currentLabel = carousel.querySelector<HTMLElement>('[data-testimonial-current]');
     const previous = carousel.querySelector<HTMLButtonElement>('[data-testimonial-prev]');
     const next = carousel.querySelector<HTMLButtonElement>('[data-testimonial-next]');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -64,7 +64,7 @@ const hasMultiple = testimonials.length > 1;
     const show = (index: number) => {
       current = (index + slides.length) % slides.length;
       slides.forEach((slide, slideIndex) => slide.toggleAttribute('hidden', slideIndex !== current));
-      dots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === current));
+      if (currentLabel) currentLabel.textContent = String(current + 1);
     };
     const stop = () => { if (rotation) window.clearInterval(rotation); };
     const start = () => {
