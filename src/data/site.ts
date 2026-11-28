@@ -103,6 +103,17 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote: [
+      'As Rafael Targino’s manager, I witnessed his strategic thinking, multidisciplinary expertise, and strong interpersonal skills firsthand. He consistently demonstrated exceptional performance and the ability to deliver results in high-pressure environments.',
+      'His technical versatility and adaptability allowed me to deploy him across multiple domains, including Risk Management, Data Science, Data Architecture, Software Engineering, and Data Engineering, contributing to the successful delivery of every project he was involved in.',
+      'His ability to translate technical expertise into tangible business value was particularly remarkable: within a single year, his contributions generated a financial return equivalent to 40x his annual compensation.'
+    ],
+    lang: 'en',
+    name: 'Fernando Favoretti',
+    role: 'Senior Staff Data & AI (L7) · Mercado Libre',
+    linkedin: 'https://br.linkedin.com/in/fernandofavoretti'
+  },
+  {
+    quote: [
       'During a project to modernize the data architecture, Rafael Targino implemented architectural improvements that directly contributed to generating US$2 million in business value.',
       'He is highly collaborative, thinks strategically, and can rethink processes from different perspectives. He continually looks for ways to improve efficiency and amplify the team’s impact.'
     ],
@@ -130,8 +141,9 @@ export const experience = [
     url: 'https://www.xpi.com.br',
     period: 'Sep 2024 — Present',
     role: 'Forward Deployed Engineer',
-    award: 'Developer of the Year · 1 of 2 selected from 60 developers',
+    award: 'Developer of the Year at 2025 · 1 of 2 selected from 120 developers',
     highlights: [
+      'Serving as a strategic resource for accelerating and resolving projects across various areas, such as credit risk, data science, and data architecture.',
       'Reduced wholesale-bank data operations costs by US$2M annually.',
       'Led an agentic AI data squad that streamlined data-engineering and business-analysis work.',
       'Turned OKRs into projects with defined roadmaps, enabling sprint management and task allocation across the development team.',
@@ -147,7 +159,8 @@ export const experience = [
     highlights: [
       'Designed and implemented a data-consent platform serving 80M customers with AWS.',
       'Built marketing and CRM data products that contributed to US$8M in revenue growth.',
-      'Implemented Unity Catalog to improve data governance and cost allocation.'
+      'Implemented Unity Catalog to improve data governance and cost allocation.',
+      'Conducted benchmarking with Experian’s global team and other providers—such as AWS, Databricks, and Microsoft—to implement best practices in B2C operations.'
     ]
   },
   {
