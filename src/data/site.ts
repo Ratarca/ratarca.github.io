@@ -110,6 +110,7 @@ export const testimonials: Testimonial[] = [
     lang: 'en',
     name: 'Fernando Favoretti',
     role: 'Senior Staff Data & AI (L7) · Mercado Libre',
+    photo: '/assets/img/testimonials/fernando-favoretti.jpg',
     linkedin: 'https://br.linkedin.com/in/fernandofavoretti'
   },
   {
